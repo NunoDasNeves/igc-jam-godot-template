@@ -1,11 +1,9 @@
-[gd_scene load_steps=20 format=3 uid="uid://cib81fcg33t4e"]
+[gd_scene load_steps=18 format=3 uid="uid://cib81fcg33t4e"]
 
 [ext_resource type="Script" uid="uid://bjnw0tr11q2h8" path="res://main.gd" id="1_0xm2m"]
 [ext_resource type="Texture2D" uid="uid://bodyu1wi4ooc" path="res://characters/witch/witch_idle.png" id="2_0xm2m"]
 [ext_resource type="Script" uid="uid://dtgcr1m25t20a" path="res://world.gd" id="2_7mycd"]
-[ext_resource type="PackedScene" uid="uid://cf3iev1x2w2ks" path="res://ui/volume_slider.tscn" id="3_1bvp3"]
-[ext_resource type="Script" uid="uid://cngn671jm8omd" path="res://ui/pause_menu.gd" id="3_lquwl"]
-[ext_resource type="Script" uid="uid://cdu0i2yfapmgg" path="res://ui/volume_slider.gd" id="4_lquwl"]
+[ext_resource type="PackedScene" uid="uid://b326cb226l8ye" path="res://ui/pause_menu.tscn" id="4_1bvp3"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5vw27"]
 atlas = ExtResource("2_0xm2m")
@@ -217,112 +215,5 @@ text = "320x180"
 
 [node name="UI" type="CanvasLayer" parent="."]
 
-[node name="PauseMenu" type="PanelContainer" parent="UI"]
+[node name="PauseMenu" parent="UI" instance=ExtResource("4_1bvp3")]
 visible = false
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -155.5
-offset_top = -130.5
-offset_right = 155.5
-offset_bottom = 130.5
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-script = ExtResource("3_lquwl")
-
-[node name="Main" type="MarginContainer" parent="UI/PauseMenu"]
-layout_mode = 2
-theme_override_constants/margin_left = 60
-theme_override_constants/margin_top = 30
-theme_override_constants/margin_right = 60
-theme_override_constants/margin_bottom = 30
-
-[node name="VBoxContainer" type="VBoxContainer" parent="UI/PauseMenu/Main"]
-layout_mode = 2
-theme_override_constants/separation = 20
-
-[node name="Label" type="Label" parent="UI/PauseMenu/Main/VBoxContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 50
-text = "Paused"
-horizontal_alignment = 1
-
-[node name="OptionsButton" type="Button" parent="UI/PauseMenu/Main/VBoxContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 30
-text = "Options"
-
-[node name="ResumeButton" type="Button" parent="UI/PauseMenu/Main/VBoxContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 30
-text = "Resume"
-
-[node name="Options" type="MarginContainer" parent="UI/PauseMenu"]
-visible = false
-layout_mode = 2
-theme_override_constants/margin_left = 60
-theme_override_constants/margin_top = 30
-theme_override_constants/margin_right = 60
-theme_override_constants/margin_bottom = 30
-
-[node name="VBoxContainer" type="VBoxContainer" parent="UI/PauseMenu/Options"]
-layout_mode = 2
-theme_override_constants/separation = 20
-
-[node name="Label" type="Label" parent="UI/PauseMenu/Options/VBoxContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 50
-text = "Options"
-horizontal_alignment = 1
-
-[node name="Label2" type="Label" parent="UI/PauseMenu/Options/VBoxContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 30
-text = "Volume"
-horizontal_alignment = 1
-
-[node name="GridContainer" type="GridContainer" parent="UI/PauseMenu/Options/VBoxContainer"]
-layout_mode = 2
-theme_override_constants/h_separation = 40
-columns = 2
-
-[node name="Label" type="Label" parent="UI/PauseMenu/Options/VBoxContainer/GridContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 25
-text = "Master"
-
-[node name="HSlider" parent="UI/PauseMenu/Options/VBoxContainer/GridContainer" instance=ExtResource("3_1bvp3")]
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 2
-script = ExtResource("4_lquwl")
-
-[node name="Label2" type="Label" parent="UI/PauseMenu/Options/VBoxContainer/GridContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 25
-text = "SFX"
-
-[node name="HSlider2" parent="UI/PauseMenu/Options/VBoxContainer/GridContainer" instance=ExtResource("3_1bvp3")]
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 2
-script = ExtResource("4_lquwl")
-bus_name = "SFX"
-
-[node name="Label3" type="Label" parent="UI/PauseMenu/Options/VBoxContainer/GridContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 25
-text = "Music"
-
-[node name="HSlider3" parent="UI/PauseMenu/Options/VBoxContainer/GridContainer" instance=ExtResource("3_1bvp3")]
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 2
-script = ExtResource("4_lquwl")
-bus_name = "Music"
-
-[node name="BackButton" type="Button" parent="UI/PauseMenu/Options/VBoxContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 30
-text = "Back"

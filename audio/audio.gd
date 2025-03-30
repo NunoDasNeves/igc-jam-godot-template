@@ -17,7 +17,8 @@ func _ready() -> void:
 	sfx_player = AudioStreamPlayer.new()
 	setup_polyphonic_player(sfx_player, 128, "SFX")
 	music_player = AudioStreamPlayer.new()
-	setup_polyphonic_player(music_player, 8, "Music")	
+	setup_polyphonic_player(music_player, 8, "Music")
+	process_mode = Node.PROCESS_MODE_ALWAYS
 
 ##
 ## Loading and caching audio streams by filename
