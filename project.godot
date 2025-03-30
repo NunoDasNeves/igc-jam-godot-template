@@ -1,0 +1,47 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="igc-jam-template"
+run/main_scene="uid://cib81fcg33t4e"
+config/features=PackedStringArray("4.4", "GL Compatibility")
+
+[audio]
+
+buses/default_bus_layout="res://audio/default_bus_layout.tres"
+
+[autoload]
+
+Audio="*res://audio/audio.gd"
+
+[display]
+
+window/size/viewport_width=640
+window/size/viewport_height=360
+window/size/window_width_override=1920
+window/size/window_height_override=1080
+window/stretch/mode="viewport"
+window/stretch/scale_mode="integer"
+
+[gui]
+
+theme/custom="uid://bqkb7o7uit11j"
+theme/custom_font="uid://uyrdamjna2ok"
+theme/default_font_antialiasing=0
+theme/default_font_subpixel_positioning=0
+
+[rendering]
+
+textures/canvas_textures/default_texture_filter=0
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
+2d/snap/snap_2d_transforms_to_pixel=true
+2d/snap/snap_2d_vertices_to_pixel=true
