@@ -144,14 +144,27 @@ script = ExtResource("1_0xm2m")
 process_mode = 1
 script = ExtResource("2_7mycd")
 
+[node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="World"]
+position = Vector2(40, 54)
+sprite_frames = SubResource("SpriteFrames_5vw27")
+animation = &"idle-S"
+
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="World"]
-position = Vector2(203, 81)
+position = Vector2(89, 45)
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_5vw27")
 animation = &"idle-S"
 
+[node name="1x2x" type="Label" parent="World"]
+offset_left = 16.0
+offset_top = 56.0
+offset_right = 72.0
+offset_bottom = 72.0
+text = "1x       2x"
+
 [node name="Sprite2D" type="Sprite2D" parent="World"]
-position = Vector2(364, 84)
+visible = false
+position = Vector2(219, 45)
 scale = Vector2(2, 2)
 texture = ExtResource("2_0xm2m")
 hframes = 8
@@ -162,47 +175,45 @@ libraries = {
 &"": SubResource("AnimationLibrary_1bvp3")
 }
 
-[node name="Label" type="Label" parent="World"]
-offset_left = 154.0
-offset_top = 123.0
-offset_right = 264.0
-offset_bottom = 139.0
-text = "AnimatedSprite2D"
-
-[node name="Label2" type="Label" parent="World"]
-offset_left = 287.0
-offset_top = 123.0
-offset_right = 459.0
-offset_bottom = 139.0
-text = "Sprite2D + AnimationPlayer"
-
 [node name="Label3" type="Label" parent="World"]
-offset_left = 243.0
-offset_top = 332.0
-offset_right = 359.0
-offset_bottom = 348.0
-text = "press ESC to pause"
+offset_left = 235.0
+offset_top = 158.0
+offset_right = 312.0
+offset_bottom = 174.0
+text = "ESC to pause"
 
 [node name="HBoxContainer" type="VBoxContainer" parent="World"]
-offset_left = 176.0
-offset_top = 184.0
-offset_right = 437.0
-offset_bottom = 256.0
+offset_left = 170.0
+offset_top = 42.0
+offset_right = 292.0
+offset_bottom = 142.0
 
 [node name="Label" type="Label" parent="World/HBoxContainer"]
 layout_mode = 2
 text = "Sounds"
 horizontal_alignment = 1
 
-[node name="PolyphonyButton" type="Button" parent="World/HBoxContainer"]
+[node name="SFXButton" type="Button" parent="World/HBoxContainer"]
 layout_mode = 2
-text = "\"Magic Crash\" SFX polyphony
+text = "play SFX
 "
 
-[node name="SoloButton" type="Button" parent="World/HBoxContainer"]
+[node name="Song1Button" type="Button" parent="World/HBoxContainer"]
 layout_mode = 2
-text = "\"Magic Crash\" SFX solo
+text = "play song
 "
+
+[node name="Song2Button" type="Button" parent="World/HBoxContainer"]
+layout_mode = 2
+text = "stop song
+"
+
+[node name="Resolution" type="Label" parent="World"]
+offset_left = 261.0
+offset_top = 8.0
+offset_right = 310.0
+offset_bottom = 24.0
+text = "320x180"
 
 [node name="UI" type="CanvasLayer" parent="."]
 

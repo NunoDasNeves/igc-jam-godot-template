@@ -1,106 +1,130 @@
 extends Node
 
-var audio_stream_players_pool: Array[AudioStreamPlayer] = []
+var sfx_player: AudioStreamPlayer
+var music_player: AudioStreamPlayer
 
-func alloc_player() -> AudioStreamPlayer:
-	var player: AudioStreamPlayer = audio_stream_players_pool.pop_back()
-	if audio_stream_players_pool.size() == 0:
-		player = AudioStreamPlayer.new()
-		add_child(player)
+# This is how AudioStreamPolyphonic is meant to be used, apparently
+func setup_polyphonic_player(player: AudioStreamPlayer, max_polyphony: int, bus: String) -> void:
+	player.bus = bus
+	player.max_polyphony = max_polyphony
+	var stream = AudioStreamPolyphonic.new()
+	stream.polyphony = max_polyphony
+	player.stream = stream
+	add_child(player)
+	player.play() # actually play streams using player.get_stream_playback().play_stream()
 
-	return player
+func _ready() -> void:
+	sfx_player = AudioStreamPlayer.new()
+	setup_polyphonic_player(sfx_player, 128, "SFX")
+	music_player = AudioStreamPlayer.new()
+	setup_polyphonic_player(music_player, 8, "Music")	
 
+##
+## Loading and caching audio streams by filename
+##
 var sfx_stream_cache: Dictionary[String, AudioStream] = {}
+var music_stream_cache: Dictionary[String, AudioStream] = {}
 
-func get_sfx_stream(filename: String) -> AudioStream:
-	var stream = sfx_stream_cache.get(filename)
+func get_stream(stream_cache: Dictionary[String, AudioStream], filename: String, audio_subpath: String) -> AudioStream:
+	var stream: AudioStream = stream_cache.get(filename)
 	if !stream:
-		stream = load("res://audio/sfx/%s" % filename)
+		stream = load("res://audio/%s/%s" % [audio_subpath, filename])
 		if stream:
-			sfx_stream_cache[filename] = stream
+			stream_cache[filename] = stream
 	return stream
 
-class PlayingSound extends RefCounted:
-	static var next_id: int = 0
-	var filename: String
-	var id: int
-	var player: AudioStreamPlayer
-	var tick_started: int
+func get_sfx_stream(filename: String) -> AudioStream:
+	return get_stream(sfx_stream_cache, filename, "sfx")
 
-var playing_sounds = {}
+func get_music_stream(filename: String) -> AudioStream:
+	return get_stream(music_stream_cache, filename, "music")
 
-func stop_and_recycle_sound(sound: PlayingSound) -> void:
-	sound.player.stop()
-	audio_stream_players_pool.append(sound.player)
+##
+## Playback and control using the polyphonic players
+##
+func set_stream_pitch_scale(player: AudioStreamPlayer, stream_id: int, pitch_scale: float) -> void:
+	var playback: AudioStreamPlaybackPolyphonic = player.get_stream_playback()
+	return playback.set_stream_pitch_scale(stream_id, pitch_scale)
 
-func remove_playing_sound(sound: PlayingSound) -> void:
-	var arr = playing_sounds.get(sound.filename)
-	if !arr:
-		return
+func set_stream_volume(player: AudioStreamPlayer, stream_id: int, volume_linear: float) -> void:
+	var playback: AudioStreamPlaybackPolyphonic = player.get_stream_playback()
+	return playback.set_stream_volume(stream_id, linear_to_db(volume_linear))
 
-	var idx = -1
-	for i in range(arr.size()):
-		if arr[i].id == sound.id:
-			idx = i
-			break
+func stop_stream(player: AudioStreamPlayer, stream_id: int) -> void:
+	var playback: AudioStreamPlaybackPolyphonic = player.get_stream_playback()
+	return playback.stop_stream(stream_id)
 
-	if idx != -1:
-		# swap remove
-		arr[idx] = arr.back()
-		arr.resize(arr.size() - 1)
+func play_stream(player: AudioStreamPlayer, stream: AudioStream, volume_linear: float = 0.5, from_offset: float = 0, pitch_scale: float = 1) -> int:
+	var playback: AudioStreamPlaybackPolyphonic = player.get_stream_playback()
+	return playback.play_stream(stream, from_offset, linear_to_db(volume_linear), pitch_scale)
 
-	stop_and_recycle_sound(sound)
-
-func add_playing_sound(sound: PlayingSound, polyphony: int = -1, override: bool = true) -> bool:
-	if polyphony == 0:
-		return false
-	var arr = playing_sounds.get(sound.filename)
-	if !arr:
-		arr = []
-		playing_sounds[sound.filename] = arr
-
-	if polyphony == -1 or arr.size() < polyphony or override:
-		if polyphony > 0 and arr.size() >= polyphony and override:
-			var min_tick = sound.tick_started
-			var min_sound_idx = 0
-			for i in range(arr.size()):
-				var s = arr[i]
-				if s.tick_started < min_tick:
-					min_tick = s.tick_started
-					min_sound_idx = i
-			var oldest_sound = arr[min_sound_idx]
-			stop_and_recycle_sound(oldest_sound)
-			arr[min_sound_idx] = sound
-		else:
-			arr.append(sound)
-		sound.player.finished.connect(func (): remove_playing_sound(sound))
-		#print("num playing: %s" % arr.size())
-		return true
-
-	return false
-
-func play_sfx(filename: String, volume_linear: float = 0.5, polyphony: int = -1, override: bool = true) -> PlayingSound:
+##
+## SFX control
+##
+func play_sfx(filename: String, volume_linear: float = 0.5, from_offset: float = 0, pitch_scale: float = 1) -> int:
 	var stream = get_sfx_stream(filename)
 	if !stream:
-		return
-	var player = alloc_player()
-	player.bus = "SFX"
-	player.stream = stream
-	player.volume_linear = volume_linear
-	
-	var sound = PlayingSound.new()
-	sound.filename = filename
-	sound.player = player
-	sound.id = PlayingSound.next_id
-	sound.tick_started = Time.get_ticks_usec()
-	PlayingSound.next_id += 1
-	if add_playing_sound(sound, polyphony):
-		player.play()
+		return AudioStreamPlaybackPolyphonic.INVALID_ID
+	return play_stream(sfx_player, stream, volume_linear, from_offset, pitch_scale)
+
+##
+## Music control
+##
+class PlayingMusic extends  RefCounted:
+	var id: int = AudioStreamPlaybackPolyphonic.INVALID_ID
+	var volume_linear: float = 0
+	var fade_in_target_volume: float = 1
+
+var curr_music: PlayingMusic
+var fading_music: Array[PlayingMusic]
+
+const crossfade_time_secs: float = 0.5
+
+# Fade out music over crossfade_time_secs
+func stop_music() -> void:
+	if curr_music:
+		fading_music.append(curr_music)
+		curr_music = null
+
+# Start music
+# If a song is currently playing, crossfade with it ove crossfade_time_secs
+func set_music(filename: String, volume_linear: float = 0.5) -> int:
+	var do_fade_in = curr_music != null
+	stop_music()
+
+	var stream = get_music_stream(filename)
+	if !stream:
+		return AudioStreamPlaybackPolyphonic.INVALID_ID
+
+	curr_music = PlayingMusic.new()
+	if do_fade_in:
+		curr_music.volume_linear = 0
 	else:
-		return null
+		curr_music.volume_linear = volume_linear
+	curr_music.fade_in_target_volume = volume_linear
+	curr_music.id = play_stream(music_player, stream, curr_music.volume_linear)
 
-	return sound
+	return curr_music.id
 
-func set_music(filename: String, volume_linear: float = 0.5) -> void:
-	# TODO
-	pass
+func _physics_process(delta: float) -> void:
+	var crossfade_inc = crossfade_time_secs * delta
+	# fade in current music
+	if curr_music:
+		if curr_music.volume_linear < curr_music.fade_in_target_volume:
+			curr_music.volume_linear = minf(curr_music.volume_linear + crossfade_inc, curr_music.fade_in_target_volume)
+			set_stream_volume(music_player, curr_music.id, curr_music.volume_linear)
+	# fade out fading music over fade_time_secs
+	for music in fading_music:
+		music.volume_linear -= crossfade_inc
+		if music.volume_linear <= 0:
+			stop_stream(music_player, music.id)
+		else:
+			set_stream_volume(music_player, music.id, music.volume_linear)
+	# swap remove fading music that is now silent
+	var i: int = 0
+	while i < fading_music.size():
+		if fading_music[i].volume_linear <= 0:
+			fading_music[i] = fading_music.back()
+			fading_music.pop_back()
+		else:
+			i += 1
