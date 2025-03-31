@@ -208,15 +208,15 @@ layout_mode = 2
 text = "stop song
 "
 
-[node name="Node" type="Node2D" parent="World"]
+[node name="VeryNestedBoi" type="Node2D" parent="World"]
 
-[node name="Node2D" type="Node2D" parent="World/Node"]
+[node name="Node2D" type="Node2D" parent="World/VeryNestedBoi"]
 
-[node name="Node2D" type="Node2D" parent="World/Node/Node2D"]
+[node name="Node2D" type="Node2D" parent="World/VeryNestedBoi/Node2D"]
 
-[node name="Node2D" type="Node2D" parent="World/Node/Node2D/Node2D"]
+[node name="Node2D" type="Node2D" parent="World/VeryNestedBoi/Node2D/Node2D"]
 
-[node name="Button" type="Button" parent="World/Node/Node2D/Node2D/Node2D"]
+[node name="Button" type="Button" parent="World/VeryNestedBoi/Node2D/Node2D/Node2D"]
 offset_left = 28.0
 offset_top = 122.0
 offset_right = 132.0
