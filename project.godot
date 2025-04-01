@@ -39,6 +39,13 @@ theme/custom_font="uid://uyrdamjna2ok"
 theme/default_font_antialiasing=0
 theme/default_font_subpixel_positioning=0
 
+[layer_names]
+
+2d_physics/layer_1="main_char_coll"
+2d_physics/layer_2="npc_coll"
+2d_physics/layer_3="hurtbox"
+2d_physics/layer_4="hitbox"
+
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0

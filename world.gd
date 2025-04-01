@@ -1,31 +1,49 @@
 extends Node2D
 
-const confetti_scene = preload("res://vfx/confetti_particles.tscn")
+@onready var camera: Camera2D = $Camera2D
+@onready var characters = $Characters
 
-@onready var _anim_sprite = $AnimatedSprite2D
-@onready var _anim_sprite2 = $AnimatedSprite2D2
-@onready var _anim_player = $AnimationPlayer
-
-@onready var _sfx_btn = $HBoxContainer/SFXButton
-@onready var _song_1_btn = $HBoxContainer/Song1Button
-@onready var _song_2_btn = $HBoxContainer/Song2Button
-@onready var _stop_song_btn = $HBoxContainer/StopSongButton
+var curr_screen: LevelScreen
 
 func _ready() -> void:
-	_sfx_btn.connect("button_down", func (): Audio.play_sfx("dungeon_wizard_ding_ding.wav", 0.2))
-	_song_1_btn.connect("button_down", func(): Audio.set_music("dungeon_wizard_menu_music.wav", 0.5))
-	_song_2_btn.connect("button_down", func(): Audio.set_music("sample-3s.mp3", 0.5))
-	_stop_song_btn.connect("button_down", func(): Audio.stop_music())
-	Events.nested_button_pressed.connect(spawn_confetti)
+	Events.main_char_entered_screen.connect(begin_screen)
+	Events.screen_ended.connect(end_curr_screen)
+	Events.character_spawned.connect(spawn_char)
+	Events.vfx_spawned.connect(spawn_vfx)
+	
 
-func _process(_delta: float) -> void:
-	_anim_sprite.play("idle-S")
-	_anim_sprite2.play("idle-S")
-	_anim_player.play("idle-S")
+func _physics_process(_delta: float) -> void:
+	# TODO camera control
+	if curr_screen:
+		pass
+	else:
+		pass
 
-func spawn_confetti(position: Vector2) -> void:
-	var confetti: GPUParticles2D = confetti_scene.instantiate()
-	confetti.finished.connect(func (): remove_child(confetti))
-	add_child(confetti)
-	confetti.global_position = position
-	confetti.emitting = true
+func begin_screen(screen: LevelScreen) -> void:
+	if curr_screen:
+		return
+	curr_screen = screen
+	curr_screen.begin()
+
+func end_curr_screen(screen: LevelScreen) -> void:
+	assert(screen == curr_screen)
+	curr_screen.queue_free()
+	curr_screen = null
+
+func pos_is_on_char(gpos: Vector2) -> bool:
+	for character: Node2D in characters.get_children():
+		if gpos.distance_squared_to(character.global_position) < 25:
+			return true
+	return false
+
+func spawn_char(node: Node2D, gpos: Vector2) -> void:
+	var spawn_pos = gpos
+	# TODO less hacky way to make chars not spawn on top of each other
+	while pos_is_on_char(spawn_pos):
+		spawn_pos.x += 5
+	characters.add_child(node)
+	node.global_position = spawn_pos
+
+func spawn_vfx(node: Node2D, gpos: Vector2) -> void:
+	add_child(node)
+	node.global_position = gpos

@@ -1,0 +1,66 @@
+[gd_scene load_steps=9 format=3 uid="uid://bh2pw2swcmlbk"]
+
+[ext_resource type="Script" uid="uid://dbcj7jdrxvj3l" path="res://characters/main_char/main_char.gd" id="1_0ogvg"]
+[ext_resource type="Texture2D" uid="uid://bodyu1wi4ooc" path="res://characters/witch_idle.png" id="1_tsbme"]
+[ext_resource type="Script" uid="uid://qv2yuiq4qvyt" path="res://characters/main_char/attack.gd" id="3_meylv"]
+[ext_resource type="PackedScene" uid="uid://dd2s646ey127y" path="res://characters/hurtbox.tscn" id="3_yvbwb"]
+[ext_resource type="Script" uid="uid://3kp7n8ikc1jt" path="res://characters/hitbox.gd" id="5_f2bmt"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0ogvg"]
+radius = 4.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_meylv"]
+radius = 5.0
+height = 18.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0ogvg"]
+radius = 5.0
+height = 20.0
+
+[node name="MainChar" type="CharacterBody2D"]
+z_as_relative = false
+y_sort_enabled = true
+motion_mode = 1
+platform_on_leave = 2
+script = ExtResource("1_0ogvg")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_as_relative = false
+y_sort_enabled = true
+position = Vector2(0, -11)
+texture = ExtResource("1_tsbme")
+hframes = 8
+vframes = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_0ogvg")
+
+[node name="HurtboxArea2D" parent="." instance=ExtResource("3_yvbwb")]
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="HurtboxArea2D"]
+position = Vector2(0, -9)
+shape = SubResource("CapsuleShape2D_meylv")
+debug_color = Color(0.717227, 0.694319, 0, 0.419608)
+
+[node name="Attack" type="Node2D" parent="."]
+position = Vector2(0, -5)
+script = ExtResource("3_meylv")
+
+[node name="Stick" type="Polygon2D" parent="Attack"]
+color = Color(0.00184107, 0.00184107, 0.00184107, 1)
+polygon = PackedVector2Array(19, -4, 4, -5, 2, -3, 19, -3)
+
+[node name="Whoosh" type="Polygon2D" parent="Attack"]
+position = Vector2(11, -2)
+polygon = PackedVector2Array(-2, -2, 8, -1, 7, 3, 4, 6, -1, 8, -8, 7, -5, 5, -3, 1)
+
+[node name="HitboxArea2D" type="Area2D" parent="Attack"]
+rotation = 1.5708
+collision_layer = 8
+collision_mask = 4
+script = ExtResource("5_f2bmt")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Attack/HitboxArea2D"]
+position = Vector2(-4.37114e-07, -10)
+shape = SubResource("CapsuleShape2D_0ogvg")
+debug_color = Color(0.991983, 0.0843476, 5.77569e-07, 0.42)

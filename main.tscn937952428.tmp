@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://cib81fcg33t4e"]
+
+[ext_resource type="Script" uid="uid://bjnw0tr11q2h8" path="res://main.gd" id="1_0xm2m"]
+[ext_resource type="Script" uid="uid://dtgcr1m25t20a" path="res://world.gd" id="2_7mycd"]
+[ext_resource type="PackedScene" uid="uid://bh2pw2swcmlbk" path="res://characters/main_char/main_char.tscn" id="3_1bvp3"]
+[ext_resource type="PackedScene" uid="uid://b326cb226l8ye" path="res://ui/pause_menu.tscn" id="4_1bvp3"]
+
+[node name="Main" type="Node"]
+process_mode = 3
+script = ExtResource("1_0xm2m")
+
+[node name="World" type="Node2D" parent="."]
+process_mode = 1
+script = ExtResource("2_7mycd")
+
+[node name="MainChar" parent="World" instance=ExtResource("3_1bvp3")]
+position = Vector2(72, 78)
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="PauseMenu" parent="UI" instance=ExtResource("4_1bvp3")]
+visible = false

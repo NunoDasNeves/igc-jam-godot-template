@@ -1,0 +1,39 @@
+[gd_scene load_steps=6 format=3 uid="uid://q1unav20gda1"]
+
+[ext_resource type="Script" uid="uid://vgsxsmk4i0cy" path="res://characters/dummy/dummy.gd" id="1_lp1vw"]
+[ext_resource type="Texture2D" uid="uid://bodyu1wi4ooc" path="res://characters/witch_idle.png" id="2_3gf8v"]
+[ext_resource type="PackedScene" uid="uid://dd2s646ey127y" path="res://characters/hurtbox.tscn" id="3_hwdan"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0ogvg"]
+radius = 4.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_meylv"]
+radius = 5.0
+height = 18.0
+
+[node name="Dummy" type="CharacterBody2D"]
+z_as_relative = false
+y_sort_enabled = true
+motion_mode = 1
+platform_on_leave = 2
+script = ExtResource("1_lp1vw")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+self_modulate = Color(0.749582, 0, 0.130878, 1)
+z_as_relative = false
+y_sort_enabled = true
+position = Vector2(0, -11)
+texture = ExtResource("2_3gf8v")
+hframes = 8
+vframes = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_0ogvg")
+
+[node name="HurtboxArea2D" parent="." instance=ExtResource("3_hwdan")]
+faction = 1
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="HurtboxArea2D"]
+position = Vector2(0, -9)
+shape = SubResource("CapsuleShape2D_meylv")
+debug_color = Color(0.717227, 0.694319, 0, 0.419608)

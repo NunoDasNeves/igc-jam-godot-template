@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://bs2xw7l1gkaxt"]
+
+[ext_resource type="Script" uid="uid://bhlrqyfe6pw3m" path="res://characters/spawner.gd" id="1_asqwp"]
+
+[node name="Marker2D" type="Marker2D"]
+gizmo_extents = 19.1
+script = ExtResource("1_asqwp")
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+position = Vector2(0, -2)
+polygon = PackedVector2Array(0, 2, 2, -1, 1, -4, -1, -4, -2, -1)
