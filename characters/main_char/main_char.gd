@@ -1,24 +1,10 @@
-extends CharacterBody2D
-
-@onready var attack: Attack = $Attack
-@onready var hurtbox: Hurtbox = $HurtboxArea2D
-
-var input_dir: Vector2
-var input_attack: bool = false
-
-var hp: float = 50
-
-enum State {NONE, ATTACK}
-
-var state: State = State.NONE
+extends Character
 
 func _ready() -> void:
-	attack.attack_ended.connect(func (): state = State.NONE)
-	hurtbox.got_hit.connect(hit)
+	super()
 
-func hit(damage: float) -> void:
-	hp -= damage
-	
+func hit(hitbox: Hitbox) -> void:
+	super(hitbox)
 
 func _process(_delta: float) -> void:
 	input_dir = Vector2(0, 0)
@@ -33,26 +19,12 @@ func _process(_delta: float) -> void:
 
 	input_dir = input_dir.normalized()
 
-	input_attack = false
-	if Input.is_action_pressed("ui_select"):
-		input_attack = true
-
-func set_state(new_state):
-	match new_state:
-		State.NONE:
-			pass
-		State.ATTACK:
-			Events.main_char_attacked.emit()
-			attack.begin_attack(input_dir)
-	state = new_state
+	input_attack_1 = false
+	input_attack_2 = false
+	if Input.is_key_pressed(KEY_Z):
+		input_attack_1 = true
+	elif Input.is_key_pressed(KEY_X):
+		input_attack_2 = true
 
 func _physics_process(_delta: float) -> void:
-	velocity = input_dir * 50
-	move_and_slide()
-
-	match state:
-		State.NONE:
-			if input_attack:
-				set_state(State.ATTACK)
-		State.ATTACK:
-			pass
+	super(_delta)

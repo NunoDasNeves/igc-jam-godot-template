@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://c2vr7yi8cofyj"]
+
+[ext_resource type="Script" uid="uid://cn0mj4vifduwt" path="res://characters/hp_bar.gd" id="1_6vjye"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hwdan"]
+bg_color = Color(0.136826, 0.136826, 0.136826, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q6n2p"]
+bg_color = Color(0.755608, 0.757552, 0, 1)
+
+[node name="HpBar" type="ProgressBar"]
+z_index = 1
+z_as_relative = false
+offset_left = -12.0
+offset_top = -30.0
+offset_right = 12.0
+offset_bottom = -27.0
+theme_override_styles/background = SubResource("StyleBoxFlat_hwdan")
+theme_override_styles/fill = SubResource("StyleBoxFlat_q6n2p")
+step = 0.001
+value = 50.0
+show_percentage = false
+script = ExtResource("1_6vjye")

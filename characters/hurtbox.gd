@@ -8,7 +8,7 @@ enum Faction {PLAYER, ENEMY}
 @export var hit_particles: PackedScene = preload("res://vfx/blood_particles.tscn")
 
 func hit(hitbox: Hitbox) -> void:
-	got_hit.emit(hitbox.damage)
+	got_hit.emit(hitbox)
 	var particles: GPUParticles2D = hit_particles.instantiate()
 	if particles:
 		var ppos = (global_position + hitbox.global_position) * 0.5

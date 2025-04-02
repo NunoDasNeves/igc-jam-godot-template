@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://q1unav20gda1"]
+[gd_scene load_steps=7 format=3 uid="uid://q1unav20gda1"]
 
 [ext_resource type="Script" uid="uid://vgsxsmk4i0cy" path="res://characters/dummy/dummy.gd" id="1_lp1vw"]
 [ext_resource type="Texture2D" uid="uid://bodyu1wi4ooc" path="res://characters/witch_idle.png" id="2_3gf8v"]
 [ext_resource type="PackedScene" uid="uid://dd2s646ey127y" path="res://characters/hurtbox.tscn" id="3_hwdan"]
+[ext_resource type="PackedScene" uid="uid://c2vr7yi8cofyj" path="res://characters/hp_bar.tscn" id="4_q6n2p"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_0ogvg"]
 radius = 4.0
@@ -17,12 +18,13 @@ y_sort_enabled = true
 motion_mode = 1
 platform_on_leave = 2
 script = ExtResource("1_lp1vw")
+max_hp = 100.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 self_modulate = Color(0.749582, 0, 0.130878, 1)
 z_as_relative = false
 y_sort_enabled = true
-position = Vector2(0, -11)
+position = Vector2(0, -12)
 texture = ExtResource("2_3gf8v")
 hframes = 8
 vframes = 4
@@ -37,3 +39,5 @@ faction = 1
 position = Vector2(0, -9)
 shape = SubResource("CapsuleShape2D_meylv")
 debug_color = Color(0.717227, 0.694319, 0, 0.419608)
+
+[node name="HpBar" parent="." instance=ExtResource("4_q6n2p")]

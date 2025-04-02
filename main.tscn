@@ -6,7 +6,7 @@
 [ext_resource type="Script" uid="uid://cmoi0exdrmph3" path="res://levels/level_screen.gd" id="3_5vw27"]
 [ext_resource type="PackedScene" uid="uid://bs2xw7l1gkaxt" path="res://characters/spawner.tscn" id="3_lquwl"]
 [ext_resource type="PackedScene" uid="uid://b326cb226l8ye" path="res://ui/pause_menu.tscn" id="4_1bvp3"]
-[ext_resource type="Script" uid="uid://dqbpan7ne452l" path="res://characters/spawn.gd" id="4_272bh"]
+[ext_resource type="Script" path="res://characters/spawn.gd" id="4_272bh"]
 [ext_resource type="PackedScene" uid="uid://q1unav20gda1" path="res://characters/dummy/dummy.tscn" id="5_5vw27"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_1bvp3"]

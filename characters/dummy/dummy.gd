@@ -1,13 +1,12 @@
-extends CharacterBody2D
+extends Character
 
 var in_dir: Vector2
 
 func _ready() -> void:
-	pass
+	super()
 
-func _process(_delta: float) -> void:
-	pass
+func hit(hitbox: Hitbox) -> void:
+	super(hitbox)
 
 func _physics_process(_delta: float) -> void:
-	velocity = in_dir * 50
-	move_and_slide()
+	super(_delta)

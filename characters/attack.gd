@@ -24,11 +24,14 @@ func begin_attack(dir: Vector2) -> void:
 	$Stick.show()
 	$Whoosh.show()
 	var tween = get_tree().create_tween()
-	tween.tween_interval(0.3)
-	tween.tween_callback(func (): $Whoosh.hide())
-	tween.tween_interval(0.4)
+	tween.tween_interval(0.2)
 	tween.tween_callback(func ():
-		$Stick.hide()
+		$Whoosh.hide()
 		attack_ended.emit()
 	)
-	hitbox.activate(0.2)
+	tween.tween_interval(0.25)
+	tween.tween_callback(func ():
+		$Stick.hide()
+		
+	)
+	hitbox.activate(0.1)
