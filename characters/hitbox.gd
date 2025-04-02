@@ -1,6 +1,8 @@
 class_name Hitbox extends Area2D
 
 @export var damage: float = 1
+@export var knockback: float = 10
+@export var knocks_down: bool = false
 @export var hittable_factions: Array[Hurtbox.Faction] = [Hurtbox.Faction.ENEMY]
 
 var hit_nodes: Dictionary[int, bool] = {}

@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://c2vr7yi8cofyj" path="res://characters/hp_bar.tscn" id="2_f2bmt"]
 [ext_resource type="Script" uid="uid://qv2yuiq4qvyt" path="res://characters/attack.gd" id="3_meylv"]
 [ext_resource type="PackedScene" uid="uid://dd2s646ey127y" path="res://characters/hurtbox.tscn" id="3_yvbwb"]
-[ext_resource type="Script" path="res://characters/hitbox.gd" id="5_f2bmt"]
+[ext_resource type="Script" uid="uid://3kp7n8ikc1jt" path="res://characters/hitbox.gd" id="5_f2bmt"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_0ogvg"]
 radius = 4.0
@@ -65,7 +65,9 @@ rotation = 1.5708
 collision_layer = 8
 collision_mask = 4
 script = ExtResource("5_f2bmt")
-damage = 20.0
+damage = 25.0
+knockback = 90.0
+knocks_down = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Attack2/HitboxArea2D"]
 position = Vector2(-3.25799e-05, -9)
@@ -93,6 +95,7 @@ collision_layer = 8
 collision_mask = 4
 script = ExtResource("5_f2bmt")
 damage = 10.0
+knockback = 40.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Attack/HitboxArea2D"]
 position = Vector2(-3.25799e-05, -9)

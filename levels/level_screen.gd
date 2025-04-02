@@ -9,16 +9,15 @@ var current: bool = false
 var num_enemies_alive: int = 0
 
 func _ready() -> void:
-	Events.character_spawned.connect(char_spawned)
 	area.body_entered.connect(body_entered)
 
 func body_entered(_area: Node2D) -> void:
 	Events.main_char_entered_screen.emit(self)
 
-func char_spawned(node: Node2D, _pos: Vector2) -> void:
+func enemy_spawned() -> void:
 	num_enemies_alive += 1
 
-func char_died() -> void:
+func enemy_died() -> void:
 	num_enemies_alive -= 1
 
 func begin() -> void:

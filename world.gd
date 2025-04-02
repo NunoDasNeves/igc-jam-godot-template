@@ -10,7 +10,6 @@ func _ready() -> void:
 	Events.screen_ended.connect(end_curr_screen)
 	Events.character_spawned.connect(spawn_char)
 	Events.vfx_spawned.connect(spawn_vfx)
-	
 
 func _physics_process(_delta: float) -> void:
 	# TODO camera control
@@ -37,12 +36,21 @@ func pos_is_on_char(gpos: Vector2) -> bool:
 	return false
 
 func spawn_char(node: Node2D, gpos: Vector2) -> void:
+	var character: Character = node
+	if !character:
+		return
 	var spawn_pos = gpos
 	# TODO less hacky way to make chars not spawn on top of each other
 	while pos_is_on_char(spawn_pos):
 		spawn_pos.x += 5
-	characters.add_child(node)
-	node.global_position = spawn_pos
+	characters.add_child(character)
+	character.global_position = spawn_pos
+	character.died.connect(character_died)
+	# TODO check faction
+	curr_screen.enemy_spawned()
+
+func character_died() -> void:
+	curr_screen.enemy_died()
 
 func spawn_vfx(node: Node2D, gpos: Vector2) -> void:
 	add_child(node)
