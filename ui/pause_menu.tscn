@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://cdu0i2yfapmgg" path="res://ui/volume_slider.gd" id="3_npydk"]
 
 [node name="PauseMenu" type="PanelContainer"]
+visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0

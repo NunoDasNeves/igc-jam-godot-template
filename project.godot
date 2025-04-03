@@ -27,16 +27,13 @@ Events="*res://events.gd"
 
 window/size/viewport_width=1920
 window/size/viewport_height=1080
-window/size/window_width_override=1920
-window/size/window_height_override=1080
+window/size/window_width_override=1280
+window/size/window_height_override=720
 window/stretch/mode="canvas_items"
 
 [gui]
 
 theme/custom="uid://bqkb7o7uit11j"
-theme/custom_font="uid://uyrdamjna2ok"
-theme/default_font_antialiasing=0
-theme/default_font_subpixel_positioning=0
 
 [rendering]
 
