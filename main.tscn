@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://cib81fcg33t4e"]
+[gd_scene load_steps=6 format=3 uid="uid://cib81fcg33t4e"]
 
 [ext_resource type="Script" uid="uid://bjnw0tr11q2h8" path="res://main.gd" id="1_0xm2m"]
 [ext_resource type="Script" uid="uid://dtgcr1m25t20a" path="res://world.gd" id="2_7mycd"]
@@ -11,6 +11,8 @@ corner_radius_top_right = 30
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 30
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_h2yge"]
+
 [node name="Main" type="Node"]
 process_mode = 3
 script = ExtResource("1_0xm2m")
@@ -21,99 +23,73 @@ script = ExtResource("2_7mycd")
 
 [node name="BG" type="Node2D" parent="World"]
 
+[node name="ColorRect4" type="ColorRect" parent="World/BG"]
+offset_right = 1921.0
+offset_bottom = 943.0
+color = Color(0.720896, 0.961303, 0.9947, 1)
+
 [node name="ColorRect" type="ColorRect" parent="World/BG"]
-offset_top = 942.0
+offset_top = 940.0
 offset_right = 1920.0
 offset_bottom = 1080.0
-color = Color(0.497474, 0.497474, 0.497474, 1)
+color = Color(0.213988, 0.193176, 0.137361, 1)
 
 [node name="ColorRect2" type="ColorRect" parent="World/BG"]
+visible = false
 offset_top = 109.0
 offset_right = 171.0
 offset_bottom = 1080.0
 color = Color(0.497474, 0.497474, 0.497474, 1)
 
 [node name="ColorRect3" type="ColorRect" parent="World/BG"]
+visible = false
 offset_left = 1749.0
 offset_top = 109.0
 offset_right = 1920.0
 offset_bottom = 1080.0
 color = Color(0.497474, 0.497474, 0.497474, 1)
 
-[node name="HeroProgress" type="ProgressBar" parent="World"]
-offset_left = 64.0
-offset_top = 999.0
-offset_right = 1870.0
-offset_bottom = 1044.0
+[node name="Strikes" type="Node2D" parent="World"]
+position = Vector2(1738, 454)
 
-[node name="Label" type="Label" parent="World"]
-offset_left = 886.0
-offset_top = 956.0
-offset_right = 1056.0
-offset_bottom = 1005.0
-text = "Hero Progress"
-
-[node name="Node2D" type="Node2D" parent="World"]
-position = Vector2(-15, 66)
-
-[node name="GridContainer" type="GridContainer" parent="World/Node2D"]
+[node name="GridContainer" type="GridContainer" parent="World/Strikes"]
 offset_left = 47.0
 offset_top = 129.0
 offset_right = 147.0
 offset_bottom = 804.0
 theme_override_constants/v_separation = 10
 
-[node name="Panel" type="Panel" parent="World/Node2D/GridContainer"]
+[node name="Panel" type="Panel" parent="World/Strikes/GridContainer"]
 custom_minimum_size = Vector2(100, 50)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_h2yge")
 
-[node name="Panel2" type="Panel" parent="World/Node2D/GridContainer"]
+[node name="Panel2" type="Panel" parent="World/Strikes/GridContainer"]
 custom_minimum_size = Vector2(100, 50)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_h2yge")
 
-[node name="Panel3" type="Panel" parent="World/Node2D/GridContainer"]
+[node name="Panel3" type="Panel" parent="World/Strikes/GridContainer"]
 custom_minimum_size = Vector2(100, 50)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_h2yge")
 
-[node name="Panel4" type="Panel" parent="World/Node2D/GridContainer"]
+[node name="Panel4" type="Panel" parent="World/Strikes/GridContainer"]
 custom_minimum_size = Vector2(100, 50)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_h2yge")
 
-[node name="Panel5" type="Panel" parent="World/Node2D/GridContainer"]
+[node name="Panel5" type="Panel" parent="World/Strikes/GridContainer"]
 custom_minimum_size = Vector2(100, 50)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_h2yge")
 
-[node name="Panel6" type="Panel" parent="World/Node2D/GridContainer"]
+[node name="Panel6" type="Panel" parent="World/Strikes/GridContainer"]
 custom_minimum_size = Vector2(100, 50)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_h2yge")
 
-[node name="Panel7" type="Panel" parent="World/Node2D/GridContainer"]
-custom_minimum_size = Vector2(100, 50)
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_h2yge")
-
-[node name="Panel8" type="Panel" parent="World/Node2D/GridContainer"]
-custom_minimum_size = Vector2(100, 50)
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_h2yge")
-
-[node name="Panel9" type="Panel" parent="World/Node2D/GridContainer"]
-custom_minimum_size = Vector2(100, 50)
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_h2yge")
-
-[node name="Panel10" type="Panel" parent="World/Node2D/GridContainer"]
-custom_minimum_size = Vector2(100, 50)
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_h2yge")
-
-[node name="LifeRemaining" type="ProgressBar" parent="World/Node2D"]
+[node name="LifeRemaining" type="ProgressBar" parent="World/Strikes"]
 visible = false
 offset_left = 77.0
 offset_top = 99.0
@@ -125,108 +101,145 @@ value = 10.0
 fill_mode = 3
 show_percentage = false
 
-[node name="StrikesLabel" type="Label" parent="World/Node2D"]
+[node name="StrikesLabel" type="Label" parent="World/Strikes"]
 offset_left = 34.0
 offset_top = 72.0
 offset_right = 169.0
 offset_bottom = 107.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Strikes Left"
 
+[node name="Label" type="Label" parent="World/Strikes"]
+offset_left = 5.0
+offset_top = 494.0
+offset_right = 173.0
+offset_bottom = 567.0
+text = "(If strikes == 0
+you lose)"
+
+[node name="Polygon2D" type="Polygon2D" parent="World/Strikes"]
+polygon = PackedVector2Array(58, 121, 95, 147, 143, 115, 109, 152, 147, 187, 99, 163, 58, 185, 88, 156)
+
 [node name="Label3" type="Label" parent="World"]
+visible = false
 offset_left = 916.0
-offset_top = 19.0
+offset_top = 154.0
 offset_right = 1023.0
-offset_bottom = 74.0
+offset_bottom = 209.0
 theme_override_font_sizes/font_size = 40
 text = "Day 1"
 
-[node name="Label4" type="Label" parent="World"]
-offset_left = 254.0
-offset_top = 85.0
-offset_right = 391.0
-offset_bottom = 120.0
+[node name="IngredientsShelf" type="Node2D" parent="World"]
+position = Vector2(-46, 299)
+
+[node name="Label4" type="Label" parent="World/IngredientsShelf"]
+offset_left = 355.0
+offset_top = 243.0
+offset_right = 492.0
+offset_bottom = 278.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Ingredients"
 
-[node name="ScrollContainer" type="ScrollContainer" parent="World"]
-offset_left = 199.0
-offset_top = 136.0
-offset_right = 467.0
-offset_bottom = 898.0
-
-[node name="MarginContainer" type="MarginContainer" parent="World/ScrollContainer"]
-layout_mode = 2
+[node name="MarginContainer" type="MarginContainer" parent="World/IngredientsShelf"]
+offset_left = 181.0
+offset_top = 260.0
+offset_right = 681.0
+offset_bottom = 640.0
 theme_override_constants/margin_left = 20
 theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="GridContainer" type="GridContainer" parent="World/ScrollContainer/MarginContainer"]
+[node name="GridContainer" type="GridContainer" parent="World/IngredientsShelf/MarginContainer"]
 layout_mode = 2
 theme_override_constants/h_separation = 20
 theme_override_constants/v_separation = 20
-columns = 2
+columns = 4
 
-[node name="PanelContainer" type="PanelContainer" parent="World/ScrollContainer/MarginContainer/GridContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="World/IngredientsShelf/MarginContainer/GridContainer"]
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 
-[node name="PanelContainer2" type="PanelContainer" parent="World/ScrollContainer/MarginContainer/GridContainer"]
+[node name="PanelContainer2" type="PanelContainer" parent="World/IngredientsShelf/MarginContainer/GridContainer"]
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 
-[node name="PanelContainer3" type="PanelContainer" parent="World/ScrollContainer/MarginContainer/GridContainer"]
+[node name="PanelContainer3" type="PanelContainer" parent="World/IngredientsShelf/MarginContainer/GridContainer"]
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 
-[node name="PanelContainer4" type="PanelContainer" parent="World/ScrollContainer/MarginContainer/GridContainer"]
+[node name="PanelContainer4" type="PanelContainer" parent="World/IngredientsShelf/MarginContainer/GridContainer"]
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 
-[node name="PanelContainer5" type="PanelContainer" parent="World/ScrollContainer/MarginContainer/GridContainer"]
+[node name="PanelContainer5" type="PanelContainer" parent="World/IngredientsShelf/MarginContainer/GridContainer"]
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 
-[node name="PanelContainer6" type="PanelContainer" parent="World/ScrollContainer/MarginContainer/GridContainer"]
+[node name="PanelContainer6" type="PanelContainer" parent="World/IngredientsShelf/MarginContainer/GridContainer"]
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 
-[node name="PanelContainer7" type="PanelContainer" parent="World/ScrollContainer/MarginContainer/GridContainer"]
+[node name="PanelContainer7" type="PanelContainer" parent="World/IngredientsShelf/MarginContainer/GridContainer"]
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 
-[node name="PanelContainer8" type="PanelContainer" parent="World/ScrollContainer/MarginContainer/GridContainer"]
+[node name="PanelContainer8" type="PanelContainer" parent="World/IngredientsShelf/MarginContainer/GridContainer"]
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 
-[node name="PanelContainer9" type="PanelContainer" parent="World/ScrollContainer/MarginContainer/GridContainer"]
+[node name="PanelContainer9" type="PanelContainer" parent="World/IngredientsShelf/MarginContainer/GridContainer"]
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 
-[node name="PanelContainer10" type="PanelContainer" parent="World/ScrollContainer/MarginContainer/GridContainer"]
+[node name="PanelContainer10" type="PanelContainer" parent="World/IngredientsShelf/MarginContainer/GridContainer"]
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 
-[node name="PanelContainer11" type="PanelContainer" parent="World/ScrollContainer/MarginContainer/GridContainer"]
+[node name="PanelContainer11" type="PanelContainer" parent="World/IngredientsShelf/MarginContainer/GridContainer"]
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 
-[node name="PanelContainer12" type="PanelContainer" parent="World/ScrollContainer/MarginContainer/GridContainer"]
+[node name="PanelContainer12" type="PanelContainer" parent="World/IngredientsShelf/MarginContainer/GridContainer"]
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 
-[node name="PanelContainer13" type="PanelContainer" parent="World/ScrollContainer/MarginContainer/GridContainer"]
-custom_minimum_size = Vector2(100, 100)
-layout_mode = 2
+[node name="Polygon2D2" type="Polygon2D" parent="World/IngredientsShelf"]
+position = Vector2(183, 268)
+color = Color(0.647919, 0.389332, 0.574633, 1)
+polygon = PackedVector2Array(172, 94, 187, 100, 206, 95, 227, 72, 226, 37, 219, 58, 211, 72, 207, 53, 203, 33, 199, 55, 197, 69, 185, 40, 176, 27, 174, 55, 154, 39, 157, 59, 159, 75)
 
-[node name="PanelContainer14" type="PanelContainer" parent="World/ScrollContainer/MarginContainer/GridContainer"]
-custom_minimum_size = Vector2(100, 100)
-layout_mode = 2
+[node name="Label" type="Label" parent="World/IngredientsShelf/Polygon2D2"]
+offset_left = 219.0
+offset_top = 76.0
+offset_right = 247.0
+offset_bottom = 111.0
+text = "1"
+
+[node name="Polygon2D" type="Polygon2D" parent="World/IngredientsShelf"]
+position = Vector2(176, 262)
+color = Color(0.116955, 0.868958, 0.119729, 1)
+polygon = PackedVector2Array(54, 105, 55, 87, 62, 76, 49, 68, 51, 46, 66, 53, 67, 68, 86, 57, 82, 44, 88, 26, 88, 38, 91, 51, 106, 53, 111, 82, 93, 79, 89, 63, 74, 71, 62, 82, 59, 97)
+
+[node name="Label2" type="Label" parent="World/IngredientsShelf/Polygon2D"]
+offset_left = 102.0
+offset_top = 79.0
+offset_right = 116.0
+offset_bottom = 114.0
+text = "3"
+
+[node name="IngredientsScroll" type="ScrollContainer" parent="World/IngredientsShelf"]
+visible = false
+offset_left = 199.0
+offset_top = 342.0
+offset_right = 467.0
+offset_bottom = 1033.0
 
 [node name="InfoPanel" type="PanelContainer" parent="World"]
-offset_left = 1233.0
-offset_top = 112.0
-offset_right = 1709.0
-offset_bottom = 606.0
+offset_left = 125.0
+offset_top = 280.0
+offset_right = 641.0
+offset_bottom = 517.0
 
 [node name="MarginContainer" type="MarginContainer" parent="World/InfoPanel"]
 layout_mode = 2
@@ -240,67 +253,419 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="World/InfoPanel/MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "Info Panel"
+text = "Mouseover info panel for ingredients/effects etc"
 
-[node name="Label2" type="Label" parent="World/InfoPanel/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="World/InfoPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="World/InfoPanel/MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(200, 100)
+layout_mode = 2
+
+[node name="SpikyFlower" type="Polygon2D" parent="World/InfoPanel/MarginContainer/VBoxContainer/HBoxContainer/PanelContainer"]
+position = Vector2(-299, -43)
+scale = Vector2(2.09589, 2.09589)
+color = Color(0.647919, 0.389332, 0.574633, 1)
+polygon = PackedVector2Array(172, 94, 187, 100, 206, 95, 227, 72, 226, 37, 219, 58, 211, 72, 207, 53, 203, 33, 199, 55, 197, 69, 185, 40, 176, 27, 174, 55, 154, 39, 157, 59, 159, 75)
+
+[node name="Label2" type="Label" parent="World/InfoPanel/MarginContainer/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
-text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. "
+text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. "
 autowrap_mode = 3
 
-[node name="GridContainer2" type="GridContainer" parent="World"]
-offset_left = 1308.0
-offset_top = 676.0
-offset_right = 1648.0
-offset_bottom = 896.0
+[node name="Request" type="Node2D" parent="World"]
+position = Vector2(1402, 469)
+
+[node name="RequestGrid" type="GridContainer" parent="World/Request"]
+offset_top = 114.0
+offset_right = 100.0
+offset_bottom = 574.0
 theme_override_constants/h_separation = 20
 theme_override_constants/v_separation = 20
-columns = 3
 
-[node name="PanelContainer" type="PanelContainer" parent="World/GridContainer2"]
+[node name="PanelContainer" type="PanelContainer" parent="World/Request/RequestGrid"]
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 
-[node name="PanelContainer2" type="PanelContainer" parent="World/GridContainer2"]
+[node name="PanelContainer2" type="PanelContainer" parent="World/Request/RequestGrid"]
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 
-[node name="PanelContainer3" type="PanelContainer" parent="World/GridContainer2"]
+[node name="PanelContainer3" type="PanelContainer" parent="World/Request/RequestGrid"]
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 
-[node name="PanelContainer4" type="PanelContainer" parent="World/GridContainer2"]
-custom_minimum_size = Vector2(100, 100)
-layout_mode = 2
-
-[node name="PanelContainer5" type="PanelContainer" parent="World/GridContainer2"]
-custom_minimum_size = Vector2(100, 100)
-layout_mode = 2
-
-[node name="PanelContainer6" type="PanelContainer" parent="World/GridContainer2"]
-custom_minimum_size = Vector2(100, 100)
-layout_mode = 2
-
-[node name="Label5" type="Label" parent="World"]
-offset_left = 1378.0
-offset_top = 621.0
-offset_right = 1580.0
-offset_bottom = 656.0
+[node name="Label5" type="Label" parent="World/Request"]
+offset_left = -48.0
+offset_top = 51.0
+offset_right = 154.0
+offset_bottom = 86.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Requested Items"
 
+[node name="Polygon2D" type="Polygon2D" parent="World/Request"]
+position = Vector2(-11, 44)
+color = Color(0.798625, 0.151326, 0.176997, 1)
+polygon = PackedVector2Array(192, 433, 226, 337, 261, 439, 263, 262, 312, 273, 307, 400, 323, 274, 337, 270, 325, 256, 328, 194, 358, 185, 358, 133, 347, 174, 328, 177, 327, 135, 316, 171, 296, 165, 289, 125, 288, 175, 310, 183, 307, 253, 263, 230, 257, 176, 246, 91, 229, 141, 194, 141, 169, 88, 183, 153, 187, 207, 185, 235, 156, 301, 196, 255, 201, 311)
+
+[node name="SwordEffect" type="Polygon2D" parent="World/Request"]
+position = Vector2(187, 93)
+scale = Vector2(2.16522, 2.16522)
+color = Color(0.19969, 0.418053, 0.57918, 1)
+polygon = PackedVector2Array(4, 7, 4, 17, 8, 17, 8, 7, 15, 7, 15, 3, 8, 3, 7.73322, -3.40263, 7, -21, 6, -27, 4, -21, 4, -3.92649, 4, 3, -3, 3, -2, 8)
+
+[node name="Label" type="Label" parent="World/Request"]
+offset_left = 37.0
+offset_top = 475.0
+offset_right = 333.0
+offset_bottom = 586.0
+text = "(Demon requesting
+stuff is the next one
+to spawn on map above?)"
+horizontal_alignment = 1
+
+[node name="Polygon2D10" type="Polygon2D" parent="World/Request"]
+position = Vector2(-1204, -492)
+polygon = PackedVector2Array(1253, 618, 1264, 618, 1264, 625, 1261, 628, 1261, 634, 1274, 639, 1287, 646, 1292, 658, 1293, 670, 1285, 681, 1267, 689, 1248, 692, 1234, 687, 1222, 680, 1216, 663, 1221, 648, 1237, 638, 1250, 635, 1250, 629, 1246, 627, 1246, 618)
+
+[node name="SwordEffect2" type="Polygon2D" parent="World/Request"]
+position = Vector2(19, 171)
+scale = Vector2(1.13865, 1.13865)
+color = Color(0.19969, 0.418053, 0.57918, 1)
+polygon = PackedVector2Array(4, 7, 4, 17, 8, 17, 8, 7, 15, 7, 15, 3, 8, 3, 7.73322, -3.40263, 7, -21, 6, -27, 4, -21, 4, -3.92649, 4, 3, -3, 3, -2, 8)
+
 [node name="CrappyCauldron" type="Polygon2D" parent="World"]
-visible = false
-position = Vector2(-30, 18)
+position = Vector2(23, 66)
 color = Color(0.0562916, 0.0562916, 0.0562916, 1)
 polygon = PackedVector2Array(753, 870, 751, 925, 772.894, 870, 863.102, 870, 886, 925, 884, 870, 887, 848, 930, 833, 950, 797, 967, 741, 966, 683, 946, 643, 965, 633, 675, 631, 692, 644, 672, 686, 674, 736, 687, 794, 714, 832, 750, 848)
 
 [node name="Label2" type="Label" parent="World/CrappyCauldron"]
-visible = false
-offset_left = 745.0
-offset_top = 728.0
-offset_right = 892.0
-offset_bottom = 763.0
+offset_left = 743.0
+offset_top = 926.0
+offset_right = 890.0
+offset_bottom = 961.0
 text = "Cauldron lol"
+
+[node name="Polygon2D2" type="Polygon2D" parent="World/CrappyCauldron"]
+polygon = PackedVector2Array(709, 631, 927, 632, 933, 606, 940, 604, 981, 581, 1005, 528, 1044, 515, 1085, 519, 1117, 478, 1113, 442, 1152, 409, 1155, 352, 1120, 326, 1116, 266, 1080, 227, 1004, 202, 822, 202, 822, 290, 805, 361, 747, 394, 662, 448, 656, 518, 663, 580)
+
+[node name="Polygon2D3" type="Polygon2D" parent="World/CrappyCauldron"]
+position = Vector2(-18, 28)
+color = Color(0.247492, 0.646013, 1, 1)
+polygon = PackedVector2Array(400, 502, 425, 558, 488, 509, 551, 490, 599, 499, 577, 531, 649, 514, 641, 441, 619, 473, 558, 452, 515, 454, 473, 463, 419, 489)
+
+[node name="SwordEffect" type="Polygon2D" parent="World/CrappyCauldron"]
+position = Vector2(806, 492)
+scale = Vector2(2.22963, 2.22963)
+color = Color(0.19969, 0.418053, 0.57918, 1)
+polygon = PackedVector2Array(4, 7, 4, 17, 8, 17, 8, 7, 15, 7, 15, 3, 8, 3, 7.73322, -3.40263, 7, -21, 6, -27, 4, -21, 4, -3.92649, 4, 3, -3, 3, -2, 8)
+
+[node name="Label" type="Label" parent="World/CrappyCauldron"]
+offset_left = 433.0
+offset_top = 486.0
+offset_right = 582.0
+offset_bottom = 521.0
+text = "(put stuff in)"
+
+[node name="Label3" type="Label" parent="World/CrappyCauldron"]
+offset_left = 848.0
+offset_top = 215.0
+offset_right = 1137.0
+offset_bottom = 288.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "(resulting effects shown
+in smoke?)"
+
+[node name="Label4" type="Label" parent="World/CrappyCauldron"]
+offset_left = 853.0
+offset_top = 514.0
+offset_right = 1039.0
+offset_bottom = 587.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "(the potion will
+boost combat)"
+
+[node name="Label5" type="Label" parent="World/CrappyCauldron"]
+offset_left = 1007.0
+offset_top = 379.0
+offset_right = 1193.0
+offset_bottom = 452.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "(the potion will
+slow the recipient)"
+
+[node name="Polygon2D4" type="Polygon2D" parent="World/CrappyCauldron"]
+scale = Vector2(0.787424, 0.757578)
+color = Color(0.0846899, 0.0846899, 0.0846899, 1)
+polygon = PackedVector2Array(1169, 531, 1166, 518, 1181, 510, 1200, 515, 1204, 540, 1184, 550, 1151, 549, 1139, 515, 1155, 485, 1202, 481, 1230, 504, 1225, 533, 1207, 536, 1202, 510, 1181, 506, 1163, 515, 1165, 526)
+
+[node name="Polygon2D" type="Polygon2D" parent="World/CrappyCauldron/Polygon2D4"]
+color = Color(0.226707, 0.226707, 0.226707, 1)
+polygon = PackedVector2Array(1189, 550, 1207, 542, 1226, 535, 1230, 519, 1246, 502, 1250, 491, 1258, 482, 1265, 481, 1258, 487, 1254, 492, 1260, 495, 1267, 488, 1271, 486, 1272, 488, 1266, 493, 1266, 498, 1269, 504, 1264, 511, 1259, 512, 1254, 518, 1253, 533, 1248, 538, 1237, 542, 1206, 550)
+
+[node name="Polygon2D5" type="Polygon2D" parent="World/CrappyCauldron"]
+color = Color(0.74558, 0.74558, 0.74558, 1)
+polygon = PackedVector2Array(936, 625, 1138, 547, 1196, 539, 1230, 559, 1241, 583, 1258, 608, 1234, 598, 1221, 601, 1164, 595, 1148, 586, 1132, 575, 1105, 573, 943, 628)
+
+[node name="Polygon2D6" type="Polygon2D" parent="World/CrappyCauldron"]
+color = Color(0, 0, 0, 1)
+polygon = PackedVector2Array(1138, 544, 1136, 578, 1161, 596, 1216, 602, 1320, 888, 1206, 612, 1166, 607, 1144, 597, 1021, 870, 1129, 589, 1131, 563)
+
+[node name="Polygon2D" type="Polygon2D" parent="World/CrappyCauldron"]
+color = Color(0.487811, 0.453723, 0.351215, 1)
+polygon = PackedVector2Array(957, 873, 1229, 748, 1236, 764, 1164, 793, 1191, 800, 1174, 814, 1206, 821, 1181, 840, 1210, 846, 1187, 860, 1210, 869, 1187, 882, 1253, 884, 1249, 900, 958, 893, 949, 888, 933, 891, 933, 886, 949, 880)
+
+[node name="Label6" type="Label" parent="World/CrappyCauldron"]
+offset_left = 1032.0
+offset_top = 841.0
+offset_right = 1179.0
+offset_bottom = 876.0
+text = "Bellows?"
+
+[node name="Polygon2D7" type="Polygon2D" parent="World/CrappyCauldron"]
+position = Vector2(1, -1)
+polygon = PackedVector2Array(1253, 618, 1264, 618, 1264, 625, 1261, 628, 1261, 634, 1274, 639, 1287, 646, 1292, 658, 1291, 671, 1285, 681, 1267, 689, 1248, 692, 1234, 687, 1222, 680, 1216, 663, 1221, 648, 1237, 638, 1250, 635, 1250, 629, 1246, 627, 1246, 618)
+
+[node name="Label7" type="Label" parent="World/CrappyCauldron"]
+offset_left = 1132.0
+offset_top = 549.0
+offset_right = 1354.0
+offset_bottom = 584.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "(click to fill potion)"
+
+[node name="Label9" type="Label" parent="World/CrappyCauldron"]
+offset_left = 1156.0
+offset_top = 691.0
+offset_right = 1443.0
+offset_bottom = 764.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "(drag to demon request
+or smuggle to hero)"
+
+[node name="Label8" type="Label" parent="World/CrappyCauldron"]
+offset_left = 551.0
+offset_top = 804.0
+offset_right = 773.0
+offset_bottom = 877.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "(click to ->
+empty cauldron)"
+
+[node name="Polygon2D8" type="Polygon2D" parent="World/CrappyCauldron"]
+position = Vector2(-12, 21)
+polygon = PackedVector2Array(707, 800, 715, 788, 711.681, 775.387, 702, 780, 699, 775, 710, 769, 719, 765, 729, 763, 735, 769, 722, 775, 725, 782, 750, 776, 755, 797, 738, 802, 708, 811, 695, 819, 691, 832, 679, 825, 684, 812, 693, 802)
+
+[node name="Polygon2D9" type="Polygon2D" parent="World/CrappyCauldron"]
+color = Color(0.247059, 0.647059, 1, 1)
+polygon = PackedVector2Array(1293, 644, 1298, 671, 1376, 610, 1386, 624, 1389, 588, 1357, 590, 1368, 601)
+
+[node name="HeroMap" type="Node2D" parent="World"]
+position = Vector2(0, -882)
+
+[node name="ColorRect" type="ColorRect" parent="World/HeroMap"]
+offset_top = 879.0
+offset_right = 1921.0
+offset_bottom = 1151.0
+color = Color(0.777123, 0.717325, 0.557051, 1)
+
+[node name="HeroProgress" type="ProgressBar" parent="World/HeroMap"]
+visible = false
+offset_left = 64.0
+offset_top = 999.0
+offset_right = 1870.0
+offset_bottom = 1044.0
+
+[node name="Label" type="Label" parent="World/HeroMap"]
+offset_left = 294.0
+offset_top = 1059.0
+offset_right = 480.0
+offset_bottom = 1132.0
+text = "(Hero Progress)
+           -->"
+
+[node name="Line2D" type="Line2D" parent="World/HeroMap"]
+points = PackedVector2Array(52, 1051, 186, 1015, 371, 1037, 619, 1013, 814, 1083, 1067, 1032, 1241, 1032, 1393, 1072, 1536, 1045, 1642, 1062, 1750, 1043)
+default_color = Color(0.517472, 0.452167, 0.356159, 1)
+
+[node name="Polygon2D" type="Polygon2D" parent="World/HeroMap"]
+color = Color(0.129558, 0.129558, 0.129558, 1)
+polygon = PackedVector2Array(358, 1033, 364, 1034, 371, 1003, 373, 1033, 380, 1034, 383, 992, 394, 992, 401, 1017, 418, 990, 420, 966, 392, 965, 390, 978, 387, 978, 388, 952, 371, 951, 365, 970, 364, 979, 356, 983, 351, 981, 355, 980, 355, 975, 352, 974, 353, 943, 352, 932, 349, 943, 346, 975, 341, 975, 340, 980, 344, 981, 348, 988, 353, 991, 358, 989, 361, 999)
+
+[node name="Polygon2D2" type="Polygon2D" parent="World/HeroMap"]
+color = Color(0.0562916, 0.0562916, 0.0562916, 1)
+polygon = PackedVector2Array(1721, 1045, 1820, 1046, 1852, 966, 1853, 929, 1866, 929, 1839, 890, 1809, 926, 1822, 927, 1823, 955, 1792, 953, 1786, 922, 1802, 916, 1759, 883, 1721, 919, 1752, 922, 1741, 956, 1713, 971, 1710, 952, 1720, 950, 1695, 920, 1686, 951, 1697, 953, 1695, 992, 1711, 1022)
+
+[node name="Label2" type="Label" parent="World/HeroMap"]
+offset_left = 1671.0
+offset_top = 1041.0
+offset_right = 1918.0
+offset_bottom = 1152.0
+text = "(Demon kingdom/
+end of hero journey)
+(spawns demons)"
+
+[node name="Demon1" type="Polygon2D" parent="World/HeroMap"]
+position = Vector2(1466, 920)
+scale = Vector2(0.292374, 0.292374)
+color = Color(0.798625, 0.151326, 0.176997, 1)
+polygon = PackedVector2Array(192, 433, 226, 337, 261, 439, 263, 262, 312, 273, 307, 400, 323, 274, 337, 270, 325, 256, 328, 194, 358, 185, 358, 133, 347, 174, 328, 177, 327, 135, 316, 171, 296, 165, 289, 125, 288, 175, 310, 183, 307, 253, 263, 230, 257, 176, 246, 91, 229, 141, 194, 141, 169, 88, 183, 153, 187, 207, 185, 235, 156, 301, 196, 255, 201, 311)
+
+[node name="Demon2" type="Polygon2D" parent="World/HeroMap"]
+position = Vector2(1000, 908)
+scale = Vector2(0.292374, 0.292374)
+color = Color(0.798625, 0.151326, 0.176997, 1)
+polygon = PackedVector2Array(192, 433, 226, 337, 261, 439, 263, 262, 312, 273, 307, 400, 323, 274, 337, 270, 325, 256, 328, 194, 358, 185, 358, 133, 347, 174, 328, 177, 327, 135, 316, 171, 296, 165, 289, 125, 288, 175, 310, 183, 307, 253, 263, 230, 257, 176, 246, 91, 229, 141, 194, 141, 169, 88, 183, 153, 187, 207, 185, 235, 156, 301, 196, 255, 201, 311)
+
+[node name="Label3" type="Label" parent="World/HeroMap"]
+offset_left = 972.0
+offset_top = 1045.0
+offset_right = 1187.0
+offset_bottom = 1118.0
+text = "(Demon progress)
+          <---"
+
+[node name="Label5" type="Label" parent="World/HeroMap"]
+offset_left = 1145.0
+offset_top = 890.0
+offset_right = 1360.0
+offset_bottom = 963.0
+text = "<- slowed"
+
+[node name="HeroCombatRating" type="GridContainer" parent="World/HeroMap"]
+offset_left = 344.0
+offset_top = 883.0
+offset_right = 412.0
+offset_bottom = 933.0
+columns = 10
+
+[node name="PanelContainer" type="PanelContainer" parent="World/HeroMap/HeroCombatRating"]
+custom_minimum_size = Vector2(20, 50)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_h2yge")
+
+[node name="Polygon2D" type="Polygon2D" parent="World/HeroMap/HeroCombatRating/PanelContainer"]
+position = Vector2(4, 30)
+color = Color(0.19969, 0.418053, 0.57918, 1)
+polygon = PackedVector2Array(4, 7, 4, 17, 8, 17, 8, 7, 15, 7, 15, 3, 8, 3, 7.73322, -3.40263, 7, -21, 6, -27, 4, -21, 4, -3.92649, 4, 3, -3, 3, -2, 8)
+
+[node name="PanelContainer2" type="PanelContainer" parent="World/HeroMap/HeroCombatRating"]
+custom_minimum_size = Vector2(20, 50)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_h2yge")
+
+[node name="Polygon2D" type="Polygon2D" parent="World/HeroMap/HeroCombatRating/PanelContainer2"]
+position = Vector2(4, 30)
+color = Color(0.19969, 0.418053, 0.57918, 1)
+polygon = PackedVector2Array(4, 7, 4, 17, 8, 17, 8, 7, 15, 7, 15, 3, 8, 3, 7.73322, -3.40263, 7, -21, 6, -27, 4, -21, 4, -3.92649, 4, 3, -3, 3, -2, 8)
+
+[node name="PanelContainer3" type="PanelContainer" parent="World/HeroMap/HeroCombatRating"]
+custom_minimum_size = Vector2(20, 50)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_h2yge")
+
+[node name="Polygon2D" type="Polygon2D" parent="World/HeroMap/HeroCombatRating/PanelContainer3"]
+position = Vector2(4, 30)
+color = Color(0.19969, 0.418053, 0.57918, 1)
+polygon = PackedVector2Array(4, 7, 4, 17, 8, 17, 8, 7, 15, 7, 15, 3, 8, 3, 7.73322, -3.40263, 7, -21, 6, -27, 4, -21, 4, -3.92649, 4, 3, -3, 3, -2, 8)
+
+[node name="Demon2CombatRating" type="GridContainer" parent="World/HeroMap"]
+offset_left = 1042.0
+offset_top = 881.0
+offset_right = 1086.0
+offset_bottom = 931.0
+columns = 10
+
+[node name="PanelContainer" type="PanelContainer" parent="World/HeroMap/Demon2CombatRating"]
+custom_minimum_size = Vector2(20, 50)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_h2yge")
+
+[node name="Polygon2D" type="Polygon2D" parent="World/HeroMap/Demon2CombatRating/PanelContainer"]
+position = Vector2(4, 30)
+color = Color(0.19969, 0.418053, 0.57918, 1)
+polygon = PackedVector2Array(4, 7, 4, 17, 8, 17, 8, 7, 15, 7, 15, 3, 8, 3, 7.73322, -3.40263, 7, -21, 6, -27, 4, -21, 4, -3.92649, 4, 3, -3, 3, -2, 8)
+
+[node name="PanelContainer2" type="PanelContainer" parent="World/HeroMap/Demon2CombatRating"]
+custom_minimum_size = Vector2(20, 50)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_h2yge")
+
+[node name="Polygon2D" type="Polygon2D" parent="World/HeroMap/Demon2CombatRating/PanelContainer2"]
+position = Vector2(4, 30)
+color = Color(0.19969, 0.418053, 0.57918, 1)
+polygon = PackedVector2Array(4, 7, 4, 17, 8, 17, 8, 7, 15, 7, 15, 3, 8, 3, 7.73322, -3.40263, 7, -21, 6, -27, 4, -21, 4, -3.92649, 4, 3, -3, 3, -2, 8)
+
+[node name="Polygon2D10" type="Polygon2D" parent="World/HeroMap/Demon2CombatRating"]
+position = Vector2(-409, -172)
+scale = Vector2(0.40172, 0.386494)
+color = Color(0.0846899, 0.0846899, 0.0846899, 1)
+polygon = PackedVector2Array(1169, 531, 1166, 518, 1181, 510, 1200, 515, 1204, 540, 1184, 550, 1151, 549, 1139, 515, 1155, 485, 1202, 481, 1230, 504, 1225, 533, 1207, 536, 1202, 510, 1181, 506, 1163, 515, 1165, 526)
+
+[node name="Polygon2D" type="Polygon2D" parent="World/HeroMap/Demon2CombatRating/Polygon2D10"]
+color = Color(0.226707, 0.226707, 0.226707, 1)
+polygon = PackedVector2Array(1189, 550, 1207, 542, 1226, 535, 1230, 519, 1246, 502, 1250, 491, 1258, 482, 1265, 481, 1258, 487, 1254, 492, 1260, 495, 1267, 488, 1271, 486, 1272, 488, 1266, 493, 1266, 498, 1269, 504, 1264, 511, 1259, 512, 1254, 518, 1253, 533, 1248, 538, 1237, 542, 1206, 550)
+
+[node name="Demon1CombatRating2" type="GridContainer" parent="World/HeroMap"]
+offset_left = 1515.0
+offset_top = 895.0
+offset_right = 1535.0
+offset_bottom = 945.0
+columns = 10
+
+[node name="PanelContainer" type="PanelContainer" parent="World/HeroMap/Demon1CombatRating2"]
+custom_minimum_size = Vector2(20, 50)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_h2yge")
+
+[node name="Polygon2D" type="Polygon2D" parent="World/HeroMap/Demon1CombatRating2/PanelContainer"]
+position = Vector2(4, 30)
+color = Color(0.19969, 0.418053, 0.57918, 1)
+polygon = PackedVector2Array(4, 7, 4, 17, 8, 17, 8, 7, 15, 7, 15, 3, 8, 3, 7.73322, -3.40263, 7, -21, 6, -27, 4, -21, 4, -3.92649, 4, 3, -3, 3, -2, 8)
+
+[node name="Label4" type="Label" parent="World/HeroMap"]
+offset_left = 417.0
+offset_top = 890.0
+offset_right = 690.0
+offset_bottom = 963.0
+text = "<-- \"Combat rating\" for
+      battle w/ next demon"
+
+[node name="Smuggle" type="Node2D" parent="World"]
+position = Vector2(1246, 7)
+
+[node name="PanelContainer4" type="PanelContainer" parent="World/Smuggle"]
+custom_minimum_size = Vector2(100, 100)
+offset_left = 157.0
+offset_top = 321.0
+offset_right = 257.0
+offset_bottom = 421.0
+
+[node name="Label" type="Label" parent="World/Smuggle"]
+offset_left = 153.0
+offset_top = 275.0
+offset_right = 256.0
+offset_bottom = 310.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Smuggle (send stuff to hero)
+                (will this work lel?)"
+
+[node name="Label2" type="Label" parent="World/Smuggle"]
+offset_left = 271.0
+offset_top = 365.0
+offset_right = 384.0
+offset_bottom = 400.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "(-1 strike? or some cost)"
+
+[node name="Button" type="Button" parent="World"]
+offset_left = 1748.0
+offset_top = 292.0
+offset_right = 1908.0
+offset_bottom = 370.0
+text = "End Day
+(button)"
 
 [node name="UI" type="CanvasLayer" parent="."]
 
