@@ -1,12 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://cib81fcg33t4e"]
+[gd_scene load_steps=6 format=3 uid="uid://cib81fcg33t4e"]
 
 [ext_resource type="Script" uid="uid://bjnw0tr11q2h8" path="res://main.gd" id="1_0xm2m"]
 [ext_resource type="Script" uid="uid://dtgcr1m25t20a" path="res://world.gd" id="2_7mycd"]
 [ext_resource type="PackedScene" uid="uid://cdy73hh05cxw8" path="res://levels/level_0.tscn" id="3_272bh"]
 [ext_resource type="PackedScene" uid="uid://b326cb226l8ye" path="res://ui/pause_menu.tscn" id="4_1bvp3"]
 [ext_resource type="Script" path="res://entities/entity_class.gd" id="4_ixft2"]
-[ext_resource type="PackedScene" uid="uid://mqinaasi0323" path="res://entities/hero/hero.tscn" id="5_an6f7"]
-[ext_resource type="PackedScene" uid="uid://3tgyoc0ngvsg" path="res://entities/mimic/mimic.tscn" id="6_2hlvy"]
 
 [node name="Main" type="Node"]
 process_mode = 3
@@ -20,12 +18,6 @@ script = ExtResource("2_7mycd")
 
 [node name="Entities" type="Node2D" parent="World"]
 script = ExtResource("4_ixft2")
-
-[node name="Hero" parent="World/Entities" instance=ExtResource("5_an6f7")]
-position = Vector2(91, 588)
-
-[node name="Mimic" parent="World/Entities" instance=ExtResource("6_2hlvy")]
-position = Vector2(1184, 740)
 
 [node name="UI" type="CanvasLayer" parent="."]
 
