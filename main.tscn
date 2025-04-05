@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=4 uid="uid://cib81fcg33t4e"]
+[gd_scene load_steps=9 format=4 uid="uid://cib81fcg33t4e"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_0xm2m"]
 [ext_resource type="Script" path="res://world.gd" id="2_7mycd"]
@@ -7,6 +7,12 @@
 [ext_resource type="Script" path="res://entities/entity_class.gd" id="4_ixft2"]
 [ext_resource type="PackedScene" uid="uid://mqinaasi0323" path="res://entities/hero/hero.tscn" id="5_an6f7"]
 [ext_resource type="PackedScene" uid="uid://3tgyoc0ngvsg" path="res://entities/mimic/mimic.tscn" id="6_2hlvy"]
+
+[sub_resource type="Curve2D" id="Curve2D_0qsaj"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 99, 551, 0, 0, 0, 0, 157, 549, 0, 0, 0, 0, 158, 92, 0, 0, 0, 0, 543, 98, 0, 0, 0, 0, 545, 167, 0, 0, 0, 0, 865, 169, 0, 0, 0, 0, 872, 85, 0, 0, 0, 0, 1065, 93, 0, 0, 0, 0, 1063, 353, 0, 0, 0, 0, 1186, 355, 0, 0, 0, 0, 997, 358, 0, 0, 0, 0, 997, 486, 0, 0, 0, 0, 740, 483, 0, 0, 0, 0, 735, 360, 0, 0, 0, 0, 411, 342, 0, 0, 0, 0, 156, 363, 0, 0, 0, 0, 152, 996, 0, 0, 0, 0, 548, 1007, 0, 0, 0, 0, 546, 928, 0, 0, 0, 0, 863, 925, 0, 0, 0, 0, 867, 1005, 0, 0, 0, 0, 1057, 992, 0, 0, 0, 0, 1055, 742, 0, 0, 0, 0, 1185, 742, 0, 0, 0, 0, 989, 740, 0, 0, 0, 0, 987, 618, 0, 0, 0, 0, 741, 616, 0, 0, 0, 0, 745, 752, 0, 0, 0, 0, 417, 742, 0, 0, 0, 0, 413, 618, 0, 0, 0, 0, 413, 538, 0, 0, 0, 0, 407, 344)
+}
+point_count = 32
 
 [node name="Main" type="Node"]
 process_mode = 3
@@ -21,7 +27,7 @@ tile_map_data = PackedByteArray("AAAAAAAAAQAAAAAAAAAAAAEAAQAAAAAAAAAAAAIAAQAAAAA
 tile_set = ExtResource("3_1bvp3")
 
 [node name="OtherTiles" type="TileMapLayer" parent="World"]
-tile_map_data = PackedByteArray("AAABAAgAAQAAAAUAAAASAAUAAQAAAAQAAAASAAsAAQAAAAQAAAA=")
+tile_map_data = PackedByteArray("AAABAAgAAQAAAAUAAAASAAUAAQAAAAQAAAASAAsAAQAAAAQAAAALAAUAAQAAAAMAAAACAAEAAQAAAAMAAAANAA4AAQAAAAMAAAANAAIAAQAAAAMAAAAIAAEAAQAAAAMAAAACAAUAAQAAAAMAAAAHAAUAAQAAAAMAAAADAAsAAQAAAAMAAAADAA8AAQAAAAMAAAAHAAsAAQAAAAMAAAA=")
 tile_set = ExtResource("3_1bvp3")
 
 [node name="WallTiles" type="TileMapLayer" parent="World"]
@@ -36,6 +42,13 @@ position = Vector2(91, 588)
 
 [node name="Mimic" parent="World/Entities" instance=ExtResource("6_2hlvy")]
 position = Vector2(1184, 740)
+
+[node name="Path2D" type="Path2D" parent="World/Entities"]
+curve = SubResource("Curve2D_0qsaj")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="World/Entities/Path2D"]
+position = Vector2(99, 551)
+rotation = -0.0344691
 
 [node name="UI" type="CanvasLayer" parent="."]
 

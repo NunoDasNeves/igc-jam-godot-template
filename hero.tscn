@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://bgy5yqlybq05c"]
+[gd_scene load_steps=3 format=3 uid="uid://ctafsk1exr235"]
 
 [ext_resource type="Script" path="res://entities/hero/hero_class.gd" id="1_1a5hb"]
 
