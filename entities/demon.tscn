@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://ctaxcdbad6eko"]
+
+[ext_resource type="Script" uid="uid://b6bqs3sk5odvn" path="res://entities/entity.gd" id="1_i8gql"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_kleto"]
+radius = 12.83
+
+[node name="Demon" type="Node2D"]
+script = ExtResource("1_i8gql")
+
+[node name="Polygon2D4" type="Polygon2D" parent="."]
+position = Vector2(-157, -756)
+color = Color(0.935961, 0.545578, 0.37156, 1)
+polygon = PackedVector2Array(149, 718, 152, 726, 159, 725, 160, 717, 163, 729, 164, 738, 169, 739, 171, 729, 168, 728, 171, 720, 170, 726, 172, 727, 175, 719, 174, 728, 176, 728, 179, 722, 178, 729, 173, 730, 171, 739, 174, 740, 173, 744, 170, 744, 168, 758, 166, 761, 168, 744, 165, 744, 164, 746, 164, 764, 156, 752, 152, 764, 149, 750, 148, 743, 144, 752, 144, 742, 147, 737, 150, 735, 150, 732)
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, -2)
+shape = SubResource("CircleShape2D_kleto")

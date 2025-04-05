@@ -1,0 +1,21 @@
+[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://woxckrqp2r8f"]
+
+[ext_resource type="Texture2D" uid="uid://b2ua1p7w0voks" path="res://tilesets/tilemap-test.png" id="1_rlcim"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_8n1lv"]
+texture = ExtResource("1_rlcim")
+texture_region_size = Vector2i(64, 64)
+0:0/0 = 0
+0:1/0 = 0
+0:1/0/custom_data_0 = true
+0:2/0 = 0
+0:2/0/custom_data_0 = true
+0:3/0 = 0
+0:4/0 = 0
+0:5/0 = 0
+
+[resource]
+tile_size = Vector2i(64, 64)
+custom_data_layer_0/name = "wall"
+custom_data_layer_0/type = 1
+sources/1 = SubResource("TileSetAtlasSource_8n1lv")
