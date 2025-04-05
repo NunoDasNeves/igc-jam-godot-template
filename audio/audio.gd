@@ -23,10 +23,10 @@ func _ready() -> void:
 ##
 ## Loading and caching audio streams by filename
 ##
-var sfx_stream_cache: Dictionary[String, AudioStream] = {}
-var music_stream_cache: Dictionary[String, AudioStream] = {}
+var sfx_stream_cache = {}
+var music_stream_cache = {}
 
-func get_stream(stream_cache: Dictionary[String, AudioStream], filename: String, audio_subpath: String) -> AudioStream:
+func get_stream(stream_cache: Dictionary, filename: String, audio_subpath: String) -> AudioStream:
 	var stream: AudioStream = stream_cache.get(filename)
 	if !stream:
 		stream = load("res://audio/%s/%s" % [audio_subpath, filename])

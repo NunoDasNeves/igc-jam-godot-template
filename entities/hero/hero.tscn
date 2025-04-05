@@ -1,19 +1,17 @@
 [gd_scene load_steps=3 format=3 uid="uid://mqinaasi0323"]
 
-[ext_resource type="Script" uid="uid://b6bqs3sk5odvn" path="res://entities/entity.gd" id="1_kym4o"]
+[ext_resource type="Script" path="res://entities/hero/hero_class.gd" id="1_qxmll"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_kleto"]
 radius = 15.0333
 
-[node name="Hero" type="Node2D"]
-script = ExtResource("1_kym4o")
+[node name="Hero" type="CharacterBody2D"]
+script = ExtResource("1_qxmll")
 
 [node name="Polygon2D" type="Polygon2D" parent="."]
 position = Vector2(-281, -1039)
 scale = Vector2(1.83, 1.83)
 polygon = PackedVector2Array(148, 573, 153.699, 558.956, 160, 572, 159, 552, 164, 549, 164, 550, 166, 550, 167, 547, 169, 547, 169, 545, 166, 544, 164, 528, 163, 543, 159, 544, 160, 545, 162, 545, 158, 546, 157, 535, 151, 533, 148, 540, 139, 543, 141, 558, 146, 563, 148, 560)
 
-[node name="Area2D" type="Area2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_kleto")
