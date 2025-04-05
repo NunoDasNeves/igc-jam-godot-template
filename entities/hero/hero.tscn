@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://mqinaasi0323"]
 
-[ext_resource type="Script" path="res://entities/hero/hero_class.gd" id="1_qxmll"]
+[ext_resource type="Script" uid="uid://owx21u4do8v4" path="res://entities/hero/hero_class.gd" id="1_qxmll"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_iom2f"]
 radius = 11.0
