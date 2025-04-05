@@ -66,6 +66,15 @@ Down={
 ]
 }
 
+[layer_names]
+
+2d_physics/layer_1="Player"
+2d_physics/layer_2="Mob"
+2d_physics/layer_3="Object"
+2d_physics/layer_4="Projectile"
+2d_physics/layer_5="UI"
+2d_physics/layer_6="MSC"
+
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0

@@ -32,7 +32,7 @@ tile_set = ExtResource("3_1bvp3")
 script = ExtResource("4_ixft2")
 
 [node name="Hero" parent="World/Entities" instance=ExtResource("5_an6f7")]
-position = Vector2(91, 552)
+position = Vector2(91, 588)
 
 [node name="Mimic" parent="World/Entities" instance=ExtResource("6_2hlvy")]
 position = Vector2(1184, 740)
