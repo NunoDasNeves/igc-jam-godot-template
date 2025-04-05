@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bodyu1wi4ooc"
-path="res://.godot/imported/witch_idle.png-ff406a13c1fd69c0bebd8b9530647440.ctex"
+uid="uid://b2ua1p7w0voks"
+path="res://.godot/imported/tilemap-test.png-ae7f3bb8927462f6aa2000ad72791f34.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://characters/witch/witch_idle.png"
-dest_files=["res://.godot/imported/witch_idle.png-ff406a13c1fd69c0bebd8b9530647440.ctex"]
+source_file="res://tilesets/tilemap-test.png"
+dest_files=["res://.godot/imported/tilemap-test.png-ae7f3bb8927462f6aa2000ad72791f34.ctex"]
 
 [params]
 

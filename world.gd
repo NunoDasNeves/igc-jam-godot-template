@@ -1,31 +1,76 @@
 extends Node2D
 
-const confetti_scene = preload("res://vfx/confetti_particles.tscn")
-
-@onready var _anim_sprite = $AnimatedSprite2D
-@onready var _anim_sprite2 = $AnimatedSprite2D2
-@onready var _anim_player = $AnimationPlayer
-
-@onready var _sfx_btn = $HBoxContainer/SFXButton
-@onready var _song_1_btn = $HBoxContainer/Song1Button
-@onready var _song_2_btn = $HBoxContainer/Song2Button
-@onready var _stop_song_btn = $HBoxContainer/StopSongButton
+@onready var walls: TileMapLayer = $WallTiles
 
 func _ready() -> void:
-	_sfx_btn.connect("button_down", func (): Audio.play_sfx("dungeon_wizard_ding_ding.wav", 0.2))
-	_song_1_btn.connect("button_down", func(): Audio.set_music("dungeon_wizard_menu_music.wav", 0.5))
-	_song_2_btn.connect("button_down", func(): Audio.set_music("sample-3s.mp3", 0.5))
-	_stop_song_btn.connect("button_down", func(): Audio.stop_music())
-	Events.nested_button_pressed.connect(spawn_confetti)
+	pass
 
 func _process(_delta: float) -> void:
-	_anim_sprite.play("idle-S")
-	_anim_sprite2.play("idle-S")
-	_anim_player.play("idle-S")
+	pass
 
-func spawn_confetti(position: Vector2) -> void:
-	var confetti: GPUParticles2D = confetti_scene.instantiate()
-	confetti.finished.connect(func (): remove_child(confetti))
-	add_child(confetti)
-	confetti.global_position = position
-	confetti.emitting = true
+func coord_is_wall(coord: Vector2i) -> bool:
+	var tile_data: TileData = walls.get_cell_tile_data(coord)
+	if !tile_data:
+		return false
+	var is_wall = tile_data.get_custom_data("wall")
+	return is_wall
+
+func process_entity(entity: Entity) -> void:
+	var dirs_f = [Vector2.UP, Vector2.DOWN, Vector2.LEFT, Vector2.RIGHT]
+	var neighbors = [Vector2i.UP, Vector2i.DOWN, Vector2i.LEFT, Vector2i.RIGHT]
+	var coord = walls.local_to_map(entity.position)
+	var tile_center_pos = walls.map_to_local(coord)
+
+	entity.move_dir = Vector2.ZERO
+	if entity.input_dir.x == 0 and entity.input_dir.y == 0:
+		return
+
+	for i in range(4):
+		var dir_f = dirs_f[i]
+		var n_dir = neighbors[i]
+		# x dot y = cos(theta). If theta is >= 45 degrees then ignore
+		# (probably only relevant for joystick input)
+		if entity.input_dir.dot(dir_f) <= 0.707:
+			continue
+		var to_center: Vector2 = tile_center_pos - entity.position
+		var angle = (-to_center).angle()
+		var close_to_center = to_center.length_squared() < 2
+		var move_n_dir: Vector2i
+		# okay check axis depending on input direction
+		if dir_f.x != 0:
+			# close to center, or in left or right quadrant:
+			# snap to y axis and move in the raw direction
+			if close_to_center or (angle > -PI/4 and angle <= PI/4) or angle > PI*3/4 or angle <= -PI*3/4:
+				entity.position.y = tile_center_pos.y
+				if close_to_center:
+					entity.position.x = tile_center_pos.x
+				move_n_dir = Vector2i(dir_f)
+			# in top or bottom quadrant, and the input dir isn't a wall
+			# snap to x axis, and go perpendicular to get to center of square
+			elif !coord_is_wall(coord + n_dir):
+				entity.position.x = tile_center_pos.x
+				if close_to_center:
+					entity.position.y = tile_center_pos.y
+				move_n_dir = Vector2i((tile_center_pos - entity.position).normalized())
+		else:
+			# same logic but for other input direction
+			if close_to_center or (angle > PI/4 and angle <= PI*3/4) or (angle <= -PI/4 and angle > -PI*3/4):
+				entity.position.x = tile_center_pos.x
+				move_n_dir = Vector2i(dir_f)
+			elif !coord_is_wall(coord + n_dir):
+				entity.position.y = tile_center_pos.y
+				move_n_dir = Vector2i((tile_center_pos - entity.position).normalized())
+
+		if !move_n_dir:
+			continue
+
+		var move_dir = Vector2(move_n_dir)
+		# ok finally if we're "past" the center in the move direction, and there's a wall, stop!
+		# note this is a different wall check to earlier which is only for determining
+		# if we should do perpendicular movement at all
+		if to_center.dot(move_dir) > 0 or !coord_is_wall(coord + move_n_dir):
+			entity.move_dir = move_dir
+
+func _physics_process(delta: float) -> void:
+	for entity: Entity in $Entities.get_children():
+		process_entity(entity)
