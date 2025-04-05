@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://dtgcr1m25t20a" path="res://world.gd" id="2_7mycd"]
 [ext_resource type="PackedScene" uid="uid://cdy73hh05cxw8" path="res://levels/level_0.tscn" id="3_272bh"]
 [ext_resource type="PackedScene" uid="uid://b326cb226l8ye" path="res://ui/pause_menu.tscn" id="4_1bvp3"]
-[ext_resource type="Script" path="res://entities/entity_class.gd" id="4_ixft2"]
+[ext_resource type="Script" uid="uid://iwpm225rjp3" path="res://entities/entity_class.gd" id="4_ixft2"]
 
 [node name="Main" type="Node"]
 process_mode = 3
