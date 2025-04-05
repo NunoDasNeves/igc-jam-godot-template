@@ -2,6 +2,7 @@ extends Node2D
 
 @onready var camera: Camera2D = $Camera2D
 @onready var characters = $Characters
+@onready var main_char = $Characters/MainChar
 
 var curr_screen: LevelScreen
 
@@ -13,14 +14,22 @@ func _ready() -> void:
 
 func _physics_process(_delta: float) -> void:
 	# TODO camera control
+	var v_rect = get_viewport_rect()
+	camera.global_position.x = main_char.global_position.x
 	if curr_screen:
-		pass
+		var coll_shape: CollisionShape2D = curr_screen.coll_shape
+		var rect_shape: RectangleShape2D = coll_shape.shape
+		camera.limit_left = coll_shape.global_position.x - rect_shape.size.x * 0.5
+		camera.limit_right = coll_shape.global_position.x + rect_shape.size.x * 0.5
 	else:
-		pass
+		camera.limit_left = -10000000
+		camera.limit_right = 10000000
+	
 
 func begin_screen(screen: LevelScreen) -> void:
 	if curr_screen:
 		return
+	print("begin screen: %s" % screen.get_instance_id())
 	curr_screen = screen
 	curr_screen.begin()
 
@@ -28,6 +37,7 @@ func end_curr_screen(screen: LevelScreen) -> void:
 	assert(screen == curr_screen)
 	curr_screen.queue_free()
 	curr_screen = null
+	print("end_curr_screen")
 
 func pos_is_on_char(gpos: Vector2) -> bool:
 	for character: Node2D in characters.get_children():

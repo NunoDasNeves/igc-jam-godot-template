@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://cib81fcg33t4e"]
+[gd_scene load_steps=21 format=3 uid="uid://cib81fcg33t4e"]
 
 [ext_resource type="Script" uid="uid://bjnw0tr11q2h8" path="res://main.gd" id="1_0xm2m"]
 [ext_resource type="Script" uid="uid://dtgcr1m25t20a" path="res://world.gd" id="2_7mycd"]
@@ -30,20 +30,37 @@ metadata/_custom_type_script = "uid://dqbpan7ne452l"
 [sub_resource type="Resource" id="Resource_5vw27"]
 script = ExtResource("4_272bh")
 scene = ExtResource("5_5vw27")
-num = 5
+num = 2
 delay_secs = 6.0
 metadata/_custom_type_script = "uid://dqbpan7ne452l"
 
-[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_1bvp3"]
-normal = Vector2(0, 1)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5vw27"]
+size = Vector2(382, 187)
 
-[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_lquwl"]
+[sub_resource type="Resource" id="Resource_4c57u"]
+script = ExtResource("4_272bh")
+scene = ExtResource("5_5vw27")
+num = 1
+delay_secs = 1.0
+metadata/_custom_type_script = "uid://dqbpan7ne452l"
+
+[sub_resource type="Resource" id="Resource_efxa6"]
+script = ExtResource("4_272bh")
+scene = ExtResource("5_5vw27")
+num = 1
+delay_secs = 7.0
+metadata/_custom_type_script = "uid://dqbpan7ne452l"
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_7mycd"]
 normal = Vector2(1, 0)
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_272bh"]
 normal = Vector2(-1, 0)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_1bvp3"]
+normal = Vector2(0, 1)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_lquwl"]
 
 [node name="Main" type="Node"]
 process_mode = 3
@@ -65,27 +82,60 @@ polygon = PackedVector2Array(-3, -8, 1127, -6, 1133, 190, -2, 186)
 [node name="Screens" type="Node2D" parent="World/Level"]
 
 [node name="Screen1" type="Node2D" parent="World/Level/Screens"]
+position = Vector2(160, 91)
 script = ExtResource("3_5vw27")
 
 [node name="Area" type="Area2D" parent="World/Level/Screens/Screen1"]
-position = Vector2(150, 89)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Level/Screens/Screen1/Area"]
-position = Vector2(14.5, 1)
 shape = SubResource("RectangleShape2D_7mycd")
 
 [node name="Spawners" type="Node2D" parent="World/Level/Screens/Screen1"]
 
 [node name="Spawner1" parent="World/Level/Screens/Screen1/Spawners" instance=ExtResource("3_lquwl")]
-position = Vector2(272, 90)
+position = Vector2(121.1, 14.1)
 spawns = Array[ExtResource("4_272bh")]([SubResource("Resource_kek77")])
 
 [node name="Spawner2" parent="World/Level/Screens/Screen1/Spawners" instance=ExtResource("3_lquwl")]
-position = Vector2(187, 103)
+position = Vector2(36.1, 27.1)
 spawns = Array[ExtResource("4_272bh")]([SubResource("Resource_5vw27")])
+
+[node name="Screen2" type="Node2D" parent="World/Level/Screens"]
+position = Vector2(518, 92)
+script = ExtResource("3_5vw27")
+
+[node name="Area" type="Area2D" parent="World/Level/Screens/Screen2"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Level/Screens/Screen2/Area"]
+position = Vector2(46, -0.5)
+shape = SubResource("RectangleShape2D_5vw27")
+
+[node name="Spawners" type="Node2D" parent="World/Level/Screens/Screen2"]
+
+[node name="Spawner1" parent="World/Level/Screens/Screen2/Spawners" instance=ExtResource("3_lquwl")]
+position = Vector2(39, 9)
+spawns = Array[ExtResource("4_272bh")]([SubResource("Resource_4c57u")])
+
+[node name="Spawner2" parent="World/Level/Screens/Screen2/Spawners" instance=ExtResource("3_lquwl")]
+position = Vector2(-110, 8)
+spawns = Array[ExtResource("4_272bh")]([SubResource("Resource_efxa6")])
 
 [node name="Camera2D" type="Camera2D" parent="World"]
 position = Vector2(160, 90)
+limit_smoothed = true
+position_smoothing_enabled = true
+position_smoothing_speed = 2.0
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="World/Camera2D"]
+position = Vector2(-160, -90)
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="World/Camera2D/StaticBody2D2"]
+position = Vector2(11, 91)
+shape = SubResource("WorldBoundaryShape2D_7mycd")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="World/Camera2D/StaticBody2D2"]
+position = Vector2(309, 91)
+shape = SubResource("WorldBoundaryShape2D_272bh")
 
 [node name="Characters" type="Node2D" parent="World"]
 z_as_relative = false
@@ -103,14 +153,6 @@ shape = SubResource("WorldBoundaryShape2D_1bvp3")
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="World/StaticBody2D"]
 position = Vector2(159, 169)
 shape = SubResource("WorldBoundaryShape2D_lquwl")
-
-[node name="CollisionShape2D3" type="CollisionShape2D" parent="World/StaticBody2D"]
-position = Vector2(11, 91)
-shape = SubResource("WorldBoundaryShape2D_7mycd")
-
-[node name="CollisionShape2D4" type="CollisionShape2D" parent="World/StaticBody2D"]
-position = Vector2(309, 91)
-shape = SubResource("WorldBoundaryShape2D_272bh")
 
 [node name="UI" type="CanvasLayer" parent="."]
 visible = false

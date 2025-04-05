@@ -24,6 +24,7 @@ y_sort_enabled = true
 motion_mode = 1
 platform_on_leave = 2
 script = ExtResource("1_0ogvg")
+max_hp = 100.0
 
 [node name="HpBar" parent="." instance=ExtResource("2_f2bmt")]
 

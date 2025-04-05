@@ -2,6 +2,9 @@ class_name Character extends CharacterBody2D
 
 @export var max_hp: float = 50
 
+enum Faction {PLAYER,ENEMY}
+@export var faction = Faction.PLAYER
+
 @onready var attack: Attack = $Attack
 @onready var attack_2: Attack = $Attack2
 @onready var hurtbox: Hurtbox = $HurtboxArea2D

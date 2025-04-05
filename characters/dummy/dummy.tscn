@@ -19,6 +19,7 @@ motion_mode = 1
 platform_on_leave = 2
 script = ExtResource("1_lp1vw")
 max_hp = 100.0
+faction = 1
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 self_modulate = Color(0.749582, 0, 0.130878, 1)
