@@ -1,12 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://ctaxcdbad6eko"]
-
-[ext_resource type="Script" uid="uid://b6bqs3sk5odvn" path="res://entities/entity.gd" id="1_i8gql"]
+[gd_scene load_steps=2 format=3 uid="uid://ctaxcdbad6eko"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_kleto"]
 radius = 12.83
 
 [node name="Demon" type="Node2D"]
-script = ExtResource("1_i8gql")
 
 [node name="Polygon2D4" type="Polygon2D" parent="."]
 position = Vector2(-157, -756)

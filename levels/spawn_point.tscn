@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://bt0igb700yr6d"]
+
+[ext_resource type="Script" uid="uid://bb3o34l2dnd0l" path="res://levels/spawn_point.gd" id="1_tvlu6"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_tvlu6"]
+radius = 35.0
+
+[node name="SpawnPoint" type="Node2D"]
+script = ExtResource("1_tvlu6")
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 7
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_tvlu6")

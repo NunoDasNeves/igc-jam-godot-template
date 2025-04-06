@@ -1,7 +1,10 @@
 class_name Entity extends Node2D
 
-@export var player_controlled: bool = false
-@export_enum("LEFT","RIGHT", "UP", "DOWN") var vision_direction = 2
+var player_controlled: bool = false
+
+signal interacted
+signal attacked
+
 var input_dir: Vector2
 var move_dir: Vector2
 
@@ -22,13 +25,20 @@ func get_player_input() -> void:
 		vision_direction = 3
 	input_dir = Vector2(x_in, y_in).normalized()
 
+	if Input.is_action_just_pressed("Interact"):
+		interacted.emit()
+
+	if Input.is_action_just_pressed("Attack"):
+		attacked.emit()
+
 func assign_player_is_controlled() -> void:
 	if player_controlled == false:
 		player_controlled = true
 	else:
 		print("Error player_controlled already is ",player_controlled)
 
-
+func hit(hitbox: Hitbox) -> void:
+	pass
 
 func _physics_process(delta: float) -> void:
 	var vel = move_dir * delta * 150

@@ -1,18 +1,58 @@
-[gd_scene load_steps=3 format=3 uid="uid://3tgyoc0ngvsg"]
+[gd_scene load_steps=5 format=3 uid="uid://3tgyoc0ngvsg"]
 
-[ext_resource type="Script" path="res://entities/mimic/mimic_class.gd" id="1_71vme"]
+[ext_resource type="Script" uid="uid://rj533hmh0is6" path="res://entities/mimic/mimic_class.gd" id="1_71vme"]
+[ext_resource type="Script" uid="uid://dkliywsva1nji" path="res://entities/hitbox.gd" id="2_4bgkd"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_kleto"]
 radius = 19.88
 
-[node name="Mimic" type="CharacterBody2D"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_osxg3"]
+radius = 29.0
+
+[node name="Mimic" type="CharacterBody2D" groups=["monster"]]
+motion_mode = 1
+platform_on_leave = 2
 script = ExtResource("1_71vme")
 
-[node name="Polygon2D" type="Polygon2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_kleto")
+
+[node name="FlipVisuals" type="Node2D" parent="."]
+
+[node name="MimicPoly" type="Polygon2D" parent="FlipVisuals"]
 position = Vector2(-145, -617)
 scale = Vector2(0.90566, 0.905661)
 color = Color(4.09593e-05, 0.82369, 0.257114, 1)
 polygon = PackedVector2Array(135.813, 665.812, 140.229, 658.083, 149.063, 655.875, 172.25, 653.666, 179.979, 660.291, 184.396, 669.125, 184.396, 673.541, 183.292, 677.958, 179.979, 673.541, 178.875, 677.958, 173.354, 674.646, 171.146, 680.166, 166.729, 675.75, 164.521, 680.166, 156.792, 677.958, 155.688, 683.479, 159, 691.208, 159, 684.583, 165.625, 687.896, 166.729, 683.479, 171.146, 686.791, 174.458, 682.375, 177.771, 684.583, 181.083, 681.271, 183.292, 682.375, 182.188, 692.312, 149.063, 701.146, 136.917, 689)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_kleto")
+[node name="ChestPoly" type="Polygon2D" parent="FlipVisuals"]
+visible = false
+position = Vector2(-128.227, -488.387)
+scale = Vector2(0.806631, 0.806631)
+color = Color(0.997828, 0.902683, 0.309188, 1)
+polygon = PackedVector2Array(146, 628, 185, 618, 185, 594, 180, 579, 171, 574, 167, 573, 140, 577, 134, 583, 132, 591, 131.692, 612.431)
+
+[node name="Attack" type="Node2D" parent="."]
+
+[node name="Hitbox" type="Area2D" parent="Attack"]
+collision_layer = 0
+collision_mask = 4
+script = ExtResource("2_4bgkd")
+duration_secs = 0.1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Attack/Hitbox"]
+position = Vector2(24, -3)
+shape = SubResource("CircleShape2D_osxg3")
+debug_color = Color(0.88185, 0, 0.116802, 0.42)
+
+[node name="TopJaw" type="Polygon2D" parent="Attack"]
+position = Vector2(-3, -1)
+rotation = 0.820305
+color = Color(0.832601, 0.628577, 0.355676, 1)
+polygon = PackedVector2Array(-2, -11, 18, -42, 21, -44, 29, -44, 42, -34, 31, -35, 34, -27, 19, -28, 22, -21, 13, -20, 15, -10, 7, -12, 3, -2, -6, -6)
+
+[node name="BottomJaw" type="Polygon2D" parent="Attack"]
+position = Vector2(2, 3)
+rotation = -0.342085
+color = Color(0.831373, 0.627451, 0.356863, 1)
+polygon = PackedVector2Array(-4, -1, 31, 21, 37, 21, 41, 18, 45, 7, 37, 11, 36, 2, 27, 7, 24, -3, 17, 2, 16, -6, 8, -2, 5, -8, -4, -11)
