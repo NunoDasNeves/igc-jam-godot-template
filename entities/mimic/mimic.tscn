@@ -10,18 +10,12 @@ radius = 19.88
 radius = 29.0
 
 [node name="Mimic" type="CharacterBody2D" groups=["monster"]]
+motion_mode = 1
+platform_on_leave = 2
 script = ExtResource("1_71vme")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_kleto")
-
-[node name="Hitbox" type="Area2D" parent="."]
-script = ExtResource("2_4bgkd")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
-position = Vector2(24, -3)
-shape = SubResource("CircleShape2D_osxg3")
-debug_color = Color(0.88185, 0, 0.116802, 0.42)
 
 [node name="FlipVisuals" type="Node2D" parent="."]
 
@@ -39,6 +33,14 @@ color = Color(0.997828, 0.902683, 0.309188, 1)
 polygon = PackedVector2Array(146, 628, 185, 618, 185, 594, 180, 579, 171, 574, 167, 573, 140, 577, 134, 583, 132, 591, 131.692, 612.431)
 
 [node name="Attack" type="Node2D" parent="."]
+
+[node name="Hitbox" type="Area2D" parent="Attack"]
+script = ExtResource("2_4bgkd")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Attack/Hitbox"]
+position = Vector2(24, -3)
+shape = SubResource("CircleShape2D_osxg3")
+debug_color = Color(0.88185, 0, 0.116802, 0.42)
 
 [node name="TopJaw" type="Polygon2D" parent="Attack"]
 position = Vector2(-3, -1)
