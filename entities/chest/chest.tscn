@@ -1,12 +1,16 @@
 [gd_scene load_steps=3 format=3 uid="uid://bq3uou3pscid6"]
 
-[ext_resource type="Script" uid="uid://iwpm225rjp3" path="res://entities/entity_class.gd" id="1_s5oot"]
+[ext_resource type="Script" uid="uid://ce717bpn1ha8f" path="res://entities/chest/chest.gd" id="1_agy02"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_kleto"]
 radius = 19.88
 
-[node name="Chest" type="Node2D"]
-script = ExtResource("1_s5oot")
+[node name="Chest" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 0
+motion_mode = 1
+platform_on_leave = 2
+script = ExtResource("1_agy02")
 
 [node name="Polygon2D2" type="Polygon2D" parent="."]
 position = Vector2(-128.227, -488.387)
@@ -14,8 +18,6 @@ scale = Vector2(0.806631, 0.806631)
 color = Color(0.997828, 0.902683, 0.309188, 1)
 polygon = PackedVector2Array(146, 628, 185, 618, 185, 594, 180, 579, 171, 574, 167, 573, 140, 577, 134, 583, 132, 591, 131.692, 612.431)
 
-[node name="Area2D" type="Area2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -2)
 shape = SubResource("CircleShape2D_kleto")
