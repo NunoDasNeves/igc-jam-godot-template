@@ -11,7 +11,7 @@ tile_map_data = PackedByteArray("AAAAAAAAAQAAAAAAAAAAAAEAAQAAAAAAAAAAAAIAAQAAAAA
 tile_set = ExtResource("1_eus5j")
 
 [node name="OtherTiles" type="TileMapLayer" parent="."]
-tile_map_data = PackedByteArray("AAABAAgAAQAAAAUAAAASAAUAAQAAAAQAAAASAAsAAQAAAAQAAAA=")
+tile_map_data = PackedByteArray("AAABAAgAAQAAAAUAAAASAAUAAQAAAAQAAAASAAsAAQAAAAQAAAAFAAEAAQAAAAYAAAAFAA8AAQAAAAYAAAAIAAgAAQAAAAYAAAAOAA8AAQAAAAYAAAAOAAEAAQAAAAYAAAAPAAgAAQAAAAYAAAA=")
 tile_set = ExtResource("1_eus5j")
 
 [node name="WallTiles" type="TileMapLayer" parent="."]

@@ -10,6 +10,7 @@ extends Node
 
 var hero_spawn_points: Array[SpawnPoint] = []
 var monster_spawn_points: Array[SpawnPoint] = []
+var chest_spawn_points: Array[SpawnPoint] = []
 
 func create_spawn_point(coord: Vector2i, time_secs: float) -> SpawnPoint:
 	var point = preload("res://levels/spawn_point.tscn").instantiate()
@@ -28,6 +29,8 @@ func _ready() -> void:
 			hero_spawn_points.append(create_spawn_point(coord, 0.5))
 		if tile_data.get_custom_data("stairs_down"):
 			monster_spawn_points.append(create_spawn_point(coord, 0.5))
+		if tile_data.get_custom_data("chest"):
+			chest_spawn_points.append(create_spawn_point(coord, 10))
 
 func coord_is_wall(coord: Vector2i) -> bool:
 	var tile_data: TileData = wall_tiles.get_cell_tile_data(coord)
