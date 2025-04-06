@@ -16,9 +16,9 @@ hue_variation_max = 0.66
 [node name="GPUParticles2D" type="GPUParticles2D"]
 emitting = false
 amount = 1000
+process_material = SubResource("ParticleProcessMaterial_lquwl")
 lifetime = 7.39
 one_shot = true
 speed_scale = 1.5
 explosiveness = 0.95
 fixed_fps = 60
-process_material = SubResource("ParticleProcessMaterial_lquwl")
