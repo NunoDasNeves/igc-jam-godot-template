@@ -6,8 +6,9 @@ const chest_scene = preload("res://entities/chest/chest.tscn")
 @onready var level: Level = $Level
 
 func _ready() -> void:
+	Events.chest_destroyed.connect(trigger_chest_respawn)
 	for chest_spawner: SpawnPoint in level.chest_spawn_points:
-		chest_spawner.spawn_entity(chest_scene, entities_container)
+		chest_spawner.queue_spawn(chest_scene, entities_container)
 
 func _process(_delta: float) -> void:
 	pass
@@ -73,7 +74,7 @@ func spawn_entities(spawners: Array[SpawnPoint], num: int, scene:PackedScene) ->
 	while num > 0 and spawners.size() > 0:
 		var spawner = spawners.pop_back()
 		if spawner.can_spawn():
-			spawner.spawn_entity(scene, entities_container)
+			spawner.queue_spawn(scene, entities_container)
 			num -= 1
 
 func spawn_entities_by_group_count(group_name: String, max_count: int, spawn_points: Array[SpawnPoint], scene: PackedScene):
@@ -81,6 +82,15 @@ func spawn_entities_by_group_count(group_name: String, max_count: int, spawn_poi
 	var num_to_spawn = max(max_count - curr_count, 0)
 	if num_to_spawn > 0:
 		spawn_entities(spawn_points.duplicate(), num_to_spawn, scene) 
+
+func trigger_chest_respawn(chest: Chest) -> void:
+	var coord = level.other_tiles.local_to_map(chest.position)
+	var idx = level.chest_spawn_points.find_custom(func (s): return s.coord == coord)
+	if idx == -1:
+		print("couldn't find chest's spawner!")
+		return
+	var spawn_point: SpawnPoint = level.chest_spawn_points[idx]
+	spawn_point.queue_spawn(chest_scene, entities_container, 5)
 
 func _physics_process(delta: float) -> void:
 	for entity: Entity in entities_container.get_children():
