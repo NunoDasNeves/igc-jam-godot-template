@@ -1,10 +1,13 @@
 extends Node2D
 
+const chest_scene = preload("res://entities/chest/chest.tscn")
+
 @onready var entities_container: Node2D = $Entities
 @onready var level: Level = $Level
 
 func _ready() -> void:
-	pass
+	for chest_spawner: SpawnPoint in level.chest_spawn_points:
+		chest_spawner.spawn_entity(chest_scene, entities_container)
 
 func _process(_delta: float) -> void:
 	pass

@@ -1,1 +1,1 @@
-class_name Chest extends Node2D
+class_name Chest extends Entity

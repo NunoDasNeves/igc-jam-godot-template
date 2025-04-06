@@ -17,5 +17,11 @@ func spawn_entity(scene: PackedScene, entities_parent: Node) -> void:
 	# wait a bit before this spawner can be used again
 	timer.start(time_secs)
 
+func delay_spawn_entity(scene: PackedScene, entities_parent: Node, delay_secs) -> void:
+	timer.start(delay_secs)
+	for c in timer.timeout.get_connections():
+		timer.timeout.disconnect(c)
+	timer.timeout.connect(func (): spawn_entity(scene, entities_parent))
+
 func can_spawn() -> bool:
 	return timer.time_left <= 0
