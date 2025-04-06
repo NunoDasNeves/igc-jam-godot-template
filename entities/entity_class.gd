@@ -25,7 +25,8 @@ func assign_player_is_controlled() -> void:
 	else:
 		print("Error player_controlled already is ",player_controlled)
 
-
+func hit(hitbox: Hitbox) -> void:
+	pass
 
 func _physics_process(delta: float) -> void:
 	var vel = move_dir * delta * 150
