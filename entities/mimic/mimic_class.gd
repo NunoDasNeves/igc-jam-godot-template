@@ -41,13 +41,12 @@ func set_state(new_state: State) -> void:
 			var top_tween = get_tree().create_tween()
 			top_tween.tween_interval(0.1)
 			top_tween.tween_property(top_jaw, "rotation_degrees", 47, 0.1)
+			top_tween.tween_callback(func (): hitbox.activate())
+			top_tween.tween_interval(0.4)
+			top_tween.tween_callback(func (): set_state(State.NONE))
 			var bot_tween = get_tree().create_tween()
 			bot_tween.tween_interval(0.1)
 			bot_tween.tween_property(bot_jaw, "rotation_degrees", -19.6, 0.1)
-			top_tween.tween_interval(0.4)
-			top_tween.tween_callback(func (): set_state(State.NONE))
-			# actually hit stuff
-			hitbox.activate()
 
 	state = new_state
 

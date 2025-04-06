@@ -9,19 +9,28 @@ var hit_nodes: Dictionary[int, bool] = {}
 
 func _ready() -> void:
 	deactivate()
-	area_entered.connect(hit)
+	body_entered.connect(hit)
 
 func deactivate() -> void:
 	monitoring = false
 	monitorable = false
+	hide()
 
 func activate() -> void:
 	monitoring = true
 	monitorable = true
+	show()
 	hit_nodes.clear()
 	var timer = get_tree().create_timer(duration_secs)
 	timer.timeout.connect(deactivate)
 
-func hit(area: Area2D) -> void:
-	# TODO make this hit stuff
-	pass
+func hit(body: PhysicsBody2D) -> void:
+	var char_body = body as CharacterBody2D
+	if !char_body:
+		return
+	var entity = char_body as Entity
+	if !entity:
+		return
+
+	entity.hit(self)
+	hit_nodes[entity.get_instance_id()] = true
