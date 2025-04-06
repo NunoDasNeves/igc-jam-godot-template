@@ -1,7 +1,7 @@
 [gd_scene load_steps=16 format=4 uid="uid://cdy73hh05cxw8"]
 
 [ext_resource type="Script" path="res://levels/level.gd" id="1_823pn"]
-[ext_resource type="PhysicsMaterial" uid="uid://7q082t2kgw4d" path="res://wall_physics.tres" id="3_waym5"]
+[ext_resource type="PhysicsMaterial" uid="uid://7q082t2kgw4d" path="res://tilesets/wall_physics.tres" id="3_waym5"]
 [ext_resource type="Texture2D" uid="uid://b2ua1p7w0voks" path="res://tilesets/tilemap-test.png" id="4_77sdr"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_5fpjs"]
