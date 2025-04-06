@@ -1,11 +1,12 @@
 class_name Entity
 extends CharacterBody2D
 
+@export var target: Vector2 
 @export var player_controlled: bool = false
 @export var speed: float = 100.0
 @export var entity_sees_player: bool = false
 @onready var navigation_agent_2d: NavigationAgent2D = $NavigationAgent2D
-@onready var level: Level = %Level
+
 
 
 
@@ -57,11 +58,25 @@ func assign_player_is_controlled() -> void:
 
 func get_target() -> void:
 	if entity_sees_player == true :
+		
 		pass # grabs player position. 
 	else:
 		
 		pass #function that gets chest position. 
 	pass 
+	
+	
+func set_target(target_position: Vector2) -> void:
+	if target_position != target:
+		target = target_position
+		navigation_agent_2d.set_target_position(target_position)
+
+	else:
+		print("Error", target, " is already a target")
+	
+func move_to_target(target: Vector2) -> void:
+	
+	pass
 
 func _on_navigation_agent_2d_velocity_computed(safe_velocity: Vector2) -> void:
 	pass # Replace with function body.

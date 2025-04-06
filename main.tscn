@@ -21,3 +21,5 @@ unique_name_in_owner = true
 [node name="UI" type="CanvasLayer" parent="."]
 
 [node name="PauseMenu" parent="UI" instance=ExtResource("4_1bvp3")]
+
+[editable path="World/Level"]

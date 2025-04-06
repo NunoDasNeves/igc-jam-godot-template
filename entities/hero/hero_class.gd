@@ -3,6 +3,7 @@ extends Entity
 
 @export_enum("Idle", "Exploring", "Chasing", "Action")
 var hero_state: int
+@onready var level: Level = %Level
 
 @onready var vision: RayCast2D = %RayCast2D
 
@@ -12,54 +13,60 @@ func _ready() -> void:
 	pass
 
 func _process(delta: float) -> void:
-	# If not in Idle state (0), handle other states
-	if hero_state != 0:
-		if hero_state == 1:
+	match hero_state:
+		0:  # Idle
+			navigation_agent_2d.set_target_position(self.position)
+			hero_looking()
+			print("State: Idle - Looking for hero")
+		
+		1:  # Exploring
 			var searching_target = hero_looking()
-			if searching_target == Mimic:
-				hero_state = 2
-				# call function to chase here
+			if searching_target and searching_target is Mimic:
+				hero_state = 2  # switch to Chasing
 			else:
 				pass
-
-		if hero_state == 3:
-			# "Action" state
-			# e.g., check if player is within range:
-			#   if in range -> attack
-			#   else move closer
+		
+		2:  # Chasing
 			pass
-	else:
-		#Function to triger Idle Animation 
-		navigation_agent_2d.set_target_position(self.position)
-		hero_looking() 
+		
+		3:  # Action
+			pass
 
 
 func hero_looking() -> Entity:
-	# RayCast2D will detect any collider it sees in its path
 	var entity_seen = vision.get_collider()
-	
+
 	if entity_seen == null:
 		print("Hero sees nothing.")
-		var timer = Timer.new()
-		timer.wait_time = 5
-		timer.one_shot = true  # Runs only once; set false if you want it to repeat.
-		add_child(timer)
-		timer.start()
-		timer.timeout.connect(_on_timer_timeout)
-		print("hero_looking Timeout")
-		
+
 		if hero_state != 1:
 			hero_state = 1
+			print("Hero state changed to Exploring (1)")
+		else:
+			var timer = Timer.new()
+			timer.wait_time = 2.0
+			timer.one_shot = true
+			add_child(timer)
+			timer.start()
+			timer.timeout.connect(_on_timer_timeout)
+
 			print(hero_state)
+
+			pass
+
 		return null
 	else:
 		print("Hero sees:", entity_seen)
 		return entity_seen
 
+
 func _on_timer_timeout() -> void:
-	on_looking_for_chest()
 	print("Looking for chest signal emitted from timer!")
+	on_looking_for_chest()
 
 func on_looking_for_chest() -> void:
+	var chest_position = level.coord_is_chest("chest")
+	
 	emit_signal("_looking_for_chest")
-	print("Looking for chest signal emitted")
+	
+	print("suuuuper", chest_position)

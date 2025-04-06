@@ -32,14 +32,18 @@ func _ready() -> void:
 				monster_spawners.append(spawner)
 
 
-
-
-func on_looking_for_chest() -> void:
-	print("Spawner got the _looking_for_chest signal!")
-
+	
 func coord_is_wall(coord: Vector2i) -> bool:
 	var tile_data: TileData = wall_tiles.get_cell_tile_data(coord)
 	if !tile_data:
 		return false
 	var is_wall = tile_data.get_custom_data("wall")
 	return is_wall
+
+	
+func coord_is_chest(coord: Vector2i) -> bool:
+	var tile_data: TileData = other_tiles.get_cell_tile_data(coord)
+	if !tile_data:
+		return false
+	var is_chest = tile_data.get_custom_data("chest")
+	return is_chest
