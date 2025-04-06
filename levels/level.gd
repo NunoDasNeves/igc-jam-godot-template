@@ -34,7 +34,8 @@ func _ready() -> void:
 
 
 
-
+func on_looking_for_chest() -> void:
+	print("Spawner got the _looking_for_chest signal!")
 
 func coord_is_wall(coord: Vector2i) -> bool:
 	var tile_data: TileData = wall_tiles.get_cell_tile_data(coord)

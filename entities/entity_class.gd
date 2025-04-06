@@ -5,12 +5,13 @@ extends CharacterBody2D
 @export var speed: float = 100.0
 @export var entity_sees_player: bool = false
 @onready var navigation_agent_2d: NavigationAgent2D = $NavigationAgent2D
-@onready var level: Level = $"../Level"
+@onready var level: Level = %Level
 
 
 
 
 @export_enum("Left", "Right", "Up", "Down")
+
 var facing_direction: int
 
 var input_dir: Vector2 = Vector2.ZERO
@@ -58,6 +59,7 @@ func get_target() -> void:
 	if entity_sees_player == true :
 		pass # grabs player position. 
 	else:
+		
 		pass #function that gets chest position. 
 	pass 
 

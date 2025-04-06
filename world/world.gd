@@ -19,6 +19,10 @@ func process_entity(entity: Entity) -> void:
 
 func spawn_entity(spawner: Level.Spawner, scene: PackedScene) -> void:
 	var node = scene.instantiate()
+	if node.has_signal("_looking_for_chest"):
+		node._looking_for_chest.connect(node.on_looking_for_chest)
+		print(node)
+
 	entities_container.add_child(node)
 	var pos = level.other_tiles.map_to_local(spawner.coord)
 	node.global_position = pos
@@ -57,3 +61,6 @@ func _physics_process(delta: float) -> void:
 		var monsters = get_tree().get_nodes_in_group("monster")
 		if monsters.size() > 0:
 			monsters[0].queue_free()
+
+func on_looking_for_chest() -> void:
+	print("Spawner got the _looking_for_chest signal!")
