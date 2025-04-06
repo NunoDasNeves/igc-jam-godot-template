@@ -8,7 +8,7 @@ class_name Mimic extends Entity
 @onready var bot_jaw: Polygon2D = $Attack/BottomJaw
 @onready var attack_node: Node2D = $Attack
 
-@onready var hitbox: Hitbox = $Hitbox
+@onready var hitbox: Hitbox = $Attack/Hitbox
 
 enum State { NONE, HIDDEN, ATTACK }
 var state: State = State.NONE
