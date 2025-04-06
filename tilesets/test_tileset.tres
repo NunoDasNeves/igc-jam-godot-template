@@ -1,5 +1,6 @@
-[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://woxckrqp2r8f"]
+[gd_resource type="TileSet" load_steps=4 format=3 uid="uid://woxckrqp2r8f"]
 
+[ext_resource type="PhysicsMaterial" uid="uid://7q082t2kgw4d" path="res://tilesets/wall_physics.tres" id="1_a6aat"]
 [ext_resource type="Texture2D" uid="uid://b2ua1p7w0voks" path="res://tilesets/tilemap-test.png" id="1_rlcim"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_8n1lv"]
@@ -7,17 +8,29 @@ texture = ExtResource("1_rlcim")
 texture_region_size = Vector2i(64, 64)
 0:0/0 = 0
 0:1/0 = 0
+0:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
 0:1/0/custom_data_0 = true
 0:2/0 = 0
+0:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
 0:2/0/custom_data_0 = true
 0:3/0 = 0
+0:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, -32, -32, -32, 32)
 0:4/0 = 0
+0:4/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
 0:4/0/custom_data_2 = true
 0:5/0 = 0
+0:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
 0:5/0/custom_data_1 = true
 
 [resource]
 tile_size = Vector2i(64, 64)
+physics_layer_0/collision_layer = 4
+physics_layer_0/collision_mask = 15
+physics_layer_0/physics_material = ExtResource("1_a6aat")
+terrain_set_0/mode = 0
+terrain_set_0/terrain_0/name = "Wall"
+terrain_set_0/terrain_0/color = Color(0.72, 0.4464, 0.4464, 1)
+navigation_layer_0/layers = 1
 custom_data_layer_0/name = "wall"
 custom_data_layer_0/type = 1
 custom_data_layer_1/name = "stairs_up"

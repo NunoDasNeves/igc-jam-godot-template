@@ -1,5 +1,4 @@
-class_name Level
-extends Node
+class_name Level extends Node
 
 @onready var floor_tiles: TileMapLayer = $FloorTiles
 @onready var other_tiles: TileMapLayer = $OtherTiles
@@ -7,6 +6,7 @@ extends Node
 
 @export var max_heroes: int = 1
 @export var max_monsters: int = 1
+
 
 class Spawner extends RefCounted:
 	var coord: Vector2i
@@ -31,9 +31,19 @@ func _ready() -> void:
 			if spawns_monsters:
 				monster_spawners.append(spawner)
 
+
+	
 func coord_is_wall(coord: Vector2i) -> bool:
 	var tile_data: TileData = wall_tiles.get_cell_tile_data(coord)
 	if !tile_data:
 		return false
 	var is_wall = tile_data.get_custom_data("wall")
 	return is_wall
+
+	
+func coord_is_chest(coord: Vector2i) -> bool:
+	var tile_data: TileData = other_tiles.get_cell_tile_data(coord)
+	if !tile_data:
+		return false
+	var is_chest = tile_data.get_custom_data("chest")
+	return is_chest

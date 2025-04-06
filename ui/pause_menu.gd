@@ -1,4 +1,4 @@
-extends PanelContainer
+class_name PauseMenu extends PanelContainer
 
 @onready var main = $Main
 @onready var main_resume_button = $Main/VBoxContainer/ResumeButton

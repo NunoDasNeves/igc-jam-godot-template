@@ -1,4 +1,4 @@
-extends Node
+class_name Main extends Node
 
 @onready var pause_menu = $UI/PauseMenu
 
