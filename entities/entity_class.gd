@@ -3,6 +3,12 @@ extends CharacterBody2D
 
 @export var player_controlled: bool = false
 @export var speed: float = 100.0
+@export var entity_sees_player: bool = false
+@onready var navigation_agent_2d: NavigationAgent2D = $NavigationAgent2D
+@onready var level: Level = $"../Level"
+
+
+
 
 @export_enum("Left", "Right", "Up", "Down")
 var facing_direction: int
@@ -20,6 +26,9 @@ func _physics_process(delta: float) -> void:
 	if collision:
 		if collision.get_collider() is TileMap:
 			print("Collided with tilemap!")
+
+	if player_controlled == false:
+		pass # function entety logic. 
 
 func get_player_input() -> void:
 	var x_in = Input.get_axis("Left", "Right")
@@ -44,3 +53,13 @@ func assign_player_is_controlled() -> void:
 		player_controlled = true
 	else:
 		print("Error: player_controlled is already", player_controlled)
+
+func get_target() -> void:
+	if entity_sees_player == true :
+		pass # grabs player position. 
+	else:
+		pass #function that gets chest position. 
+	pass 
+
+func _on_navigation_agent_2d_velocity_computed(safe_velocity: Vector2) -> void:
+	pass # Replace with function body.

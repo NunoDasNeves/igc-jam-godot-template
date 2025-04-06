@@ -50,3 +50,6 @@ unique_name_in_owner = true
 position = Vector2(0, -34)
 target_position = Vector2(360, 20)
 collision_mask = 3
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+navigation_layers = 2
