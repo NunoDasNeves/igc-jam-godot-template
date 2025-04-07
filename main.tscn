@@ -14,6 +14,7 @@ process_mode = 1
 script = ExtResource("2_7mycd")
 
 [node name="Level" parent="World" instance=ExtResource("3_272bh")]
+unique_name_in_owner = true
 
 [node name="Entities" type="Node2D" parent="World"]
 

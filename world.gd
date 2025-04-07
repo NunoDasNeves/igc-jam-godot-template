@@ -92,9 +92,9 @@ func trigger_chest_respawn(chest: Chest) -> void:
 	var spawn_point: SpawnPoint = level.chest_spawn_points[idx]
 	spawn_point.queue_spawn(chest_scene, entities_container, 5)
 
-func _physics_process(delta: float) -> void:
-	for entity: Entity in entities_container.get_children():
-		process_entity(entity)
+func _physics_process(_delta: float) -> void:
+#	for entity: Entity in entities_container.get_children():
+#		process_entity(entity)
 
 	spawn_entities_by_group_count("hero", level.max_heroes, level.hero_spawn_points, preload("res://entities/hero/hero.tscn"))
 	spawn_entities_by_group_count("monster", level.max_monsters, level.monster_spawn_points, preload("res://entities/mimic/mimic.tscn"))
