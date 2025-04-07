@@ -13,8 +13,6 @@ class_name Mimic extends Entity
 enum State { NONE, HIDDEN, ATTACK }
 var state: State = State.NONE
 
-var face_dir: Vector2 = Vector2.RIGHT
-
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	assign_player_is_controlled()
@@ -65,13 +63,6 @@ func attack() -> void:
 	# show green mimic again, first
 	set_state(State.NONE)
 	set_state(State.ATTACK)
-
-func update_face_dir() -> void:
-	if !input_dir.is_zero_approx():
-		if absf(input_dir.x) > absf(input_dir.y):
-			face_dir = Vector2(signf(input_dir.x), 0)
-		else:
-			face_dir = Vector2(0, signf(input_dir.y))
 
 func update_visual_dir() -> void:
 	attack_node.rotation = face_dir.angle()
