@@ -1,4 +1,4 @@
-class_name Entity extends Node2D
+class_name Entity extends CharacterBody2D
 
 var player_controlled: bool = false
 
@@ -7,6 +7,8 @@ signal attacked
 
 var input_dir: Vector2
 var move_dir: Vector2
+
+var speed: float = 150.0
 
 func get_player_input() -> void:
 	var x_in = Input.get_axis("Left", "Right")
@@ -29,5 +31,5 @@ func hit(hitbox: Hitbox) -> void:
 	pass
 
 func _physics_process(delta: float) -> void:
-	var vel = move_dir * delta * 150
-	position += vel
+	velocity = move_dir * 150
+	move_and_slide()
