@@ -22,8 +22,8 @@ func create_spawn_point(coord: Vector2i, time_secs: float) -> SpawnPoint:
 
 func _ready() -> void:
 	# get the spawner tiles
-	var coords = other_tiles.get_used_cells()
-	for coord: Vector2i in coords:
+	var other_coords = other_tiles.get_used_cells()
+	for coord: Vector2i in other_coords:
 		var tile_data: TileData = other_tiles.get_cell_tile_data(coord)
 		if tile_data.get_custom_data("stairs_up"):
 			hero_spawn_points.append(create_spawn_point(coord, 0.5))
@@ -31,6 +31,18 @@ func _ready() -> void:
 			monster_spawn_points.append(create_spawn_point(coord, 0.5))
 		if tile_data.get_custom_data("chest"):
 			chest_spawn_points.append(create_spawn_point(coord, 10))
+
+	# create pathing tiles
+	var floor_coords = floor_tiles.get_used_cells()
+	#floor_tiles.get_cell_atlas_coords()
+	var src_id = floor_tiles.get_cell_source_id(Vector2(0,0))
+	for coord: Vector2i in floor_coords:
+		var floor_tile = floor_tiles.get_cell_tile_data(coord)
+		if !floor_tile:
+			continue
+		var wall_tile: TileData = wall_tiles.get_cell_tile_data(coord)
+		if !wall_tile or !wall_tile.get_custom_data("wall"):
+			floor_tiles.set_cell(coord, src_id, Vector2(0,0), 1)
 
 func coord_is_wall(coord: Vector2i) -> bool:
 	var tile_data: TileData = wall_tiles.get_cell_tile_data(coord)
