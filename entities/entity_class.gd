@@ -5,8 +5,12 @@ var player_controlled: bool = false
 signal interacted
 signal attacked
 
+# The desired move direction (from player input or AI)
 var input_dir: Vector2
+# The final move direction (derived from input_dir)
 var move_dir: Vector2
+# Last nonzero direction of input_dir
+var face_dir: Vector2 = Vector2.RIGHT
 
 var speed: float = 150.0
 
@@ -29,6 +33,14 @@ func assign_player_is_controlled() -> void:
 
 func hit(hitbox: Hitbox) -> void:
 	pass
+
+# called by subclasses depending on action states n whatnot
+func update_face_dir() -> void:
+	if !input_dir.is_zero_approx():
+		if absf(input_dir.x) > absf(input_dir.y):
+			face_dir = Vector2(signf(input_dir.x), 0)
+		else:
+			face_dir = Vector2(0, signf(input_dir.y))
 
 func _physics_process(delta: float) -> void:
 	velocity = move_dir * 150
