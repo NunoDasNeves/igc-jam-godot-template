@@ -1,6 +1,7 @@
 extends Node2D
 
 const chest_scene = preload("res://entities/chest/chest.tscn")
+const sight_orb_scene = preload("res://entities/sight_orb/sight_orb.tscn")
 
 @onready var entities_container: Node2D = $Entities
 @onready var level: Level = $Level
@@ -9,6 +10,9 @@ func _ready() -> void:
 	Events.chest_destroyed.connect(trigger_chest_respawn)
 	for chest_spawner: SpawnPoint in level.chest_spawn_points:
 		chest_spawner.queue_spawn(chest_scene, entities_container)
+	for sight_orb_spawner: SpawnPoint in level.sight_orb_spawn_points:
+		sight_orb_spawner.queue_spawn(sight_orb_scene, entities_container)
+	
 
 func _process(_delta: float) -> void:
 	pass
