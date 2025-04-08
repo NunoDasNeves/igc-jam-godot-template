@@ -64,6 +64,11 @@ func attack() -> void:
 	set_state(State.NONE)
 	set_state(State.ATTACK)
 
+func hit(hitbox: Hitbox) -> void:
+	# TODO?
+	#Events.entity_destroyed.emit(self)
+	queue_free()
+
 func update_visual_dir() -> void:
 	attack_node.rotation = face_dir.angle()
 	if face_dir.x < 0:
