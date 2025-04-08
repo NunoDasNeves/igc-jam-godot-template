@@ -13,12 +13,12 @@ var monster_spawn_points: Array[SpawnPoint] = []
 var chest_spawn_points: Array[SpawnPoint] = []
 var sight_orb_spawn_points: Array[SpawnPoint] = []
 
-func create_spawn_point(coord: Vector2i, time_secs: float) -> SpawnPoint:
+func create_spawn_point(coord: Vector2i, cooldown_secs: float = 0) -> SpawnPoint:
 	var point = preload("res://levels/spawn_point.tscn").instantiate()
-	add_child(point)
 	point.coord = coord
-	point.time_secs = time_secs
+	point.cooldown_secs = cooldown_secs
 	point.position = other_tiles.map_to_local(coord)
+	add_child(point)
 	return point
 
 func _ready() -> void:
@@ -31,9 +31,9 @@ func _ready() -> void:
 		if tile_data.get_custom_data("stairs_down"):
 			monster_spawn_points.append(create_spawn_point(coord, 0.5))
 		if tile_data.get_custom_data("chest"):
-			chest_spawn_points.append(create_spawn_point(coord, 10))
+			chest_spawn_points.append(create_spawn_point(coord))
 		if tile_data.get_custom_data("sight_orb"):
-			sight_orb_spawn_points.append(create_spawn_point(coord, 10))
+			sight_orb_spawn_points.append(create_spawn_point(coord))
 
 	# create pathing tiles
 	var floor_coords = floor_tiles.get_used_cells()

@@ -12,7 +12,6 @@ func _ready() -> void:
 		chest_spawner.queue_spawn(chest_scene, entities_container)
 	for sight_orb_spawner: SpawnPoint in level.sight_orb_spawn_points:
 		sight_orb_spawner.queue_spawn(sight_orb_scene, entities_container)
-	
 
 func _process(_delta: float) -> void:
 	pass
@@ -100,6 +99,9 @@ func _physics_process(delta: float) -> void:
 	for entity: Entity in entities_container.get_children():
 		process_entity(entity)
 
+	# TODO do this with a signal or something
+	# currently a killed monster/hero respawns instantly, there should be a delay
+	# and this method makes that trickier than it should be...
 	spawn_entities_by_group_count("hero", level.max_heroes, level.hero_spawn_points, preload("res://entities/hero/hero.tscn"))
 	spawn_entities_by_group_count("monster", level.max_monsters, level.monster_spawn_points, preload("res://entities/mimic/mimic.tscn"))
 

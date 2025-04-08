@@ -1,17 +1,20 @@
 class_name SpawnPoint extends Node2D
 
-@onready var timer: Timer = $Timer
+@onready var delay_timer: Timer = $DelayTimer
+@onready var cooldown_timer: Timer = $CooldownTimer
 @onready var area: Area2D = $Area2D
 
 var coord: Vector2i
-var time_secs: float
+# delay before this spawnpoint can be used again (for hero/monster spawners)
+var cooldown_secs: float = 0
 
 # if set, ready to actually spawn once area is clear
 var _spawn_scene: PackedScene
 var _spawn_parent: Node
 
 func _ready() -> void:
-	timer.start(time_secs)
+	cooldown_timer.stop()
+	delay_timer.stop()
 
 func _physics_process(_delta: float) -> void:
 	if _spawn_scene and can_spawn() and area.get_overlapping_bodies().size() == 0:
@@ -29,17 +32,20 @@ func _do_spawn(scene: PackedScene, entities_parent: Node) -> void:
 	# this shoould be the case - $Level, $Entities, $World shouldn't be transformed..
 	assert(node.position == node.global_position)
 	# wait a bit before this spawner can be used again
-	timer.start(time_secs)
+	cooldown_timer.start(cooldown_secs)
 
 func queue_spawn(scene: PackedScene, parent: Node, delay_secs: float = 0) -> void:
+	if !can_spawn():
+		print ("Tried to queue_spawn() while cooldown running!")
+
 	if delay_secs == 0:
-		timer.stop()
+		delay_timer.stop()
 		_queue_spawn_asap(scene, parent)
 	else:
-		timer.start(delay_secs)
-		for call_dict in timer.timeout.get_connections():
-			timer.timeout.disconnect(call_dict.callable)
-		timer.timeout.connect(func (): _queue_spawn_asap(scene, parent))
+		delay_timer.start(delay_secs)
+		for call_dict in delay_timer.timeout.get_connections():
+			delay_timer.timeout.disconnect(call_dict.callable)
+		delay_timer.timeout.connect(func (): _queue_spawn_asap(scene, parent))
 
 func can_spawn() -> bool:
-	return timer.time_left <= 0
+	return cooldown_timer.time_left <= 0
