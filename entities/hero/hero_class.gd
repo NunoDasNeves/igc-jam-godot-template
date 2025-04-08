@@ -3,31 +3,36 @@ extends Entity
 
 @onready var vision: RayCast2D = %RayCast2D
 @onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
+@onready var flip_node: Node2D = $FlipVisuals
+@onready var attack_node: Node2D = $Attack
+@onready var attack_swish: Polygon2D = $Attack/Swish
+@onready var hitbox: Hitbox = $Attack/Hitbox
 
-@export_enum("Idle", "Exploring", "Chasing", "Action")
-var hero_state: int
+enum State { NONE, ATTACK }
+var state: State = State.NONE
 
 func _ready() -> void:
-	pass
+	#assign_player_is_controlled()
+	attacked.connect(attack)
+	set_state(State.NONE)
 
-func _process(delta: float) -> void:
-	# If not in Idle state (0), handle other states
-	if hero_state != 0:
-		if hero_state == 1:
-			var searching_target = hero_looking()
-			if searching_target == Mimic:
-				hero_state = 2
-				# call function to chase here
-			else:
-				# move towards the player (or do something else)
-				pass
+func set_state(new_state: State) -> void:
+	match new_state:
+		State.NONE:
+			attack_node.hide()
+		State.ATTACK:
+			# TODO replace with "real" animation
+			update_visual_dir()
+			attack_node.show()
+			attack_swish.self_modulate.a = 1
+			var tween = get_tree().create_tween()
+			tween.tween_interval(0.2)
+			tween.tween_callback(func (): hitbox.activate())
+			tween.tween_property(attack_swish, "self_modulate:a", 0, 0.1)
+			tween.tween_interval(0.3)
+			tween.tween_callback(func (): set_state(State.NONE))
 
-		if hero_state == 3:
-			# "Action" state
-			# e.g., check if player is within range:
-			#   if in range -> attack
-			#   else move closer
-			pass
+	state = new_state
 
 # TODO move to Util.gd or similar
 func get_nearest_node2d(gpos: Vector2, nodes: Array[Node2D]) -> Node2D:
@@ -44,7 +49,33 @@ func get_nearest_node2d(gpos: Vector2, nodes: Array[Node2D]) -> Node2D:
 
 	return min_node
 
-func _physics_process(delta: float) -> void:
+func update_visual_dir() -> void:
+	attack_node.rotation = face_dir.angle()
+	if face_dir.x < 0:
+		#attack_swish.scale.x = -1
+		flip_node.scale.x = -1
+	elif face_dir.x > 0:
+		#attack_swish.scale.x = 1
+		flip_node.scale.x = 1
+
+func attack() -> void:
+	match state:
+		State.ATTACK:
+			return
+	set_state(State.ATTACK)
+
+func _process(delta: float) -> void:
+	if player_controlled:
+		get_player_input()
+
+	match state:
+		State.NONE:
+			update_face_dir()
+			update_visual_dir()
+		State.ATTACK:
+			input_dir = Vector2.ZERO
+
+func ai_decide() -> void:
 	if nav_agent.is_navigation_finished():
 		var chests: Array[Node2D]
 		# argh gdscript
@@ -56,6 +87,12 @@ func _physics_process(delta: float) -> void:
 	if !nav_agent.is_navigation_finished():
 		var next_pos = nav_agent.get_next_path_position()
 		input_dir = (next_pos - global_position).normalized()
+
+func _physics_process(delta: float) -> void:	
+	if player_controlled:
+		pass
+	else:
+		ai_decide()
 
 	super(delta)
 

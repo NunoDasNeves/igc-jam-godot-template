@@ -1,18 +1,24 @@
-[gd_scene load_steps=3 format=3 uid="uid://mqinaasi0323"]
+[gd_scene load_steps=5 format=3 uid="uid://mqinaasi0323"]
 
 [ext_resource type="Script" uid="uid://owx21u4do8v4" path="res://entities/hero/hero_class.gd" id="1_qxmll"]
+[ext_resource type="Script" uid="uid://dkliywsva1nji" path="res://entities/hitbox.gd" id="2_chcl2"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_iom2f"]
 radius = 11.0
 height = 36.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_s8sb5"]
+radius = 29.0
 
 [node name="Hero" type="CharacterBody2D" groups=["hero"]]
 collision_layer = 2
 collision_mask = 2
 script = ExtResource("1_qxmll")
 
-[node name="Polygon2D" type="Polygon2D" parent="."]
-position = Vector2(-282, -1028)
+[node name="FlipVisuals" type="Node2D" parent="."]
+
+[node name="Polygon2D" type="Polygon2D" parent="FlipVisuals"]
+position = Vector2(-282, -1021)
 scale = Vector2(1.83, 1.83)
 polygon = PackedVector2Array(148, 573, 153.699, 558.956, 160, 572, 159, 552, 164, 549, 164, 550, 166, 550, 167, 547, 169, 547, 169, 545, 166, 544, 164, 528, 163, 543, 159, 544, 160, 545, 162, 545, 158, 546, 157, 535, 151, 533, 148, 540, 139, 543, 141, 558, 146, 563, 148, 560)
 
@@ -55,3 +61,20 @@ path_postprocessing = 1
 debug_enabled = true
 debug_use_custom = true
 debug_path_custom_color = Color(0.758488, 0.000512111, 0.772897, 1)
+
+[node name="Attack" type="Node2D" parent="."]
+
+[node name="Hitbox" type="Area2D" parent="Attack"]
+collision_layer = 0
+collision_mask = 5
+script = ExtResource("2_chcl2")
+duration_secs = 0.1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Attack/Hitbox"]
+position = Vector2(25, 0)
+shape = SubResource("CircleShape2D_s8sb5")
+debug_color = Color(0.88185, 0, 0.116802, 0.42)
+
+[node name="Swish" type="Polygon2D" parent="Attack"]
+position = Vector2(17, 31)
+polygon = PackedVector2Array(6, -8, 29, -6, 39, -20, 41, -40, 32, -52, 22, -60, 13, -63, -2, -63, 7, -58, 14, -51, 17, -37, 16, -22)

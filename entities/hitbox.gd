@@ -31,6 +31,9 @@ func hit(body: PhysicsBody2D) -> void:
 	var entity = char_body as Entity
 	if !entity:
 		return
+	var entity_id = entity.get_instance_id()
+	if hit_nodes.has(entity_id):
+		return
 
 	entity.hit(self)
-	hit_nodes[entity.get_instance_id()] = true
+	hit_nodes[entity_id] = true
