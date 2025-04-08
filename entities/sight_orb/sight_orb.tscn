@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://bk21jikbc61qe"]
+
+[ext_resource type="Script" uid="uid://qgtqrt2rsax2" path="res://entities/sight_orb/sight_orb.gd" id="1_eytlg"]
+[ext_resource type="Texture2D" uid="uid://bbjwlby0xhoic" path="res://entities/sight_orb/sight_orb.svg" id="2_kirg0"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_eytlg"]
+radius = 5.45894
+
+[node name="SightOrb" type="StaticBody2D"]
+script = ExtResource("1_eytlg")
+
+[node name="StaticBody2D" type="TextureRect" parent="."]
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 8.0
+offset_bottom = 8.0
+texture = ExtResource("2_kirg0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_eytlg")
