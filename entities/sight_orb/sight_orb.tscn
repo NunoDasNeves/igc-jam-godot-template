@@ -6,7 +6,7 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_eytlg"]
 radius = 5.45894
 
-[node name="SightOrb" type="StaticBody2D"]
+[node name="SightOrb" type="CharacterBody2D"]
 script = ExtResource("1_eytlg")
 
 [node name="StaticBody2D" type="TextureRect" parent="."]
