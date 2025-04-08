@@ -1,10 +1,13 @@
 class_name Hero
 extends Entity
 
+@onready var vision: RayCast2D = %RayCast2D
+@onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
+
 @export_enum("Idle", "Exploring", "Chasing", "Action")
 var hero_state: int
 
-@onready var vision: RayCast2D = %RayCast2D
+
 
 func _ready() -> void:
 	pass
@@ -27,6 +30,12 @@ func _process(delta: float) -> void:
 			#   if in range -> attack
 			#   else move closer
 			pass
+
+func _physics_process(delta: float) -> void:
+	nav_agent.target_position = get_global_mouse_position()
+	var next_pos = nav_agent.get_next_path_position()
+	input_dir = (next_pos - global_position).normalized()
+	super(delta)
 
 func hero_looking() -> Entity:
 	# RayCast2D will detect any collider it sees in its path

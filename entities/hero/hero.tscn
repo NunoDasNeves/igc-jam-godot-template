@@ -7,46 +7,51 @@ radius = 11.0
 height = 36.0
 
 [node name="Hero" type="CharacterBody2D" groups=["hero"]]
-position = Vector2(0, 34)
 collision_layer = 2
-collision_mask = 3
+collision_mask = 2
 script = ExtResource("1_qxmll")
 
 [node name="Polygon2D" type="Polygon2D" parent="."]
-position = Vector2(-281, -1039)
+position = Vector2(-282, -1028)
 scale = Vector2(1.83, 1.83)
 polygon = PackedVector2Array(148, 573, 153.699, 558.956, 160, 572, 159, 552, 164, 549, 164, 550, 166, 550, 167, 547, 169, 547, 169, 545, 166, 544, 164, 528, 163, 543, 159, 544, 160, 545, 162, 545, 158, 546, 157, 535, 151, 533, 148, 540, 139, 543, 141, 558, 146, 563, 148, 560)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -34)
+position = Vector2(0, -17)
 shape = SubResource("CapsuleShape2D_iom2f")
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
 unique_name_in_owner = true
-position = Vector2(0, -34)
+position = Vector2(0, -17)
 target_position = Vector2(125, 0)
 collision_mask = 3
 
 [node name="RayCast2D2" type="RayCast2D" parent="."]
 unique_name_in_owner = true
-position = Vector2(0, -34)
+position = Vector2(0, -17)
 target_position = Vector2(123, -16)
 collision_mask = 3
 
 [node name="RayCast2D4" type="RayCast2D" parent="."]
 unique_name_in_owner = true
-position = Vector2(0, -34)
+position = Vector2(0, -17)
 target_position = Vector2(122, -8)
 collision_mask = 3
 
 [node name="RayCast2D5" type="RayCast2D" parent="."]
 unique_name_in_owner = true
-position = Vector2(0, -34)
+position = Vector2(0, -17)
 target_position = Vector2(122, 6)
 collision_mask = 3
 
 [node name="RayCast2D3" type="RayCast2D" parent="."]
 unique_name_in_owner = true
-position = Vector2(0, -34)
+position = Vector2(0, -17)
 target_position = Vector2(126, 12)
 collision_mask = 3
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+path_postprocessing = 1
+debug_enabled = true
+debug_use_custom = true
+debug_path_custom_color = Color(0.758488, 0.000512111, 0.772897, 1)
