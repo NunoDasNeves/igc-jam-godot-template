@@ -29,6 +29,7 @@ func _do_spawn(scene: PackedScene, entities_parent: Node) -> void:
 	var node = scene.instantiate()
 	entities_parent.add_child(node)
 	node.global_position = global_position
+	#print("spawn at %s" % global_position)
 	# this shoould be the case - $Level, $Entities, $World shouldn't be transformed..
 	assert(node.position == node.global_position)
 	# wait a bit before this spawner can be used again
@@ -37,7 +38,6 @@ func _do_spawn(scene: PackedScene, entities_parent: Node) -> void:
 func queue_spawn(scene: PackedScene, parent: Node, delay_secs: float = 0) -> void:
 	if !can_spawn():
 		print ("Tried to queue_spawn() while cooldown running!")
-
 	if delay_secs == 0:
 		delay_timer.stop()
 		_queue_spawn_asap(scene, parent)
