@@ -93,7 +93,7 @@ func trigger_chest_respawn(chest: Chest) -> void:
 		print("couldn't find chest's spawner!")
 		return
 	var spawn_point: SpawnPoint = level.chest_spawn_points[idx]
-	spawn_point.queue_spawn(chest_scene, entities_container, 5)
+	spawn_point.queue_spawn(chest_scene, entities_container, 10)
 
 func _physics_process(delta: float) -> void:
 	for entity: Entity in entities_container.get_children():

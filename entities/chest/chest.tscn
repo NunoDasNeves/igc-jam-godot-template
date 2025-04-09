@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bq3uou3pscid6"]
 
-[ext_resource type="Script" path="res://entities/chest/chest.gd" id="1_agy02"]
+[ext_resource type="Script" uid="uid://ce717bpn1ha8f" path="res://entities/chest/chest.gd" id="1_agy02"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_kleto"]
 radius = 19.88
@@ -11,6 +11,7 @@ collision_mask = 0
 motion_mode = 1
 platform_on_leave = 2
 script = ExtResource("1_agy02")
+collectible = true
 
 [node name="Polygon2D2" type="Polygon2D" parent="."]
 position = Vector2(-128.227, -488.387)

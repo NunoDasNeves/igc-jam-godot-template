@@ -7,20 +7,52 @@ extends Entity
 @onready var attack_node: Node2D = $Attack
 @onready var attack_swish: Polygon2D = $Attack/Swish
 @onready var hitbox: Hitbox = $Attack/Hitbox
+@onready var interact_or_attack_area: Area2D = $InteractOrAttackArea
 
-enum State { NONE, ATTACK }
+enum State { NONE, ATTACK, COLLECT }
 var state: State = State.NONE
+
+var collect_target: Entity
 
 func _ready() -> void:
 	#assign_player_is_controlled()
 	attacked.connect(attack)
+	interact_or_attack_area.connect("body_entered", try_collect)
 	set_state(State.NONE)
+
+func node_to_entity(node2d: Node2D) -> Entity:
+	if node2d is Entity:
+		return node2d as Entity
+	return null
+
+func try_collect(body: PhysicsBody2D):
+	# already collecting
+	if state == State.COLLECT or collect_target:
+		return
+
+	var entity: Entity = node_to_entity(body)
+	if !entity:
+		return
+
+	if entity.collectible:
+		collect_target = entity
 
 func set_state(new_state: State) -> void:
 	match new_state:
 		State.NONE:
+			collect_target = null
 			attack_node.hide()
+		State.COLLECT:
+			if !collect_target:
+				print ("Switch to State.COLLECT but nothing to collect!")
+				return
+			var tween = get_tree().create_tween()
+			tween.tween_interval(0.5)
+			tween.tween_callback(func (): collect_target.collect())
+			tween.tween_interval(0.5)
+			tween.tween_callback(func (): set_state(State.NONE))
 		State.ATTACK:
+			collect_target = null
 			# TODO replace with "real" animation
 			update_visual_dir()
 			attack_node.show()
@@ -72,21 +104,35 @@ func _process(delta: float) -> void:
 		State.NONE:
 			update_face_dir()
 			update_visual_dir()
+		State.COLLECT:
+			input_dir = Vector2.ZERO
 		State.ATTACK:
 			input_dir = Vector2.ZERO
 
 func ai_decide() -> void:
-	if nav_agent.is_navigation_finished():
-		var chests: Array[Node2D]
-		# argh gdscript
-		chests.assign(get_tree().get_nodes_in_group("chest"))
-		var nearest_chest = get_nearest_node2d(global_position, chests)
-		if nearest_chest and nearest_chest is Entity:
-			nav_agent.target_position = nearest_chest.position
+	match state:
+		State.NONE:
+			if collect_target:
+				set_state(State.COLLECT)
+		State.COLLECT:
+			pass
+		State.ATTACK:
+			pass
 
-	if !nav_agent.is_navigation_finished():
-		var next_pos = nav_agent.get_next_path_position()
-		input_dir = (next_pos - global_position).normalized()
+	if state == State.NONE:
+		if nav_agent.is_navigation_finished():
+			var chests: Array[Node2D]
+			# argh gdscript
+			chests.assign(get_tree().get_nodes_in_group("chest"))
+			var nearest_chest = get_nearest_node2d(global_position, chests)
+			if nearest_chest and nearest_chest is Entity:
+				nav_agent.target_position = nearest_chest.position
+
+		if !nav_agent.is_navigation_finished():
+			var next_pos = nav_agent.get_next_path_position()
+			input_dir = (next_pos - global_position).normalized()
+	elif !nav_agent.is_navigation_finished():
+		nav_agent.target_position = global_position
 
 func _physics_process(delta: float) -> void:	
 	if player_controlled:
