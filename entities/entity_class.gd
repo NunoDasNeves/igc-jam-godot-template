@@ -1,5 +1,6 @@
 class_name Entity extends CharacterBody2D
 
+@export var collectible: bool = false
 var player_controlled: bool = false
 
 signal interacted
@@ -33,6 +34,9 @@ func assign_player_is_controlled() -> void:
 
 func hit(hitbox: Hitbox) -> void:
 	pass
+
+func collect():
+	assert(collectible)
 
 # called by subclasses depending on action states n whatnot
 func update_face_dir() -> void:
