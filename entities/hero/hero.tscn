@@ -3,9 +3,8 @@
 [ext_resource type="Script" uid="uid://owx21u4do8v4" path="res://entities/hero/hero_class.gd" id="1_qxmll"]
 [ext_resource type="Script" uid="uid://dkliywsva1nji" path="res://entities/hitbox.gd" id="2_chcl2"]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_iom2f"]
-radius = 11.0
-height = 36.0
+[sub_resource type="CircleShape2D" id="CircleShape2D_kaf33"]
+radius = 26.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_s8sb5"]
 radius = 29.0
@@ -28,38 +27,21 @@ scale = Vector2(1.83, 1.83)
 polygon = PackedVector2Array(148, 573, 153.699, 558.956, 160, 572, 159, 552, 164, 549, 164, 550, 166, 550, 167, 547, 169, 547, 169, 545, 166, 544, 164, 528, 163, 543, 159, 544, 160, 545, 162, 545, 158, 546, 157, 535, 151, 533, 148, 540, 139, 543, 141, 558, 146, 563, 148, 560)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -17)
-shape = SubResource("CapsuleShape2D_iom2f")
+shape = SubResource("CircleShape2D_kaf33")
 
-[node name="RayCast2D" type="RayCast2D" parent="."]
-unique_name_in_owner = true
-position = Vector2(0, -17)
-target_position = Vector2(125, 0)
-collision_mask = 3
+[node name="RayCasts" type="Node2D" parent="."]
 
-[node name="RayCast2D2" type="RayCast2D" parent="."]
-unique_name_in_owner = true
-position = Vector2(0, -17)
-target_position = Vector2(123, -16)
-collision_mask = 3
+[node name="RayCastLeft" type="RayCast2D" parent="RayCasts"]
+target_position = Vector2(0, -1000)
+collision_mask = 11
 
-[node name="RayCast2D4" type="RayCast2D" parent="."]
-unique_name_in_owner = true
-position = Vector2(0, -17)
-target_position = Vector2(122, -8)
-collision_mask = 3
+[node name="RayCastRight" type="RayCast2D" parent="RayCasts"]
+target_position = Vector2(0, 1000)
+collision_mask = 11
 
-[node name="RayCast2D5" type="RayCast2D" parent="."]
-unique_name_in_owner = true
-position = Vector2(0, -17)
-target_position = Vector2(122, 6)
-collision_mask = 3
-
-[node name="RayCast2D3" type="RayCast2D" parent="."]
-unique_name_in_owner = true
-position = Vector2(0, -17)
-target_position = Vector2(126, 12)
-collision_mask = 3
+[node name="RayCastForward" type="RayCast2D" parent="RayCasts"]
+target_position = Vector2(1000, 0)
+collision_mask = 11
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 path_postprocessing = 1
@@ -85,7 +67,22 @@ polygon = PackedVector2Array(6, -8, 29, -6, 39, -20, 41, -40, 32, -52, 22, -60, 
 
 [node name="InteractOrAttackArea" type="Area2D" parent="."]
 collision_layer = 0
-collision_mask = 4
+collision_mask = 5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="InteractOrAttackArea"]
 shape = SubResource("CircleShape2D_chcl2")
+
+[node name="ExclamationPoint" type="Node2D" parent="."]
+visible = false
+
+[node name="Polygon2D" type="Polygon2D" parent="ExclamationPoint"]
+position = Vector2(-0.333334, 7.84848)
+scale = Vector2(1.33333, 1.33333)
+color = Color(1, 0.12549, 0.0862745, 1)
+polygon = PackedVector2Array(-5, -50, -1, -47, 2, -52, -1, -53)
+
+[node name="Polygon2D2" type="Polygon2D" parent="ExclamationPoint"]
+position = Vector2(-0.363636, 5.18181)
+scale = Vector2(1.27273, 1.27273)
+color = Color(0.999659, 0.12594, 0.0876049, 1)
+polygon = PackedVector2Array(-4, -55, 0, -57, 5, -74, -6, -74)
