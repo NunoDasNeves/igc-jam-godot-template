@@ -10,8 +10,11 @@ class_name Mimic extends Entity
 @onready var hitbox: Hitbox = $Attack/Hitbox
 @onready var inventory: Inventory = %Inventory
 
-enum State { NONE, HIDDEN, ATTACK }
+enum State { NONE, HIDDEN, ATTACK, DIE }
 var state: State = State.NONE
+
+var state_tween: Tween
+var anim_tween: Tween
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -22,6 +25,9 @@ func _ready() -> void:
 	set_state(State.NONE)
 
 func set_state(new_state: State) -> void:
+	if state_tween:
+		state_tween.stop()
+
 	match new_state:
 		State.NONE:
 			mimic_poly.show()
@@ -37,15 +43,24 @@ func set_state(new_state: State) -> void:
 			top_jaw.rotation_degrees = 0
 			bot_jaw.rotation_degrees = 0
 			attack_node.show()
-			var top_tween = get_tree().create_tween()
-			top_tween.tween_interval(0.1)
-			top_tween.tween_property(top_jaw, "rotation_degrees", 47, 0.1)
-			top_tween.tween_callback(func (): hitbox.activate())
-			top_tween.tween_interval(0.4)
-			top_tween.tween_callback(func (): set_state(State.NONE))
-			var bot_tween = get_tree().create_tween()
-			bot_tween.tween_interval(0.1)
-			bot_tween.tween_property(bot_jaw, "rotation_degrees", -19.6, 0.1)
+			anim_tween = get_tree().create_tween()
+			anim_tween.tween_interval(0.1)
+			anim_tween.set_parallel(true)
+			anim_tween.tween_property(top_jaw, "rotation_degrees", 47, 0.1)
+			anim_tween.tween_property(bot_jaw, "rotation_degrees", -19.6, 0.1)
+			state_tween = get_tree().create_tween()
+			state_tween.tween_callback(func (): hitbox.activate())
+			state_tween.tween_interval(0.4)
+			state_tween.tween_callback(func (): set_state(State.NONE))
+			anim_tween.chain().tween_subtween(state_tween)
+		State.DIE:
+			if anim_tween:
+				anim_tween.stop()
+			mimic_poly.show()
+			chest_poly.hide()
+			attack_node.hide()
+			state_tween = get_tree().create_tween()
+			state_tween.tween_callback(func (): queue_free())
 
 	state = new_state
 
@@ -74,7 +89,7 @@ func attack() -> void:
 func hit(hitbox: Hitbox) -> void:
 	# TODO?
 	#Events.entity_destroyed.emit(self)
-	queue_free()
+	set_state(State.DIE)
 
 func update_visual_dir() -> void:
 	attack_node.rotation = face_dir.angle()

@@ -3,6 +3,8 @@ extends Entity
 
 @onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
 @onready var flip_node: Node2D = $FlipVisuals
+@onready var shield_poly: Polygon2D = $FlipVisuals/ShieldPoly
+@onready var hero_poly: Polygon2D = $FlipVisuals/HeroPoly
 @onready var attack_node: Node2D = $Attack
 @onready var attack_swish: Polygon2D = $Attack/Swish
 @onready var hitbox: Hitbox = $Attack/Hitbox
@@ -10,7 +12,7 @@ extends Entity
 @onready var ray_casts: Node2D = $RayCasts
 @onready var exclamation_point: Node2D = $ExclamationPoint
 
-enum State { NONE, ATTACK, COLLECT }
+enum State { NONE, ATTACK, COLLECT, EATEN }
 var state: State = State.NONE
 
 enum AIState { SEEK_ITEM, SEEK_ENEMY }
@@ -20,9 +22,18 @@ var ai_seek_target: Entity
 # entity currently being collected
 var collect_target: Entity
 
+# keep references to tweens so they can be stopped properly
+# otherwise dangling references if they are running while hero is free()d
+var state_tween: Tween # just does intervals and callbacks
+var anim_tween: Tween
+var shield_tween: Tween
+
 func _ready() -> void:
 	#assign_player_is_controlled()
 	attacked.connect(attack)
+	attack_node.hide()
+	exclamation_point.hide()
+	shield_poly.hide()
 	set_state(State.NONE)
 
 func node_to_entity(node2d: Node2D) -> Entity:
@@ -31,33 +42,61 @@ func node_to_entity(node2d: Node2D) -> Entity:
 	return null
 
 func set_state(new_state: State) -> void:
+
+	# cancel any state transitions goverened by tweening
+	if state_tween:
+		state_tween.stop()
+
 	match new_state:
 		State.NONE:
 			collect_target = null
 			ai_seek_target = null
-			attack_node.hide()
-			exclamation_point.hide()
 		State.COLLECT:
 			if !collect_target:
 				print ("Switch to State.COLLECT but nothing to collect!")
 				return
-			var tween = get_tree().create_tween()
-			tween.tween_interval(0.5)
-			tween.tween_callback(func (): collect_target.collect())
-			tween.tween_interval(0.5)
-			tween.tween_callback(func (): set_state(State.NONE))
+			hero_poly.self_modulate = Color.YELLOW
+			anim_tween = get_tree().create_tween()
+			anim_tween.tween_interval(0.5) 
+			anim_tween.tween_callback(func (): collect_target.collect())
+			anim_tween.tween_interval(0.5)
+			anim_tween.tween_callback(func (): hero_poly.self_modulate = Color.WHITE)
+			state_tween = get_tree().create_tween()
+			state_tween.tween_callback(func (): set_state(State.NONE))
+			anim_tween.tween_subtween(state_tween)
+
 		State.ATTACK:
 			collect_target = null
 			# TODO replace with "real" animation
 			update_visual_dir()
 			attack_node.show()
 			attack_swish.self_modulate.a = 1
-			var tween = get_tree().create_tween()
-			tween.tween_interval(0.2)
-			tween.tween_callback(func (): hitbox.activate())
-			tween.tween_property(attack_swish, "self_modulate:a", 0, 0.1)
-			tween.tween_interval(0.3)
-			tween.tween_callback(func (): set_state(State.NONE))
+			anim_tween = get_tree().create_tween()
+			anim_tween.tween_interval(0.2)
+			anim_tween.tween_callback(func (): hitbox.activate())
+			anim_tween.tween_property(attack_swish, "self_modulate:a", 0, 0.1)
+			anim_tween.tween_interval(0.3)
+			anim_tween.tween_callback(func (): attack_node.hide())
+			state_tween = get_tree().create_tween()
+			state_tween.tween_callback(func (): set_state(State.NONE))
+			anim_tween.tween_subtween(state_tween)
+
+		State.EATEN:
+			collision_layer = 0
+			collision_mask = 0
+			hero_poly.self_modulate = Color.WHITE
+			attack_node.hide()
+			exclamation_point.hide()
+			shield_poly.hide()
+			if anim_tween:
+				anim_tween.stop()
+			if shield_tween:
+				shield_tween.stop()
+			anim_tween = get_tree().create_tween()
+			anim_tween.tween_property(flip_node, "rotation_degrees", 90, 0.3)
+			anim_tween.tween_interval(0.3)
+			anim_tween.tween_callback(func (): queue_free())
+			hero_poly.self_modulate = Color.WHITE
 
 	state = new_state
 
@@ -86,6 +125,16 @@ func update_visual_dir() -> void:
 		#attack_swish.scale.x = 1
 		flip_node.scale.x = 1
 
+func hit(hitbox: Hitbox) -> void:
+	if state == State.COLLECT:
+		set_state(State.EATEN)
+	else:
+		shield_poly.show()
+		shield_poly.self_modulate.a = 1
+		shield_tween = get_tree().create_tween()
+		shield_tween.tween_property(shield_poly, "self_modulate:a", 0, 0.7)
+		shield_tween.tween_callback(func (): shield_poly.hide())
+
 func attack() -> void:
 	if state != State.NONE:
 		return
@@ -102,6 +151,8 @@ func _process(delta: float) -> void:
 		State.COLLECT:
 			input_dir = Vector2.ZERO
 		State.ATTACK:
+			input_dir = Vector2.ZERO
+		State.EATEN:
 			input_dir = Vector2.ZERO
 
 func get_nearest_seen_entity() -> Entity:
