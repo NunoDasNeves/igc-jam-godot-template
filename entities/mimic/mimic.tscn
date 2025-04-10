@@ -37,7 +37,7 @@ polygon = PackedVector2Array(146, 628, 185, 618, 185, 594, 180, 579, 171, 574, 1
 
 [node name="Hitbox" type="Area2D" parent="Attack"]
 collision_layer = 0
-collision_mask = 4
+collision_mask = 6
 script = ExtResource("2_4bgkd")
 duration_secs = 0.1
 

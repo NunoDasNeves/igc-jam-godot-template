@@ -21,10 +21,15 @@ script = ExtResource("1_qxmll")
 
 [node name="FlipVisuals" type="Node2D" parent="."]
 
-[node name="Polygon2D" type="Polygon2D" parent="FlipVisuals"]
+[node name="HeroPoly" type="Polygon2D" parent="FlipVisuals"]
 position = Vector2(-282, -1021)
 scale = Vector2(1.83, 1.83)
 polygon = PackedVector2Array(148, 573, 153.699, 558.956, 160, 572, 159, 552, 164, 549, 164, 550, 166, 550, 167, 547, 169, 547, 169, 545, 166, 544, 164, 528, 163, 543, 159, 544, 160, 545, 162, 545, 158, 546, 157, 535, 151, 533, 148, 540, 139, 543, 141, 558, 146, 563, 148, 560)
+
+[node name="ShieldPoly" type="Polygon2D" parent="FlipVisuals"]
+position = Vector2(-71, -1)
+color = Color(0.211765, 1, 1, 1)
+polygon = PackedVector2Array(73, -17, 78, -16, 82, -17, 85, -20, 88, -17, 92, -16, 97, -17, 100, -20, 100, -8, 98, 1, 92, 9, 85, 15, 78, 9, 73, 1, 70, -8, 70, -20)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_kaf33")
