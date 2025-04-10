@@ -1,9 +1,6 @@
 class_name Chest extends Entity
 
-func hit(hitbox: Hitbox) -> void:
-	Events.chest_destroyed.emit(self)
-	queue_free()
-
 func collect():
 	Events.chest_destroyed.emit(self)
-	queue_free()
+	# can't free here because the collectible may be used later
+	get_parent().remove_child(self)

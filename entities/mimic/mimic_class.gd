@@ -7,8 +7,8 @@ class_name Mimic extends Entity
 @onready var top_jaw: Polygon2D = $Attack/TopJaw
 @onready var bot_jaw: Polygon2D = $Attack/BottomJaw
 @onready var attack_node: Node2D = $Attack
-
 @onready var hitbox: Hitbox = $Attack/Hitbox
+@onready var inventory: Inventory = %Inventory
 
 enum State { NONE, HIDDEN, ATTACK }
 var state: State = State.NONE
@@ -18,6 +18,7 @@ func _ready() -> void:
 	assign_player_is_controlled()
 	interacted.connect(interact)
 	attacked.connect(attack)
+	hitbox.connect("hit_entity", attack_hit)
 	set_state(State.NONE)
 
 func set_state(new_state: State) -> void:
@@ -54,6 +55,12 @@ func interact() -> void:
 			set_state(State.HIDDEN)
 		State.HIDDEN:
 			set_state(State.NONE)
+
+func attack_hit(other: Entity) -> void:
+	if other.collectible:
+		other.collect()
+		inventory.pocket.append(other)
+		print(inventory.pocket)
 
 func attack() -> void:
 	match state:
