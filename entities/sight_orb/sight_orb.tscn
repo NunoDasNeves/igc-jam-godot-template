@@ -10,6 +10,7 @@ radius = 5.45894
 collision_layer = 4
 collision_mask = 0
 script = ExtResource("1_eytlg")
+collectible = true
 
 [node name="StaticBody2D" type="TextureRect" parent="."]
 offset_left = -8.0
