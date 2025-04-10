@@ -33,10 +33,16 @@ func set_state(new_state: State) -> void:
 			mimic_poly.show()
 			chest_poly.hide()
 			attack_node.hide()
+			collision_layer = 1
+			remove_from_group("chest")
+			collectible = false
 		State.HIDDEN:
 			mimic_poly.hide()
 			chest_poly.show()
 			attack_node.hide()
+			collision_layer = 4
+			add_to_group("chest")
+			collectible = true
 		State.ATTACK:
 			# TODO replace with real animation
 			update_visual_dir()
@@ -85,6 +91,9 @@ func attack() -> void:
 	# show green mimic again, first
 	set_state(State.NONE)
 	set_state(State.ATTACK)
+
+func collect():
+	pass
 
 func hit(hitbox: Hitbox) -> void:
 	# TODO?
