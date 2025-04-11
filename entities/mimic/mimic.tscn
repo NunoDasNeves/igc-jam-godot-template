@@ -61,3 +61,8 @@ polygon = PackedVector2Array(-4, -1, 31, 21, 37, 21, 41, 18, 45, 7, 37, 11, 36, 
 [node name="Inventory" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("3_mb4gf")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 5.0
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

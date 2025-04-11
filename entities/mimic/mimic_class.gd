@@ -79,9 +79,15 @@ func interact() -> void:
 
 func attack_hit(other: Entity) -> void:
 	if other.collectible:
-		other.collect()
+		other.collect(other)
 		inventory.pocket.append(other)
 		print(inventory.pocket)
+		if other is SightOrb:
+			set_status_sight(true)
+			timer.start()
+			print("SightOrb")
+
+
 
 func attack() -> void:
 	match state:
@@ -91,9 +97,6 @@ func attack() -> void:
 	# show green mimic again, first
 	set_state(State.NONE)
 	set_state(State.ATTACK)
-
-func collect():
-	pass
 
 func hit(hitbox: Hitbox) -> void:
 	# TODO?
@@ -121,3 +124,9 @@ func _process(_delta: float) -> void:
 			input_dir = Vector2.ZERO
 		State.ATTACK:
 			input_dir = Vector2.ZERO
+
+
+func _on_timer_timeout() -> void:
+	set_status_sight(false)
+	print("Time POut")
+	print(status_sight)
