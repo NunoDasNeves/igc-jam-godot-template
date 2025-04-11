@@ -96,24 +96,8 @@ func set_state(new_state: State) -> void:
 			anim_tween.tween_property(flip_node, "rotation_degrees", 90, 0.3)
 			anim_tween.tween_interval(0.3)
 			anim_tween.tween_callback(func (): queue_free())
-			hero_poly.self_modulate = Color.WHITE
 
 	state = new_state
-
-# TODO move to Util.gd or similar
-func get_nearest_node2d(gpos: Vector2, nodes: Array[Node2D]) -> Node2D:
-	if nodes.size() == 0:
-		return null
-	var min_node: Node2D = nodes[0]
-	var min_dist_sqrd: float = INF
-
-	for node: Node2D in nodes:
-		var dist_srqd = gpos.distance_squared_to(node.global_position)
-		if dist_srqd < min_dist_sqrd:
-			min_dist_sqrd = dist_srqd
-			min_node = node
-
-	return min_node
 
 func update_visual_dir() -> void:
 	attack_node.rotation = face_dir.angle()
@@ -219,7 +203,7 @@ func ai_decide() -> void:
 				var chests: Array[Node2D]
 				# argh gdscript... Array.assign() is needed for casting to Array[Node2D] here..
 				chests.assign(get_tree().get_nodes_in_group("chest"))
-				var nearest_chest = get_nearest_node2d(global_position, chests)
+				var nearest_chest = Util.get_nearest_node2d(global_position, chests)
 				if nearest_chest and nearest_chest is Entity:
 					nav_agent.target_position = nearest_chest.position
 			# collect any chest we touch
