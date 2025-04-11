@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://rj533hmh0is6" path="res://entities/mimic/mimic_class.gd" id="1_71vme"]
 [ext_resource type="Script" uid="uid://dkliywsva1nji" path="res://entities/hitbox.gd" id="2_4bgkd"]
-[ext_resource type="Script" path="res://entities/mimic/inventory.gd" id="3_mb4gf"]
+[ext_resource type="Script" uid="uid://b4bavx18aads8" path="res://entities/mimic/inventory.gd" id="3_mb4gf"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_kleto"]
 radius = 19.88
