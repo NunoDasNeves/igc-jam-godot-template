@@ -173,7 +173,7 @@ func try_attack(node: Node2D) -> bool:
 
 	var entity: Entity = node as Entity
 	# TODO check for any enemy, not just Mimic
-	if not entity is Mimic:
+	if not (entity is Mimic or entity is Demon):
 		return false
 
 	set_state(State.ATTACK)

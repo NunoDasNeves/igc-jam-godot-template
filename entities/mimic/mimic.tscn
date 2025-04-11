@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://rj533hmh0is6" path="res://entities/mimic/mimic_class.gd" id="1_71vme"]
 [ext_resource type="Script" uid="uid://dkliywsva1nji" path="res://entities/hitbox.gd" id="2_4bgkd"]
-[ext_resource type="Script" uid="uid://b4bavx18aads8" path="res://entities/mimic/inventory.gd" id="3_mb4gf"]
+[ext_resource type="Script" path="res://entities/mimic/inventory.gd" id="3_mb4gf"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_kleto"]
 radius = 19.88
@@ -11,6 +11,7 @@ radius = 19.88
 radius = 29.0
 
 [node name="Mimic" type="CharacterBody2D" groups=["monster"]]
+collision_mask = 0
 motion_mode = 1
 platform_on_leave = 2
 script = ExtResource("1_71vme")
@@ -37,7 +38,7 @@ polygon = PackedVector2Array(146, 628, 185, 618, 185, 594, 180, 579, 171, 574, 1
 
 [node name="Hitbox" type="Area2D" parent="Attack"]
 collision_layer = 0
-collision_mask = 6
+collision_mask = 22
 script = ExtResource("2_4bgkd")
 duration_secs = 0.1
 
