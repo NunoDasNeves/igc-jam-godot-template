@@ -14,6 +14,9 @@ radius = 29.0
 motion_mode = 1
 platform_on_leave = 2
 script = ExtResource("1_71vme")
+status_sight = null
+collectible = null
+player_controlled = null
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_kleto")
@@ -63,6 +66,5 @@ unique_name_in_owner = true
 script = ExtResource("3_mb4gf")
 
 [node name="Timer" type="Timer" parent="."]
-wait_time = 5.0
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

@@ -1,9 +1,8 @@
 class_name Entity extends CharacterBody2D
-@export var status_sight:bool = false
+
 @export var collectible: bool = false
 @export var player_controlled: bool = false
 
-@onready var timer: Timer = $Timer
 
 
 
@@ -30,17 +29,22 @@ func get_player_input() -> void:
 		attacked.emit()
 		print(status_sight)
 
+
 func assign_player_is_controlled() -> void:
 	if player_controlled == false:
 		player_controlled = true
 	else:
 		print("Error player_controlled already is ",player_controlled)
 
+
 func hit(hitbox: Hitbox):
 	pass
 
-func collect(Entity):
+
+func collect():
 	assert(collectible)
+
+
 
 # called by subclasses depending on action states n whatnot
 func update_face_dir() -> void:
@@ -50,10 +54,10 @@ func update_face_dir() -> void:
 		else:
 			face_dir = Vector2(0, signf(input_dir.y))
 
-func set_status_sight(bool) -> void:
-	if bool == status_sight:
-		return
-		print("Error, status_sight =", status_sight) 
+
+
+
+
 
 func _physics_process(delta: float) -> void:
 	velocity = move_dir * 150

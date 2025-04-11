@@ -58,7 +58,7 @@ func set_state(new_state: State) -> void:
 			hero_poly.self_modulate = Color.YELLOW
 			anim_tween = get_tree().create_tween()
 			anim_tween.tween_interval(0.5) 
-			anim_tween.tween_callback(func (): collect_target.collect(null))
+			anim_tween.tween_callback(func (): collect_target.collect())
 			anim_tween.tween_interval(0.5)
 			anim_tween.tween_callback(func (): hero_poly.self_modulate = Color.WHITE)
 			state_tween = get_tree().create_tween()

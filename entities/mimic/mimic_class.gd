@@ -9,6 +9,8 @@ class_name Mimic extends Entity
 @onready var attack_node: Node2D = $Attack
 @onready var hitbox: Hitbox = $Attack/Hitbox
 @onready var inventory: Inventory = %Inventory
+@onready var timer: Timer = $Timer
+
 
 enum State { NONE, HIDDEN, ATTACK, DIE }
 var state: State = State.NONE
@@ -79,13 +81,14 @@ func interact() -> void:
 
 func attack_hit(other: Entity) -> void:
 	if other.collectible:
-		other.collect(other)
+		other.collect()
 		inventory.pocket.append(other)
 		print(inventory.pocket)
 		if other is SightOrb:
 			set_status_sight(true)
 			timer.start()
-			print("SightOrb")
+			print(set_status_sight)
+			
 
 
 
@@ -125,8 +128,13 @@ func _process(_delta: float) -> void:
 		State.ATTACK:
 			input_dir = Vector2.ZERO
 
+@export var status_sight:bool = false
+func set_status_sight(new_value: bool) -> void:
+	if new_value == status_sight:
+		push_error("Attempted to set status_sight to the same value: %s" % status_sight)
+		return
+	
+	status_sight = new_value
 
 func _on_timer_timeout() -> void:
 	set_status_sight(false)
-	print("Time POut")
-	print(status_sight)
