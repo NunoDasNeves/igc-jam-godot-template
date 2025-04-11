@@ -1,11 +1,14 @@
 class_name Entity extends CharacterBody2D
-
+@export var status_sight:bool = false
 @export var collectible: bool = false
-var player_controlled: bool = false
+@export var player_controlled: bool = false
+
+@onready var timer: Timer = $Timer
+
+
 
 signal interacted
 signal attacked
-
 # The desired move direction (from player input or AI)
 var input_dir: Vector2
 # The final move direction (derived from input_dir)
@@ -25,6 +28,7 @@ func get_player_input() -> void:
 
 	if Input.is_action_just_pressed("Attack"):
 		attacked.emit()
+		print(status_sight)
 
 func assign_player_is_controlled() -> void:
 	if player_controlled == false:
@@ -35,7 +39,7 @@ func assign_player_is_controlled() -> void:
 func hit(hitbox: Hitbox):
 	pass
 
-func collect():
+func collect(Entity):
 	assert(collectible)
 
 # called by subclasses depending on action states n whatnot
@@ -45,6 +49,11 @@ func update_face_dir() -> void:
 			face_dir = Vector2(signf(input_dir.x), 0)
 		else:
 			face_dir = Vector2(0, signf(input_dir.y))
+
+func set_status_sight(bool) -> void:
+	if bool == status_sight:
+		return
+		print("Error, status_sight =", status_sight) 
 
 func _physics_process(delta: float) -> void:
 	velocity = move_dir * 150
