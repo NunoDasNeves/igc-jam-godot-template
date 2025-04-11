@@ -95,7 +95,10 @@ func set_state(new_state: State) -> void:
 			anim_tween = get_tree().create_tween()
 			anim_tween.tween_property(flip_node, "rotation_degrees", 90, 0.3)
 			anim_tween.tween_interval(0.3)
-			anim_tween.tween_callback(func (): queue_free())
+			anim_tween.tween_callback(func ():
+				Events.char_killed.emit(self)
+				queue_free()
+			)
 
 	state = new_state
 

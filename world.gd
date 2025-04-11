@@ -8,10 +8,12 @@ const sight_orb_scene = preload("res://entities/sight_orb/sight_orb.tscn")
 
 func _ready() -> void:
 	Events.entity_collected.connect(trigger_collectible_respawn)
+	Events.char_killed.connect(trigger_char_respawn)
 	for chest_spawner: SpawnPoint in level.chest_spawn_points:
 		chest_spawner.queue_spawn(chest_scene, entities_container)
 	for sight_orb_spawner: SpawnPoint in level.sight_orb_spawn_points:
 		sight_orb_spawner.queue_spawn(sight_orb_scene, entities_container)
+	initial_char_spawn()
 
 func _process(_delta: float) -> void:
 	pass
@@ -105,15 +107,22 @@ func trigger_collectible_respawn(entity: Entity) -> void:
 	var spawn_point: SpawnPoint = spawn_points[idx]
 	spawn_point.queue_spawn(scene, entities_container, 10)
 
+func trigger_char_respawn(entity: Entity):
+	if entity is Mimic:
+		spawn_entities(level.monster_spawn_points.duplicate(), 1, preload("res://entities/mimic/mimic.tscn")) 
+	elif entity is Demon:
+		spawn_entities(level.monster_spawn_points.duplicate(), 1, preload("res://entities/demon/demon.tscn"))
+	elif entity is Hero:
+		spawn_entities(level.hero_spawn_points.duplicate(), 1, preload("res://entities/hero/hero.tscn"))
+
+func initial_char_spawn():
+	spawn_entities(level.monster_spawn_points.duplicate(), 1, preload("res://entities/mimic/mimic.tscn"))
+	spawn_entities(level.hero_spawn_points.duplicate(), 1, preload("res://entities/hero/hero.tscn"))
+	spawn_entities(level.monster_spawn_points.duplicate(), 1, preload("res://entities/demon/demon.tscn"))
+
 func _physics_process(delta: float) -> void:
 	for entity: Entity in entities_container.get_children():
 		process_entity(entity)
-
-	# TODO do this with a signal or something
-	# currently a killed monster/hero respawns instantly, there should be a delay
-	# and this method makes that trickier than it should be...
-	spawn_entities_by_group_count("hero", level.max_heroes, level.hero_spawn_points, preload("res://entities/hero/hero.tscn"))
-	spawn_entities_by_group_count("monster", level.max_monsters, level.monster_spawn_points, preload("res://entities/mimic/mimic.tscn"))
 
 	# kill first monster in group, for testing spawning
 	if Input.is_key_pressed(KEY_K):
