@@ -1,6 +1,6 @@
 extends Node
 
-func get_nearest_node2d(gpos: Vector2, nodes: Array[Node2D]) -> Node2D:
+static func get_nearest_node2d(gpos: Vector2, nodes: Array[Node2D]) -> Node2D:
 	if nodes.size() == 0:
 		return null
 	var min_node: Node2D = nodes[0]
@@ -13,3 +13,7 @@ func get_nearest_node2d(gpos: Vector2, nodes: Array[Node2D]) -> Node2D:
 			min_node = node
 
 	return min_node
+
+static func remove_all_children(node: Node):
+	for child in node.get_children():
+		node.remove_child(child)

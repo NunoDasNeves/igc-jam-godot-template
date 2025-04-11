@@ -6,8 +6,15 @@ const mimic_scene: PackedScene = preload("res://entities/mimic/mimic.tscn")
 const hero_scene: PackedScene = preload("res://entities/hero/hero.tscn")
 const demon_scene: PackedScene = preload("res://entities/demon/demon.tscn")
 
+const levels_path: String = "res://levels/"
+var levels: Array[PackedScene] = [
+	preload(levels_path + "level_0.tscn"),
+	preload(levels_path + "level_1.tscn"),
+]
+var curr_level_idx: int = 1
+
 @onready var entities_container: Node2D = $Entities
-@onready var level: Level = $Level
+var level: Level
 
 class QueuedSpawn extends RefCounted:
 	var scene: PackedScene
@@ -16,14 +23,30 @@ class QueuedSpawn extends RefCounted:
 
 var spawn_queue: Array[QueuedSpawn]
 
-func _ready() -> void:
-	Events.entity_collected.connect(trigger_collectible_respawn)
-	Events.char_killed.connect(trigger_char_respawn)
+func load_level(_level_scene: PackedScene):
+	Util.remove_all_children(entities_container)
+	if level:
+		level.queue_free()
+	level = _level_scene.instantiate()
+	add_child(level)
+	move_child(level, 0)
+	call_deferred("do_level_initial_spawn")
+
+func do_level_initial_spawn():
 	for chest_spawner: SpawnPoint in level.chest_spawn_points:
 		chest_spawner.queue_spawn(chest_scene, entities_container)
 	for sight_orb_spawner: SpawnPoint in level.sight_orb_spawn_points:
 		sight_orb_spawner.queue_spawn(sight_orb_scene, entities_container)
-	initial_char_spawn()
+	queue_spawn(mimic_scene, "monster")
+	for _i in range(level.max_monsters):
+		queue_spawn(demon_scene, "monster")
+	for _i in range(level.max_heroes):
+		queue_spawn(hero_scene, "hero")
+
+func _ready() -> void:
+	Events.entity_collected.connect(trigger_collectible_respawn)
+	Events.char_killed.connect(trigger_char_respawn)
+	call_deferred("load_level", levels[curr_level_idx])
 
 func _process(_delta: float) -> void:
 	pass
@@ -94,9 +117,10 @@ func queue_spawn(scene: PackedScene, spawn_point_name: String, delay_secs: float
 
 # Process the spawn_queue to find available spawners
 func try_spawn_queued():
-	while spawn_queue.size() > 0:
+	var i: int = 0
+	while i < spawn_queue.size():
 		var succeeded: bool = false
-		var queued: QueuedSpawn = spawn_queue[0]
+		var queued: QueuedSpawn = spawn_queue[i]
 		var spawners: Array[SpawnPoint] = level.spawn_points[queued.spawn_point_name]
 		if !spawners:
 			continue
@@ -111,7 +135,11 @@ func try_spawn_queued():
 				break
 		# done with this queued spawn; take it out of the list
 		if succeeded:
-			spawn_queue.pop_front()
+			# swap remove
+			spawn_queue[i] = spawn_queue[spawn_queue.size() - 1]
+			spawn_queue.pop_back()
+		else:
+			i += 1
 
 func trigger_collectible_respawn(entity: Entity) -> void:
 	assert(entity.collectible)
@@ -140,11 +168,6 @@ func trigger_char_respawn(entity: Entity):
 	elif entity is Hero:
 		queue_spawn(hero_scene, "hero", 3)
 
-func initial_char_spawn():
-	queue_spawn(mimic_scene, "monster")
-	queue_spawn(demon_scene, "monster")
-	queue_spawn(hero_scene, "hero")
-
 func _physics_process(delta: float) -> void:
 	for entity: Entity in entities_container.get_children():
 		process_entity(entity)
@@ -157,3 +180,5 @@ func _physics_process(delta: float) -> void:
 		if monsters.size() > 0:
 			monsters[0].queue_free()
 			Events.char_killed.emit(monsters[0])
+	if Input.is_key_pressed(KEY_R):
+		call_deferred("load_level", levels[curr_level_idx])
