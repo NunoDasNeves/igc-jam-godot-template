@@ -66,7 +66,10 @@ func set_state(new_state: State) -> void:
 			chest_poly.hide()
 			attack_node.hide()
 			state_tween = get_tree().create_tween()
-			state_tween.tween_callback(func (): queue_free())
+			state_tween.tween_callback(func ():
+				Events.char_killed.emit(self)
+				queue_free()
+			)
 
 	state = new_state
 

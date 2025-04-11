@@ -17,7 +17,7 @@ func _ready() -> void:
 	delay_timer.stop()
 
 func _physics_process(_delta: float) -> void:
-	if _spawn_scene and can_spawn() and area.get_overlapping_bodies().size() == 0:
+	if _spawn_scene and area.get_overlapping_bodies().size() == 0:
 		_do_spawn(_spawn_scene, _spawn_parent)
 		_spawn_scene = null
 
@@ -48,4 +48,4 @@ func queue_spawn(scene: PackedScene, parent: Node, delay_secs: float = 0) -> voi
 		delay_timer.timeout.connect(func (): _queue_spawn_asap(scene, parent))
 
 func can_spawn() -> bool:
-	return cooldown_timer.time_left <= 0
+	return _spawn_scene == null and cooldown_timer.time_left <= 0

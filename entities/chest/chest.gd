@@ -1,6 +1,6 @@
 class_name Chest extends Entity
 
 func collect():
-	Events.chest_destroyed.emit(self)
+	Events.entity_collected.emit(self)
 	# can't free here because the collectible may be used later
 	get_parent().remove_child(self)
