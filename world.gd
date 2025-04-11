@@ -7,7 +7,7 @@ const sight_orb_scene = preload("res://entities/sight_orb/sight_orb.tscn")
 @onready var level: Level = $Level
 
 func _ready() -> void:
-	Events.chest_destroyed.connect(trigger_chest_respawn)
+	Events.entity_collected.connect(trigger_collectible_respawn)
 	for chest_spawner: SpawnPoint in level.chest_spawn_points:
 		chest_spawner.queue_spawn(chest_scene, entities_container)
 	for sight_orb_spawner: SpawnPoint in level.sight_orb_spawn_points:
@@ -86,14 +86,24 @@ func spawn_entities_by_group_count(group_name: String, max_count: int, spawn_poi
 	if num_to_spawn > 0:
 		spawn_entities(spawn_points.duplicate(), num_to_spawn, scene) 
 
-func trigger_chest_respawn(chest: Chest) -> void:
-	var coord = level.other_tiles.local_to_map(chest.position)
-	var idx = level.chest_spawn_points.find_custom(func (s): return s.coord == coord)
+func trigger_collectible_respawn(entity: Entity) -> void:
+	assert(entity.collectible)
+	var scene: PackedScene
+	var spawn_points: Array[SpawnPoint]
+	if entity is Chest:
+		scene = chest_scene
+		spawn_points = level.chest_spawn_points
+	elif entity is SightOrb:
+		scene = sight_orb_scene
+		spawn_points = level.sight_orb_spawn_points
+
+	var coord = level.other_tiles.local_to_map(entity.position)
+	var idx = spawn_points.find_custom(func (s): return s.coord == coord)
 	if idx == -1:
-		print("couldn't find chest's spawner!")
+		print("couldn't find collectible's spawner!")
 		return
-	var spawn_point: SpawnPoint = level.chest_spawn_points[idx]
-	spawn_point.queue_spawn(chest_scene, entities_container, 10)
+	var spawn_point: SpawnPoint = spawn_points[idx]
+	spawn_point.queue_spawn(scene, entities_container, 10)
 
 func _physics_process(delta: float) -> void:
 	for entity: Entity in entities_container.get_children():
