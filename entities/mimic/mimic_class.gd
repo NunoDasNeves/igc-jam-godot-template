@@ -96,7 +96,7 @@ func attack() -> void:
 	set_state(State.ATTACK)
 
 func collect():
-	pass
+	set_state(State.NONE)
 
 func hit(hitbox: Hitbox) -> void:
 	# TODO?
