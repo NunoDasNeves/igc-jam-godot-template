@@ -68,7 +68,10 @@ func set_state(new_state: State) -> void:
 			chest_poly.hide()
 			attack_node.hide()
 			state_tween = get_tree().create_tween()
-			state_tween.tween_callback(func (): queue_free())
+			state_tween.tween_callback(func ():
+				Events.char_killed.emit(self)
+				queue_free()
+			)
 
 	state = new_state
 
@@ -87,10 +90,6 @@ func attack_hit(other: Entity) -> void:
 		if other is SightOrb:
 			set_status_sight(true)
 			timer.start()
-			print(set_status_sight)
-			
-
-
 
 func attack() -> void:
 	match state:
@@ -100,6 +99,9 @@ func attack() -> void:
 	# show green mimic again, first
 	set_state(State.NONE)
 	set_state(State.ATTACK)
+
+func collect():
+	set_state(State.NONE)
 
 func hit(hitbox: Hitbox) -> void:
 	# TODO?

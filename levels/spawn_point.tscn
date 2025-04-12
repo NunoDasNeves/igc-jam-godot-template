@@ -11,9 +11,6 @@ script = ExtResource("1_tvlu6")
 [node name="DelayTimer" type="Timer" parent="."]
 one_shot = true
 
-[node name="CooldownTimer" type="Timer" parent="."]
-one_shot = true
-
 [node name="Area2D" type="Area2D" parent="."]
 collision_layer = 0
 collision_mask = 7
