@@ -3,9 +3,6 @@ class_name Entity extends CharacterBody2D
 @export var collectible: bool = false
 @export var player_controlled: bool = false
 
-
-
-
 signal interacted
 signal attacked
 # The desired move direction (from player input or AI)
@@ -27,8 +24,6 @@ func get_player_input() -> void:
 
 	if Input.is_action_just_pressed("Attack"):
 		attacked.emit()
-		print(status_sight)
-
 
 func assign_player_is_controlled() -> void:
 	if player_controlled == false:
