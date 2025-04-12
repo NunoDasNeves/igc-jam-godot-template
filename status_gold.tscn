@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://bsrd5mxs4lrxx"]
+
+[node name="StatusGold" type="Node2D"]
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+position = Vector2(-4, 7)
+scale = Vector2(1.08642, 1)
+color = Color(0, 0, 0, 1)
+polygon = PackedVector2Array(25.7727, 1, 23.9318, -16, 13.8068, -29, -7.36364, -30, -18.4091, -19, -21.1705, 0, -12.8864, 16, 2.76136, 21, 18.4091, 16)
+
+[node name="Polygon2D2" type="Polygon2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(-4, 7)
+scale = Vector2(0.9, 0.9)
+color = Color(1, 1, 0, 1)
+polygon = PackedVector2Array(25.7727, 1, 23.9318, -16, 13.8068, -29, -7.36364, -30, -18.4091, -19, -21.1705, 0, -12.8864, 16, 2.76136, 21, 18.4091, 16)
