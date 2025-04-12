@@ -131,11 +131,8 @@ func _process(_delta: float) -> void:
 			input_dir = Vector2.ZERO
 
 @export var status_sight:bool = false
+
 func set_status_sight(new_value: bool) -> void:
-	if new_value == status_sight:
-		push_error("Attempted to set status_sight to the same value: %s" % status_sight)
-		return
-	
 	status_sight = new_value
 
 func _on_timer_timeout() -> void:
