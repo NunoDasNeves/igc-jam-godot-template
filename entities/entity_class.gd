@@ -35,7 +35,6 @@ func collect():
 	assert(collectible)
 
 func do_collect(entity: Entity):
-	assert(entity.collectible)
 	if entity is SightOrb:
 		var ss_node = find_child("StatusSight")
 		if !ss_node:
