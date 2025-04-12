@@ -22,6 +22,8 @@ buses/default_bus_layout="res://audio/default_bus_layout.tres"
 
 Audio="*res://audio/audio.gd"
 Events="*res://events.gd"
+Util="*res://util.gd"
+Global="*res://global.gd"
 
 [display]
 
@@ -35,6 +37,7 @@ window/stretch/mode="canvas_items"
 
 hero=""
 monster=""
+chest=""
 
 [gui]
 
@@ -78,6 +81,7 @@ Interact={
 Attack={
 "deadzone": 0.2,
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":90,"key_label":0,"unicode":90,"location":0,"echo":false,"script":null)
+, Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":32,"key_label":0,"unicode":32,"location":0,"echo":false,"script":null)
 ]
 }
 
@@ -86,9 +90,8 @@ Attack={
 2d_physics/layer_1="Player"
 2d_physics/layer_2="Mob"
 2d_physics/layer_3="Object"
-2d_physics/layer_4="Projectile"
-2d_physics/layer_5="UI"
-2d_physics/layer_6="MSC"
+2d_physics/layer_4="Wall"
+2d_physics/layer_5="Hero"
 
 [rendering]
 

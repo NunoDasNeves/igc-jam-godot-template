@@ -1,52 +1,98 @@
-[gd_scene load_steps=3 format=3 uid="uid://mqinaasi0323"]
+[gd_scene load_steps=7 format=3 uid="uid://mqinaasi0323"]
 
 [ext_resource type="Script" uid="uid://owx21u4do8v4" path="res://entities/hero/hero_class.gd" id="1_qxmll"]
+[ext_resource type="Script" uid="uid://dkliywsva1nji" path="res://entities/hitbox.gd" id="2_chcl2"]
+[ext_resource type="PackedScene" uid="uid://oxqfl114fs8h" path="res://entities/status_sight.tscn" id="3_s8sb5"]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_iom2f"]
-radius = 11.0
-height = 36.0
+[sub_resource type="CircleShape2D" id="CircleShape2D_kaf33"]
+radius = 26.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_s8sb5"]
+radius = 29.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_chcl2"]
+radius = 45.5412
 
 [node name="Hero" type="CharacterBody2D" groups=["hero"]]
-position = Vector2(0, 34)
-collision_layer = 2
-collision_mask = 3
+collision_layer = 16
+collision_mask = 0
+motion_mode = 1
+platform_on_leave = 2
 script = ExtResource("1_qxmll")
 
-[node name="Polygon2D" type="Polygon2D" parent="."]
-position = Vector2(-281, -1039)
+[node name="FlipVisuals" type="Node2D" parent="."]
+
+[node name="HeroPoly" type="Polygon2D" parent="FlipVisuals"]
+position = Vector2(-282, -1021)
 scale = Vector2(1.83, 1.83)
 polygon = PackedVector2Array(148, 573, 153.699, 558.956, 160, 572, 159, 552, 164, 549, 164, 550, 166, 550, 167, 547, 169, 547, 169, 545, 166, 544, 164, 528, 163, 543, 159, 544, 160, 545, 162, 545, 158, 546, 157, 535, 151, 533, 148, 540, 139, 543, 141, 558, 146, 563, 148, 560)
 
+[node name="ShieldPoly" type="Polygon2D" parent="FlipVisuals"]
+position = Vector2(-71, -1)
+color = Color(0.211765, 1, 1, 1)
+polygon = PackedVector2Array(73, -17, 78, -16, 82, -17, 85, -20, 88, -17, 92, -16, 97, -17, 100, -20, 100, -8, 98, 1, 92, 9, 85, 15, 78, 9, 73, 1, 70, -8, 70, -20)
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -34)
-shape = SubResource("CapsuleShape2D_iom2f")
+shape = SubResource("CircleShape2D_kaf33")
 
-[node name="RayCast2D" type="RayCast2D" parent="."]
-unique_name_in_owner = true
-position = Vector2(0, -34)
-target_position = Vector2(125, 0)
-collision_mask = 3
+[node name="RayCasts" type="Node2D" parent="."]
 
-[node name="RayCast2D2" type="RayCast2D" parent="."]
-unique_name_in_owner = true
-position = Vector2(0, -34)
-target_position = Vector2(123, -16)
-collision_mask = 3
+[node name="RayCastLeft" type="RayCast2D" parent="RayCasts"]
+target_position = Vector2(0, -1000)
+collision_mask = 11
 
-[node name="RayCast2D4" type="RayCast2D" parent="."]
-unique_name_in_owner = true
-position = Vector2(0, -34)
-target_position = Vector2(122, -8)
-collision_mask = 3
+[node name="RayCastRight" type="RayCast2D" parent="RayCasts"]
+target_position = Vector2(0, 1000)
+collision_mask = 11
 
-[node name="RayCast2D5" type="RayCast2D" parent="."]
-unique_name_in_owner = true
-position = Vector2(0, -34)
-target_position = Vector2(122, 6)
-collision_mask = 3
+[node name="RayCastForward" type="RayCast2D" parent="RayCasts"]
+target_position = Vector2(1000, 0)
+collision_mask = 11
 
-[node name="RayCast2D3" type="RayCast2D" parent="."]
-unique_name_in_owner = true
-position = Vector2(0, -34)
-target_position = Vector2(126, 12)
-collision_mask = 3
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+path_postprocessing = 1
+debug_use_custom = true
+debug_path_custom_color = Color(0.758488, 0.000512111, 0.772897, 1)
+
+[node name="Attack" type="Node2D" parent="."]
+
+[node name="Hitbox" type="Area2D" parent="Attack"]
+collision_layer = 0
+collision_mask = 7
+script = ExtResource("2_chcl2")
+duration_secs = 0.1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Attack/Hitbox"]
+position = Vector2(25, 0)
+shape = SubResource("CircleShape2D_s8sb5")
+debug_color = Color(0.88185, 0, 0.116802, 0.42)
+
+[node name="Swish" type="Polygon2D" parent="Attack"]
+position = Vector2(17, 31)
+polygon = PackedVector2Array(6, -8, 29, -6, 39, -20, 41, -40, 32, -52, 22, -60, 13, -63, -2, -63, 7, -58, 14, -51, 17, -37, 16, -22)
+
+[node name="InteractOrAttackArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 7
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractOrAttackArea"]
+shape = SubResource("CircleShape2D_chcl2")
+
+[node name="ExclamationPoint" type="Node2D" parent="."]
+visible = false
+
+[node name="Polygon2D" type="Polygon2D" parent="ExclamationPoint"]
+position = Vector2(-0.333334, 7.84848)
+scale = Vector2(1.33333, 1.33333)
+color = Color(1, 0.12549, 0.0862745, 1)
+polygon = PackedVector2Array(-5, -50, -1, -47, 2, -52, -1, -53)
+
+[node name="Polygon2D2" type="Polygon2D" parent="ExclamationPoint"]
+position = Vector2(-0.363636, 5.18181)
+scale = Vector2(1.27273, 1.27273)
+color = Color(0.999659, 0.12594, 0.0876049, 1)
+polygon = PackedVector2Array(-4, -55, 0, -57, 5, -74, -6, -74)
+
+[node name="StatusSight" parent="." instance=ExtResource("3_s8sb5")]
+visible = false
+position = Vector2(0, -61)

@@ -1,14 +1,76 @@
-extends Node2D
+class_name World extends Node2D
 
 const chest_scene = preload("res://entities/chest/chest.tscn")
+const sight_orb_scene = preload("res://entities/sight_orb/sight_orb.tscn")
+const mimic_scene: PackedScene = preload("res://entities/mimic/mimic.tscn")
+const hero_scene: PackedScene = preload("res://entities/hero/hero.tscn")
+const demon_scene: PackedScene = preload("res://entities/demon/demon.tscn")
+
+const levels_path: String = "res://levels/"
+var levels: Array[PackedScene] = [
+	preload(levels_path + "level_0.tscn"),
+	preload(levels_path + "level_1.tscn"),
+]
+var curr_level_idx: int = 0
 
 @onready var entities_container: Node2D = $Entities
-@onready var level: Level = $Level
+var level: Level
 
-func _ready() -> void:
-	Events.chest_destroyed.connect(trigger_chest_respawn)
+class QueuedSpawn extends RefCounted:
+	var scene: PackedScene
+	var spawn_point_name: String
+	var delay_secs: float = 0
+
+var spawn_queue: Array[QueuedSpawn]
+
+func load_level(_level_scene: PackedScene):
+	# we have to clear *all* the state that will affect the loaded level!
+	spawn_queue.clear()
+	Util.remove_all_children(entities_container)
+	if level:
+		level.queue_free()
+
+	# ok now create the level
+	level = _level_scene.instantiate()
+	add_child(level)
+	# level should be first child (rn because of drawing order though could use fixed Z)
+	move_child(level, 0)
+
+	# initial spawning
 	for chest_spawner: SpawnPoint in level.chest_spawn_points:
 		chest_spawner.queue_spawn(chest_scene, entities_container)
+	for sight_orb_spawner: SpawnPoint in level.sight_orb_spawn_points:
+		sight_orb_spawner.queue_spawn(sight_orb_scene, entities_container)
+
+	queue_spawn(mimic_scene, "monster")
+	for _i in range(level.max_monsters):
+		queue_spawn(demon_scene, "monster")
+	for _i in range(level.max_heroes):
+		queue_spawn(hero_scene, "hero")
+
+func _enter_tree() -> void:
+	Global.world = self
+
+func _ready() -> void:
+	Events.entity_collected.connect(trigger_collectible_respawn)
+	Events.char_killed.connect(trigger_char_respawn)
+	Events.relative_level_selected.connect(change_level_rel)
+	change_level(curr_level_idx)
+
+func _change_level_deferred(index: int):
+	curr_level_idx = index
+	Events.level_changed.emit(index)
+	print("loading level %s" % index)
+	load_level(levels[index])
+
+func change_level(index: int):
+	# this must be deferred because we could be in _ready() and not
+	# everything is hooked up yet, or elsewhere in the frame..
+	call_deferred("_change_level_deferred", index)
+
+func change_level_rel(rel_index: int):
+	var new_index = clampi(curr_level_idx + rel_index, 0, levels.size() - 1)
+	change_level(new_index)
 
 func _process(_delta: float) -> void:
 	pass
@@ -69,38 +131,79 @@ func process_entity(entity: Entity) -> void:
 		if to_center.dot(move_dir) > 0 or !level.coord_is_wall(coord + move_n_dir):
 			entity.move_dir = move_dir
 
-func spawn_entities(spawners: Array[SpawnPoint], num: int, scene:PackedScene) -> void:
-	spawners.shuffle()
-	while num > 0 and spawners.size() > 0:
-		var spawner = spawners.pop_back()
-		if spawner.can_spawn():
-			spawner.queue_spawn(scene, entities_container)
-			num -= 1
+# Queue something to spawn as soon as a spawn point is available
+func queue_spawn(scene: PackedScene, spawn_point_name: String, delay_secs: float = 0):
+	var queued_spawn = QueuedSpawn.new()
+	queued_spawn.scene = scene
+	queued_spawn.spawn_point_name = spawn_point_name
+	queued_spawn.delay_secs = delay_secs
+	spawn_queue.append(queued_spawn)
 
-func spawn_entities_by_group_count(group_name: String, max_count: int, spawn_points: Array[SpawnPoint], scene: PackedScene):
-	var curr_count = get_tree().get_node_count_in_group(group_name)
-	var num_to_spawn = max(max_count - curr_count, 0)
-	if num_to_spawn > 0:
-		spawn_entities(spawn_points.duplicate(), num_to_spawn, scene) 
+# Process the spawn_queue to find available spawners
+func try_spawn_queued():
+	var i: int = 0
+	while i < spawn_queue.size():
+		var succeeded: bool = false
+		var queued: QueuedSpawn = spawn_queue[i]
+		var spawners: Array[SpawnPoint] = level.spawn_points[queued.spawn_point_name]
+		if !spawners:
+			continue
+		spawners = spawners.duplicate()
+		spawners.shuffle()
+		# find a spawner that can spawn
+		while spawners.size() > 0:
+			var spawner = spawners.pop_back()
+			if spawner.can_spawn():
+				spawner.queue_spawn(queued.scene, entities_container, queued.delay_secs)
+				succeeded = true
+				break
+		# done with this queued spawn; take it out of the list
+		if succeeded:
+			#print("spawned %s" % queued.spawn_point_name)
+			# swap remove
+			spawn_queue[i] = spawn_queue[spawn_queue.size() - 1]
+			spawn_queue.pop_back()
+		else:
+			i += 1
 
-func trigger_chest_respawn(chest: Chest) -> void:
-	var coord = level.other_tiles.local_to_map(chest.position)
-	var idx = level.chest_spawn_points.find_custom(func (s): return s.coord == coord)
+func trigger_collectible_respawn(entity: Entity) -> void:
+	assert(entity.collectible)
+	var scene: PackedScene
+	var spawn_points: Array[SpawnPoint]
+	if entity is Chest:
+		scene = chest_scene
+		spawn_points = level.chest_spawn_points
+	elif entity is SightOrb:
+		scene = sight_orb_scene
+		spawn_points = level.sight_orb_spawn_points
+
+	var coord = level.other_tiles.local_to_map(entity.position)
+	var idx = spawn_points.find_custom(func (s): return s.coord == coord)
 	if idx == -1:
-		print("couldn't find chest's spawner!")
+		print("couldn't find collectible's spawner!")
 		return
-	var spawn_point: SpawnPoint = level.chest_spawn_points[idx]
-	spawn_point.queue_spawn(chest_scene, entities_container, 5)
+	var spawn_point: SpawnPoint = spawn_points[idx]
+	spawn_point.queue_spawn(scene, entities_container, 10)
+
+func trigger_char_respawn(entity: Entity):
+	if entity is Mimic:
+		queue_spawn(mimic_scene, "monster", 3)
+	elif entity is Demon:
+		queue_spawn(demon_scene, "monster", 3)
+	elif entity is Hero:
+		queue_spawn(hero_scene, "hero", 3)
 
 func _physics_process(delta: float) -> void:
 	for entity: Entity in entities_container.get_children():
 		process_entity(entity)
 
-	spawn_entities_by_group_count("hero", level.max_heroes, level.hero_spawn_points, preload("res://entities/hero/hero.tscn"))
-	spawn_entities_by_group_count("monster", level.max_monsters, level.monster_spawn_points, preload("res://entities/mimic/mimic.tscn"))
+	try_spawn_queued()
 
 	# kill first monster in group, for testing spawning
 	if Input.is_key_pressed(KEY_K):
 		var monsters = get_tree().get_nodes_in_group("monster")
 		if monsters.size() > 0:
 			monsters[0].queue_free()
+			Events.char_killed.emit(monsters[0])
+	if Input.is_key_pressed(KEY_R):
+		change_level(curr_level_idx)

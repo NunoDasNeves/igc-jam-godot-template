@@ -1,4 +1,4 @@
-class_name Chest extends Entity
+class_name SightOrb extends Entity
 
 func collect():
 	Events.entity_collected.emit(self)

@@ -4,6 +4,8 @@ extends Area2D
 @export var damage: float = 1
 @export var duration_secs: float = 0.2
 
+signal hit_entity(entity: Entity)
+
 # so we don't hit the same thing twice for one activation
 var hit_nodes: Dictionary[int, bool] = {}
 
@@ -31,6 +33,9 @@ func hit(body: PhysicsBody2D) -> void:
 	var entity = char_body as Entity
 	if !entity:
 		return
-
+	var entity_id = entity.get_instance_id()
+	if hit_nodes.has(entity_id):
+		return
+	hit_entity.emit(entity)
 	entity.hit(self)
-	hit_nodes[entity.get_instance_id()] = true
+	hit_nodes[entity_id] = true

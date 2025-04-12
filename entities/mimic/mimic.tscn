@@ -1,7 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://3tgyoc0ngvsg"]
+[gd_scene load_steps=7 format=3 uid="uid://3tgyoc0ngvsg"]
 
 [ext_resource type="Script" uid="uid://rj533hmh0is6" path="res://entities/mimic/mimic_class.gd" id="1_71vme"]
 [ext_resource type="Script" uid="uid://dkliywsva1nji" path="res://entities/hitbox.gd" id="2_4bgkd"]
+[ext_resource type="PackedScene" uid="uid://oxqfl114fs8h" path="res://entities/status_sight.tscn" id="2_k0262"]
+[ext_resource type="Script" uid="uid://b4bavx18aads8" path="res://entities/mimic/inventory.gd" id="3_mb4gf"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_kleto"]
 radius = 19.88
@@ -10,9 +12,11 @@ radius = 19.88
 radius = 29.0
 
 [node name="Mimic" type="CharacterBody2D" groups=["monster"]]
+collision_mask = 0
 motion_mode = 1
 platform_on_leave = 2
 script = ExtResource("1_71vme")
+player_controlled = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_kleto")
@@ -36,7 +40,7 @@ polygon = PackedVector2Array(146, 628, 185, 618, 185, 594, 180, 579, 171, 574, 1
 
 [node name="Hitbox" type="Area2D" parent="Attack"]
 collision_layer = 0
-collision_mask = 4
+collision_mask = 22
 script = ExtResource("2_4bgkd")
 duration_secs = 0.1
 
@@ -56,3 +60,11 @@ position = Vector2(2, 3)
 rotation = -0.342085
 color = Color(0.831373, 0.627451, 0.356863, 1)
 polygon = PackedVector2Array(-4, -1, 31, 21, 37, 21, 41, 18, 45, 7, 37, 11, 36, 2, 27, 7, 24, -3, 17, 2, 16, -6, 8, -2, 5, -8, -4, -11)
+
+[node name="StatusSight" parent="." instance=ExtResource("2_k0262")]
+visible = false
+position = Vector2(-1, -42)
+
+[node name="Inventory" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("3_mb4gf")

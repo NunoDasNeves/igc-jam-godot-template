@@ -1,8 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://b326cb226l8ye"]
+[gd_scene load_steps=5 format=3 uid="uid://b326cb226l8ye"]
 
 [ext_resource type="Script" uid="uid://cngn671jm8omd" path="res://ui/pause_menu.gd" id="1_fob5h"]
 [ext_resource type="PackedScene" uid="uid://cf3iev1x2w2ks" path="res://ui/volume_slider.tscn" id="2_avurv"]
 [ext_resource type="Script" uid="uid://cdu0i2yfapmgg" path="res://ui/volume_slider.gd" id="3_npydk"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fob5h"]
+bg_color = Color(0, 0, 0, 0.658824)
 
 [node name="PauseMenu" type="PanelContainer"]
 visible = false
@@ -13,9 +16,11 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_fob5h")
 script = ExtResource("1_fob5h")
 
 [node name="Main" type="MarginContainer" parent="."]
+custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -26,13 +31,31 @@ theme_override_constants/margin_bottom = 10
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Main"]
 layout_mode = 2
-theme_override_constants/separation = 5
+theme_override_constants/separation = 15
 
 [node name="Label" type="Label" parent="Main/VBoxContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 32
+theme_override_font_sizes/font_size = 66
 text = "Paused"
 horizontal_alignment = 1
+
+[node name="LevelSelectContainer" type="HBoxContainer" parent="Main/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="PrevButton" type="Button" parent="Main/VBoxContainer/LevelSelectContainer"]
+layout_mode = 2
+text = "<"
+
+[node name="LevelLabel" type="Label" parent="Main/VBoxContainer/LevelSelectContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Level 0"
+horizontal_alignment = 1
+
+[node name="NextButton" type="Button" parent="Main/VBoxContainer/LevelSelectContainer"]
+layout_mode = 2
+text = ">"
 
 [node name="OptionsButton" type="Button" parent="Main/VBoxContainer"]
 layout_mode = 2

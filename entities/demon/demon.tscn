@@ -1,17 +1,61 @@
-[gd_scene load_steps=2 format=3 uid="uid://ctaxcdbad6eko"]
+[gd_scene load_steps=6 format=3 uid="uid://ctaxcdbad6eko"]
+
+[ext_resource type="Script" uid="uid://dt0tm0i5xeb3i" path="res://entities/demon/demon.gd" id="1_gs8ps"]
+[ext_resource type="Script" uid="uid://dkliywsva1nji" path="res://entities/hitbox.gd" id="1_ps5su"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_kleto"]
 radius = 12.83
 
-[node name="Demon" type="Node2D"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_gs8ps"]
+radius = 23.0217
 
-[node name="Polygon2D4" type="Polygon2D" parent="."]
-position = Vector2(-157, -756)
+[sub_resource type="CircleShape2D" id="CircleShape2D_1saa8"]
+radius = 42.0476
+
+[node name="Demon" type="CharacterBody2D" groups=["monster"]]
+collision_layer = 2
+collision_mask = 0
+motion_mode = 1
+platform_on_leave = 2
+script = ExtResource("1_gs8ps")
+
+[node name="FlipVisuals" type="Node2D" parent="."]
+
+[node name="DemonPoly" type="Polygon2D" parent="FlipVisuals"]
+position = Vector2(-175, -840)
+scale = Vector2(1.11429, 1.11429)
 color = Color(0.935961, 0.545578, 0.37156, 1)
-polygon = PackedVector2Array(149, 718, 152, 726, 159, 725, 160, 717, 163, 729, 164, 738, 169, 739, 171, 729, 168, 728, 171, 720, 170, 726, 172, 727, 175, 719, 174, 728, 176, 728, 179, 722, 178, 729, 173, 730, 171, 739, 174, 740, 173, 744, 170, 744, 168, 758, 166, 761, 168, 744, 165, 744, 164, 746, 164, 764, 156, 752, 152, 764, 149, 750, 148, 743, 144, 752, 144, 742, 147, 737, 150, 735, 150, 732)
+polygon = PackedVector2Array(149, 718, 152, 726, 159, 725, 160, 717, 163, 729, 164, 738, 168.718, 741.282, 171, 729, 168, 728, 171, 720, 170, 726, 172, 727, 175, 719, 174, 728, 176, 728, 179, 722, 178, 729, 173, 730, 170.513, 741.282, 172.308, 741.282, 172.308, 743.974, 170, 744, 168, 758, 166, 761, 168, 744, 165.128, 743.077, 164, 746, 164, 764, 156, 752, 152, 764, 149, 750, 148, 743, 145.385, 745.769, 147.18, 751.153, 147.18, 752.948, 145.385, 752.051, 142.692, 746.666, 144, 742, 147, 737, 150, 735, 150, 732)
 
-[node name="Area2D" type="Area2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -2)
 shape = SubResource("CircleShape2D_kleto")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+path_postprocessing = 1
+debug_use_custom = true
+debug_path_custom_color = Color(0.758488, 0.000512111, 0.772897, 1)
+
+[node name="Attack" type="Node2D" parent="."]
+
+[node name="Hitbox" type="Area2D" parent="Attack"]
+collision_layer = 0
+collision_mask = 16
+script = ExtResource("1_ps5su")
+duration_secs = 0.1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Attack/Hitbox"]
+position = Vector2(18, 0)
+shape = SubResource("CircleShape2D_gs8ps")
+debug_color = Color(0.88185, 0, 0.116802, 0.42)
+
+[node name="Swish" type="Polygon2D" parent="Attack"]
+position = Vector2(-6, 33)
+polygon = PackedVector2Array(11, -34, 22, -33, 40, -35, 47, -40, 40, -43, 24, -45, 12, -45, 31, -39)
+
+[node name="InteractOrAttackArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractOrAttackArea"]
+shape = SubResource("CircleShape2D_1saa8")

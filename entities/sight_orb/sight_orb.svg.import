@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b2ua1p7w0voks"
-path="res://.godot/imported/tilemap-test.png-ae7f3bb8927462f6aa2000ad72791f34.ctex"
+uid="uid://bbjwlby0xhoic"
+path="res://.godot/imported/sight_orb.svg-821591de7136e29d64ada3b27e351ae0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://tilesets/tilemap-test.png"
-dest_files=["res://.godot/imported/tilemap-test.png-ae7f3bb8927462f6aa2000ad72791f34.ctex"]
+source_file="res://entities/sight_orb/sight_orb.svg"
+dest_files=["res://.godot/imported/sight_orb.svg-821591de7136e29d64ada3b27e351ae0.ctex"]
 
 [params]
 
@@ -32,3 +32,6 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
+svg/scale=1.0
+editor/scale_with_editor_scale=false
+editor/convert_colors_with_editor_theme=false
