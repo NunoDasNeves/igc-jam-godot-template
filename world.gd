@@ -1,4 +1,4 @@
-extends Node2D
+class_name World extends Node2D
 
 const chest_scene = preload("res://entities/chest/chest.tscn")
 const sight_orb_scene = preload("res://entities/sight_orb/sight_orb.tscn")
@@ -24,29 +24,53 @@ class QueuedSpawn extends RefCounted:
 var spawn_queue: Array[QueuedSpawn]
 
 func load_level(_level_scene: PackedScene):
+	# we have to clear *all* the state that will affect the loaded level!
+	spawn_queue.clear()
 	Util.remove_all_children(entities_container)
 	if level:
 		level.queue_free()
+
+	# ok now create the level
 	level = _level_scene.instantiate()
 	add_child(level)
+	# level should be first child (rn because of drawing order though could use fixed Z)
 	move_child(level, 0)
-	call_deferred("do_level_initial_spawn")
 
-func do_level_initial_spawn():
+	# initial spawning
 	for chest_spawner: SpawnPoint in level.chest_spawn_points:
 		chest_spawner.queue_spawn(chest_scene, entities_container)
 	for sight_orb_spawner: SpawnPoint in level.sight_orb_spawn_points:
 		sight_orb_spawner.queue_spawn(sight_orb_scene, entities_container)
+
 	queue_spawn(mimic_scene, "monster")
 	for _i in range(level.max_monsters):
 		queue_spawn(demon_scene, "monster")
 	for _i in range(level.max_heroes):
 		queue_spawn(hero_scene, "hero")
 
+func _enter_tree() -> void:
+	Global.world = self
+
 func _ready() -> void:
 	Events.entity_collected.connect(trigger_collectible_respawn)
 	Events.char_killed.connect(trigger_char_respawn)
-	call_deferred("load_level", levels[curr_level_idx])
+	Events.relative_level_selected.connect(change_level_rel)
+	change_level(curr_level_idx)
+
+func _change_level_deferred(index: int):
+	curr_level_idx = index
+	Events.level_changed.emit(index)
+	print("loading level %s" % index)
+	load_level(levels[index])
+
+func change_level(index: int):
+	# this must be deferred because we could be in _ready() and not
+	# everything is hooked up yet, or elsewhere in the frame..
+	call_deferred("_change_level_deferred", index)
+
+func change_level_rel(rel_index: int):
+	var new_index = clampi(curr_level_idx + rel_index, 0, levels.size() - 1)
+	change_level(new_index)
 
 func _process(_delta: float) -> void:
 	pass
@@ -135,6 +159,7 @@ func try_spawn_queued():
 				break
 		# done with this queued spawn; take it out of the list
 		if succeeded:
+			#print("spawned %s" % queued.spawn_point_name)
 			# swap remove
 			spawn_queue[i] = spawn_queue[spawn_queue.size() - 1]
 			spawn_queue.pop_back()
@@ -181,4 +206,4 @@ func _physics_process(delta: float) -> void:
 			monsters[0].queue_free()
 			Events.char_killed.emit(monsters[0])
 	if Input.is_key_pressed(KEY_R):
-		call_deferred("load_level", levels[curr_level_idx])
+		change_level(curr_level_idx)
