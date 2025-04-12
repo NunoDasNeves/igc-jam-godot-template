@@ -20,7 +20,6 @@ var anim_tween: Tween
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	assign_player_is_controlled()
 	interacted.connect(interact)
 	attacked.connect(attack)
 	hitbox.connect("hit_entity", attack_hit)
