@@ -1,6 +1,6 @@
 [gd_resource type="TileSet" load_steps=5 format=3 uid="uid://woxckrqp2r8f"]
 
-[ext_resource type="Texture2D" uid="uid://b2ua1p7w0voks" path="res://tilesets/tilemap-test.png" id="1_rlcim"]
+[ext_resource type="Texture2D" uid="uid://b2ua1p7w0voks" path="res://tilesets/tileset-v1.png" id="1_rlcim"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_rlcim"]
 

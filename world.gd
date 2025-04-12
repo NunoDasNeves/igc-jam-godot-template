@@ -11,7 +11,7 @@ var levels: Array[PackedScene] = [
 	preload(levels_path + "level_0.tscn"),
 	preload(levels_path + "level_1.tscn"),
 ]
-var curr_level_idx: int = 1
+var curr_level_idx: int = 0
 
 @onready var entities_container: Node2D = $Entities
 var level: Level
