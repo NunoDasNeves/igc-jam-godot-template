@@ -14,6 +14,9 @@ var face_dir: Vector2 = Vector2.RIGHT
 
 var speed: float = 150.0
 
+var status_sight: bool = false
+var status_sight_timer: Timer
+
 func get_player_input() -> void:
 	var x_in = Input.get_axis("Left", "Right")
 	var y_in = Input.get_axis("Up", "Down")
@@ -31,7 +34,24 @@ func hit(hitbox: Hitbox):
 func collect():
 	assert(collectible)
 
-
+func do_collect(entity: Entity):
+	assert(entity.collectible)
+	if entity is SightOrb:
+		var ss_node = find_child("StatusSight")
+		if !ss_node:
+			return
+		if !status_sight_timer:
+			status_sight_timer = Timer.new()
+			status_sight_timer.wait_time = 5
+			status_sight_timer.one_shot = true
+			status_sight_timer.timeout.connect(func():
+				ss_node.hide()
+				status_sight = false
+			)
+			add_child(status_sight_timer)
+		status_sight_timer.start()
+		status_sight = true
+		ss_node.show()
 
 # called by subclasses depending on action states n whatnot
 func update_face_dir() -> void:

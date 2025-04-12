@@ -60,6 +60,7 @@ func set_state(new_state: State) -> void:
 			anim_tween.tween_interval(0.7)
 			anim_tween.tween_callback(func ():
 				collect_target.collect()
+				do_collect(collect_target)
 				if collect_target is Mimic:
 					set_state(State.NONE)
 					ai_seek_target = collect_target
