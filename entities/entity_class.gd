@@ -25,16 +25,8 @@ func get_player_input() -> void:
 	if Input.is_action_just_pressed("Attack"):
 		attacked.emit()
 
-func assign_player_is_controlled() -> void:
-	if player_controlled == false:
-		player_controlled = true
-	else:
-		print("Error player_controlled already is ",player_controlled)
-
-
 func hit(hitbox: Hitbox):
 	pass
-
 
 func collect():
 	assert(collectible)
@@ -48,11 +40,6 @@ func update_face_dir() -> void:
 			face_dir = Vector2(signf(input_dir.x), 0)
 		else:
 			face_dir = Vector2(0, signf(input_dir.y))
-
-
-
-
-
 
 func _physics_process(delta: float) -> void:
 	velocity = move_dir * 150

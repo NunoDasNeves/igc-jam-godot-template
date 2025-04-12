@@ -9,6 +9,8 @@ radius = 5.45894
 [node name="SightOrb" type="CharacterBody2D"]
 collision_layer = 4
 collision_mask = 0
+motion_mode = 1
+platform_on_leave = 2
 script = ExtResource("1_eytlg")
 collectible = true
 
