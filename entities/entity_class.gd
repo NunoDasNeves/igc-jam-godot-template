@@ -57,25 +57,26 @@ func do_collect(entity: Entity):
 	if entity is Chest:
 		gold_pocket += 1
 		print(gold_pocket)
-		var ss_node = find_child("StatusGold")
-		if !ss_node:
-			return
-		if !status_gold_timer and gold_pocket >= 2:
-			print(gold_pocket, "Timer")
-			status_gold_timer = Timer.new()
-			status_gold_timer.wait_time = 10
-			status_gold_timer.one_shot = true
-			status_gold_timer.timeout.connect(func():
-				ss_node.hide()
-				status_gold = false
-			)
-			add_child(status_gold_timer)
-			status_gold_timer.start()
-			status_gold = true
-			ss_node.show()
+		if gold_pocket >= 2:
+			var ss_node = find_child("StatusGold")
+			if !ss_node:
+				return
+			if !status_gold_timer:
+				print(gold_pocket, "Timer")
+				status_gold_timer = Timer.new()
+				status_gold_timer.wait_time = 10
+				status_gold_timer.one_shot = true
+				status_gold_timer.timeout.connect(func():
+					ss_node.hide()
+					status_gold = false
+				)
+				add_child(status_gold_timer)
+				status_gold_timer.start()
+				status_gold = true
+				ss_node.show()
 
+	
 		
-
 # called by subclasses depending on action states n whatnot
 func update_face_dir() -> void:
 	if !input_dir.is_zero_approx():
