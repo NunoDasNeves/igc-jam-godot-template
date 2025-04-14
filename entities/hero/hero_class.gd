@@ -12,6 +12,10 @@ extends Entity
 @onready var ray_casts: Node2D = $RayCasts
 @onready var exclamation_point: Node2D = $ExclamationPoint
 
+@export var _is_attracted_to_mimic: bool = false
+
+const MIMIC = preload("res://entities/mimic/mimic.tscn")
+
 enum State { NONE, ATTACK, COLLECT, EATEN }
 var state: State = State.NONE
 
@@ -19,23 +23,22 @@ enum AIState { SEEK_ITEM, SEEK_ENEMY }
 var ai_state: AIState = AIState.SEEK_ITEM
 var ai_seek_target: Entity
 
-# entity currently being collected
+## entity currently being collected
 var collect_target: Entity
 
-# keep references to tweens so they can be stopped properly
-# otherwise dangling references if they are running while hero is free()d
+## keeps references to tweens so they can be stopped properly
+## otherwise dangling references if they are running while hero is free()d
 var state_tween: Tween # just does intervals and callbacks
 var anim_tween: Tween
 var shield_tween: Tween
-
+#
 func _ready() -> void:
-	#assign_player_is_controlled()
 	attacked.connect(attack)
 	attack_node.hide()
 	exclamation_point.hide()
 	shield_poly.hide()
 	set_state(State.NONE)
-
+	MIMIC.connect("_is_attracting_hero_signal", on_is_attracting_hero_signal)
 func node_to_entity(node2d: Node2D) -> Entity:
 	if node2d is Entity:
 		return node2d as Entity
@@ -242,6 +245,10 @@ func ai_decide() -> void:
 	if !nav_agent.is_navigation_finished():
 		var next_pos = nav_agent.get_next_path_position()
 		input_dir = (next_pos - global_position).normalized()
+
+func on_is_attracting_hero_signal()-> void:
+	_is_attracted_to_mimic = true
+	pass
 
 func _physics_process(delta: float) -> void:	
 	if player_controlled:

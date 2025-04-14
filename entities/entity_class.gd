@@ -103,6 +103,7 @@ func gold_status_function() -> void:
 	sg_node.show()
 
 
+
 		
 # called by subclasses depending on action states n whatnot
 func update_face_dir() -> void:

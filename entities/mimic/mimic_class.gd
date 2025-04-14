@@ -11,19 +11,27 @@ class_name Mimic extends Entity
 @onready var inventory: Inventory = %Inventory
 @onready var status_sight_node: Node2D = $StatusSight
 
+#------------------------------------------------------[Mimic Class Signals]---------------------------------------------------------------------------
+## signal to triger Hero in being attracted to mimic. 
+signal _is_attracting_hero_signal()
+
+
+@export var _is_attracting_hero: bool = false
+
 enum State { NONE, HIDDEN, ATTACK, DIE }
 var state: State = State.NONE
 
 var state_tween: Tween
 var anim_tween: Tween
 
-# Called when the node enters the scene tree for the first time.
+
+
 func _ready() -> void:
 	interacted.connect(interact)
 	attacked.connect(attack)
 	hitbox.connect("hit_entity", attack_hit)
 	set_state(State.NONE)
-
+#------------------------------------------------------[MimicClass State Machine]---------------------------------------------------------------------------
 func set_state(new_state: State) -> void:
 	if state_tween:
 		state_tween.stop()
@@ -72,7 +80,7 @@ func set_state(new_state: State) -> void:
 			)
 
 	state = new_state
-
+#------------------------------------------------------[Mimic Class Actions]---------------------------------------------------------------------------
 func interact() -> void:
 	match state:
 		State.NONE:
@@ -85,6 +93,8 @@ func attack_hit(other: Entity) -> void:
 		other.collect()
 		inventory.pocket.append(other)
 		do_collect(other)
+		if other.chest:
+			check_if_attracting_hero()
 
 func attack() -> void:
 	match state:
@@ -98,10 +108,23 @@ func attack() -> void:
 func collect():
 	set_state(State.NONE)
 
+@warning_ignore("unused_parameter", "shadowed_variable")
 func hit(hitbox: Hitbox) -> void:
 	# TODO?
 	#Events.entity_destroyed.emit(self)
 	set_state(State.DIE)
+
+
+
+
+#------------------------------------------------------[Mimic Class Checks]---------------------------------------------------------------------------
+func check_if_attracting_hero() -> void:
+	if gold_pocket <= 3:
+		_is_attracting_hero = true
+		emit_signal("_is_attracting_hero_signal")
+		
+
+#------------------------------------------------------[Mimic Class Update Direction]---------------------------------------------------------------------------
 
 func update_visual_dir() -> void:
 	attack_node.rotation = face_dir.angle()
@@ -110,7 +133,7 @@ func update_visual_dir() -> void:
 	elif face_dir.x > 0:
 		flip_node.scale.x = 1
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
+#------------------------------------------------------[Mimic Class Process Function]--------------------------------------------------------------
 func _process(_delta: float) -> void:
 	if player_controlled:
 		get_player_input()
