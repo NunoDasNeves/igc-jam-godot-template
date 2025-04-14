@@ -3,6 +3,8 @@ class_name Entity extends CharacterBody2D
 @export var collectible: bool = false
 @export var player_controlled: bool = false
 @export var gold_pocket: int = 0
+@onready var status_gold: PackedScene = preload("res://status_gold.tscn")
+#Check this later. 
 
 signal interacted
 signal attacked
@@ -15,8 +17,8 @@ var face_dir: Vector2 = Vector2.RIGHT
 
 var speed: float = 150.0
 
-var status_gold: bool = false
-var status_sight: bool = false
+var _status_gold: bool = false
+var _status_sight: bool = false
 var status_sight_timer: Timer
 var status_gold_timer: Timer
 
@@ -48,34 +50,59 @@ func do_collect(entity: Entity):
 			status_sight_timer.one_shot = true
 			status_sight_timer.timeout.connect(func():
 				ss_node.hide()
-				status_sight = false
+				_status_sight = false
 			)
 			add_child(status_sight_timer)
 		status_sight_timer.start()
-		status_sight = true
+		_status_sight = true
 		ss_node.show()
 	if entity is Chest:
+		if gold_pocket > 2:
+			print(gold_pocket, "Error, setting gold to 0") 
+			gold_pocket = 0
 		gold_pocket += 1
 		print(gold_pocket)
-		if gold_pocket >= 2:
-			var ss_node = find_child("StatusGold")
-			if !ss_node:
-				return
-			if !status_gold_timer:
-				print(gold_pocket, "Timer")
-				status_gold_timer = Timer.new()
-				status_gold_timer.wait_time = 10
-				status_gold_timer.one_shot = true
-				status_gold_timer.timeout.connect(func():
-					ss_node.hide()
-					status_gold = false
-				)
-				add_child(status_gold_timer)
-				status_gold_timer.start()
-				status_gold = true
-				ss_node.show()
+		if gold_pocket == 2:
+			gold_pocket = 0
+			gold_status_function()
+			
+			
 
+			
+func get_sg_node() -> Node2D:
+	var node_name := "StatusGold"
+	var sg_node := find_child(node_name)
+
+	if sg_node == null:
+		var status_gold_scene := preload("res://status_gold.tscn") as PackedScene
+		var status_gold_instance := status_gold_scene.instantiate()
+		status_gold_instance.name = node_name
+		add_child(status_gold_instance)
+		status_gold_instance.show()
+		return status_gold_instance
 	
+	return sg_node
+
+func gold_status_function() -> void:
+	var sg_node: Node2D = get_sg_node()
+	print(sg_node, "gold_status_function")
+		
+	if !status_gold_timer:
+		print(gold_pocket, "Timer")
+		status_gold_timer = Timer.new()
+		status_gold_timer.wait_time = 2
+		status_gold_timer.one_shot = true
+		status_gold_timer.timeout.connect(func():
+			sg_node.hide()
+			_status_gold = false
+			gold_pocket = 0
+		)
+		add_child(status_gold_timer)
+		status_gold_timer.start()
+		_status_gold = true
+		sg_node.show()
+
+
 		
 # called by subclasses depending on action states n whatnot
 func update_face_dir() -> void:
