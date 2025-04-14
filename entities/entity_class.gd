@@ -98,9 +98,9 @@ func gold_status_function() -> void:
 			gold_pocket = 0
 		)
 		add_child(status_gold_timer)
-		status_gold_timer.start()
-		_status_gold = true
-		sg_node.show()
+	status_gold_timer.start()
+	_status_gold = true
+	sg_node.show()
 
 
 		
