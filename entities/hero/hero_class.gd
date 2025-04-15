@@ -31,7 +31,8 @@ var collect_target: Entity
 var state_tween: Tween # just does intervals and callbacks
 var anim_tween: Tween
 var shield_tween: Tween
-#
+
+
 func _ready() -> void:
 	attacked.connect(attack)
 	attack_node.hide()
@@ -46,7 +47,7 @@ func node_to_entity(node2d: Node2D) -> Entity:
 
 func set_state(new_state: State) -> void:
 
-	# cancel any state transitions goverened by tweening
+	## cancel any state transitions goverened by tweening
 	if state_tween:
 		state_tween.stop()
 
@@ -192,14 +193,14 @@ func try_attack(node: Node2D) -> bool:
 	return true
 
 func ai_decide() -> void:
-	# can only "decide" while in State.NORMAL
+	## can only "decide" while in State.NORMAL
 	if state != State.NONE:
-		# reset the nav path so it is finished when we come back to State.NORMAL
+		## reset the nav path so it is finished when we come back to State.NORMAL
 		if !nav_agent.is_navigation_finished():
 			nav_agent.target_position = global_position
 		return
 
-	# prioritize chasing nearest seen enemy
+	## prioritize chasing nearest seen enemy
 	var seen_enemy = get_nearest_seen_entity()
 	if seen_enemy:
 		ai_seek_target = seen_enemy
@@ -210,42 +211,44 @@ func ai_decide() -> void:
 	match ai_state:
 		AIState.SEEK_ITEM:
 			exclamation_point.hide()
-			# go to nearest chest - stick to this path until done
+			## go to nearest chest - stick to this path until done
 			if nav_agent.is_navigation_finished():
 				var chests: Array[Node2D]
-				# argh gdscript... Array.assign() is needed for casting to Array[Node2D] here..
+				## argh gdscript... Array.assign() is needed for casting to Array[Node2D] here..
 				chests.assign(get_tree().get_nodes_in_group("chest"))
 				var nearest_chest = Util.get_nearest_node2d(global_position, chests)
 				if nearest_chest and nearest_chest is Entity:
 					nav_agent.target_position = nearest_chest.position
-			# collect any chest we touch
+			## collect any chest we touch
 			if overlapping_bodies.size() > 0:
 				for body: Node2D in overlapping_bodies:
 					if try_collect(body):
 						break
 		AIState.SEEK_ENEMY:
 			exclamation_point.show()
-			if seen_enemy: # chase latest seen enemy (seen this frame)
+			if seen_enemy: ## chase latest seen enemy (seen this frame)
 				nav_agent.target_position = seen_enemy.position
 
-			elif ai_seek_target: # chast last seen enemy to last seen location
+			elif ai_seek_target: ## chast last seen enemy to last seen location
 				if nav_agent.is_navigation_finished():
 					ai_seek_target = null
 
-			else: # reset back to seeking items
+			else: ## reset back to seeking items
 				ai_state = AIState.SEEK_ITEM
 
-			# attack any enemy we touch
+			## attack any enemy we touch
 			if overlapping_bodies.size() > 0:
 				for body: Node2D in overlapping_bodies:
 					if try_attack(body):
 						break
 
-	# follow whatever nav path we set above
+	## follow whatever nav path we set above
 	if !nav_agent.is_navigation_finished():
 		var next_pos = nav_agent.get_next_path_position()
 		input_dir = (next_pos - global_position).normalized()
 
+
+## _is_attracted_to_mimic is set to true 
 func on_is_attracting_hero_signal()-> void:
 	_is_attracted_to_mimic = true
 	pass
