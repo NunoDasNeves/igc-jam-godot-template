@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://mqinaasi0323"]
+[gd_scene load_steps=8 format=3 uid="uid://mqinaasi0323"]
 
 [ext_resource type="Script" uid="uid://owx21u4do8v4" path="res://entities/hero/hero_class.gd" id="1_qxmll"]
 [ext_resource type="Script" uid="uid://dkliywsva1nji" path="res://entities/hitbox.gd" id="2_chcl2"]
 [ext_resource type="PackedScene" uid="uid://oxqfl114fs8h" path="res://entities/status_sight.tscn" id="3_s8sb5"]
+[ext_resource type="PackedScene" uid="uid://bsrd5mxs4lrxx" path="res://status_gold.tscn" id="4_kaf33"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_kaf33"]
 radius = 26.0
@@ -78,6 +79,13 @@ collision_mask = 7
 [node name="CollisionShape2D" type="CollisionShape2D" parent="InteractOrAttackArea"]
 shape = SubResource("CircleShape2D_chcl2")
 
+[node name="StatusGold" parent="." instance=ExtResource("4_kaf33")]
+position = Vector2(0, -69)
+
+[node name="StatusSight" parent="." instance=ExtResource("3_s8sb5")]
+visible = false
+position = Vector2(0, -62)
+
 [node name="ExclamationPoint" type="Node2D" parent="."]
 visible = false
 
@@ -92,7 +100,3 @@ position = Vector2(-0.363636, 5.18181)
 scale = Vector2(1.27273, 1.27273)
 color = Color(0.999659, 0.12594, 0.0876049, 1)
 polygon = PackedVector2Array(-4, -55, 0, -57, 5, -74, -6, -74)
-
-[node name="StatusSight" parent="." instance=ExtResource("3_s8sb5")]
-visible = false
-position = Vector2(0, -61)

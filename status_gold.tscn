@@ -1,16 +1,11 @@
-[gd_scene format=3 uid="uid://bsrd5mxs4lrxx"]
+[gd_scene load_steps=3 format=3 uid="uid://bsrd5mxs4lrxx"]
+
+[ext_resource type="Script" uid="uid://c220t2pt53fsy" path="res://status_gold.gd" id="1_t0hjn"]
+[ext_resource type="PackedScene" uid="uid://bf8c2lgogbjpw" path="res://gold_piece.tscn" id="2_d3f4e"]
 
 [node name="StatusGold" type="Node2D"]
+script = ExtResource("1_t0hjn")
 
-[node name="Polygon2D" type="Polygon2D" parent="."]
-position = Vector2(-4, 7)
-scale = Vector2(1.08642, 1)
-color = Color(0, 0, 0, 1)
-polygon = PackedVector2Array(25.7727, 1, 23.9318, -16, 13.8068, -29, -7.36364, -30, -18.4091, -19, -21.1705, 0, -12.8864, 16, 2.76136, 21, 18.4091, 16)
+[node name="GoldContainer" type="Node2D" parent="."]
 
-[node name="Polygon2D2" type="Polygon2D" parent="."]
-unique_name_in_owner = true
-position = Vector2(-4, 7)
-scale = Vector2(0.9, 0.9)
-color = Color(1, 1, 0, 1)
-polygon = PackedVector2Array(25.7727, 1, 23.9318, -16, 13.8068, -29, -7.36364, -30, -18.4091, -19, -21.1705, 0, -12.8864, 16, 2.76136, 21, 18.4091, 16)
+[node name="GoldPiece" parent="GoldContainer" instance=ExtResource("2_d3f4e")]

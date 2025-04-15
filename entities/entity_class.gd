@@ -3,7 +3,6 @@ class_name Entity extends CharacterBody2D
 @export var collectible: bool = false
 @export var player_controlled: bool = false
 @export var gold_pocket: int = 0
-@onready var status_gold: PackedScene = preload("res://status_gold.tscn")
 #Check this later. 
 
 signal interacted
@@ -17,10 +16,8 @@ var face_dir: Vector2 = Vector2.RIGHT
 
 var speed: float = 150.0
 
-var _status_gold: bool = false
 var _status_sight: bool = false
 var status_sight_timer: Timer
-var status_gold_timer: Timer
 
 func get_player_input() -> void:
 	var x_in = Input.get_axis("Left", "Right")
@@ -56,54 +53,18 @@ func do_collect(entity: Entity):
 		status_sight_timer.start()
 		_status_sight = true
 		ss_node.show()
+
 	if entity is Chest:
-		if gold_pocket > 2:
-			print(gold_pocket, "Error, setting gold to 0") 
-			gold_pocket = 0
-		gold_pocket += 1
-		print(gold_pocket)
-		if gold_pocket == 2:
-			gold_pocket = 0
-			gold_status_function()
-			
-			
+		var sg_node: StatusGold = find_child("StatusGold")
+		if !sg_node:
+			return
 
-			
-func get_sg_node() -> Node2D:
-	var node_name := "StatusGold"
-	var sg_node := find_child(node_name)
+		if gold_pocket < 3:
+			sg_node.add_one()
+			gold_pocket += 1
 
-	if sg_node == null:
-		var status_gold_scene := preload("res://status_gold.tscn") as PackedScene
-		var status_gold_instance := status_gold_scene.instantiate()
-		status_gold_instance.name = node_name
-		add_child(status_gold_instance)
-		status_gold_instance.show()
-		return status_gold_instance
-	
-	return sg_node
+		sg_node.show_then_fade()
 
-func gold_status_function() -> void:
-	var sg_node: Node2D = get_sg_node()
-	print(sg_node, "gold_status_function")
-		
-	if !status_gold_timer:
-		print(gold_pocket, "Timer")
-		status_gold_timer = Timer.new()
-		status_gold_timer.wait_time = 2
-		status_gold_timer.one_shot = true
-		status_gold_timer.timeout.connect(func():
-			sg_node.hide()
-			_status_gold = false
-			gold_pocket = 0
-		)
-		add_child(status_gold_timer)
-	status_gold_timer.start()
-	_status_gold = true
-	sg_node.show()
-
-
-		
 # called by subclasses depending on action states n whatnot
 func update_face_dir() -> void:
 	if !input_dir.is_zero_approx():
