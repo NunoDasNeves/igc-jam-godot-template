@@ -39,7 +39,6 @@ func _ready() -> void:
 	exclamation_point.hide()
 	shield_poly.hide()
 	set_state(State.NONE)
-	MIMIC.connect("_is_attracting_hero_signal", on_is_attracting_hero_signal)
 func node_to_entity(node2d: Node2D) -> Entity:
 	if node2d is Entity:
 		return node2d as Entity

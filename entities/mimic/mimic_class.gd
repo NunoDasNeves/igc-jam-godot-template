@@ -100,7 +100,7 @@ func attack_hit(other: Entity) -> void:
 		other.collect()
 		inventory.pocket.append(other)
 		do_collect(other)
-		if other.chest:
+		if other == Chest:
 			check_if_attracting_hero()
 
 func attack() -> void:

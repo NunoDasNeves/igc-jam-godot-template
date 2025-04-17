@@ -8,11 +8,11 @@ class_name Entity extends CharacterBody2D
 
 signal interacted
 signal attacked
-# The desired move direction (from player input or AI)
+## The desired move direction (from player input or AI)
 var input_dir: Vector2
-# The final move direction (derived from input_dir)
+## The final move direction (derived from input_dir)
 var move_dir: Vector2
-# Last nonzero direction of input_dir
+## Last nonzero direction of input_dir
 var face_dir: Vector2 = Vector2.RIGHT
 
 var speed: float = 150.0
@@ -63,9 +63,10 @@ func do_collect(entity: Entity):
 		gold_pocket += 1
 		print(gold_pocket)
 		if gold_pocket == 2:
-			gold_pocket = 0
-			gold_status_function()
-			
+			gold_status_function_timer()
+		
+		if gold_pocket == 3:
+			pass #TODO - add function that turns on sparkle. 
 			
 
 			
@@ -83,9 +84,9 @@ func get_sg_node() -> Node2D:
 	
 	return sg_node
 
-func gold_status_function() -> void:
+func gold_status_function_timer() -> void:
 	var sg_node: Node2D = get_sg_node()
-	print(sg_node, "gold_status_function")
+	print(sg_node, "gold_status_function_timer")
 		
 	if !status_gold_timer:
 		print(gold_pocket, "Timer")
