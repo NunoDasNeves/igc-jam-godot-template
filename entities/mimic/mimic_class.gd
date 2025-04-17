@@ -100,8 +100,8 @@ func attack_hit(other: Entity) -> void:
 		other.collect()
 		inventory.pocket.append(other)
 		do_collect(other)
-		if other == Chest:
-			check_if_attracting_hero()
+		check_if_attracting_hero()
+			
 
 func attack() -> void:
 	match state:
@@ -126,11 +126,12 @@ func hit(hitbox: Hitbox) -> void:
 
 #------------------------------------------------------[Mimic Class Checks]---------------------------------------------------------------------------
 func check_if_attracting_hero() -> void:
+	print(gold_pocket, "check_if_attracting_hero")
 	if gold_pocket <= 3:
 		_is_attracting_hero = true
 		emit_signal("_is_attracting_hero_signal")
 		glitter.visible = true
-		
+		print("check_if_attracting_hero")
 		
 
 #------------------------------------------------------[Mimic Class Update Direction]---------------------------------------------------------------------------

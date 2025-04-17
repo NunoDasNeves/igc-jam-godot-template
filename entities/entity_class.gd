@@ -4,8 +4,11 @@ class_name Entity extends CharacterBody2D
 @export var player_controlled: bool = false
 @export var gold_pocket: int = 0
 @onready var status_gold: PackedScene = preload("res://status_gold.tscn")
-#Check this later. 
 
+
+
+#Check this later. 
+signal glittery
 signal interacted
 signal attacked
 ## The desired move direction (from player input or AI)
@@ -17,6 +20,7 @@ var face_dir: Vector2 = Vector2.RIGHT
 
 var speed: float = 150.0
 
+var _is_glittery: bool = false
 var _status_gold: bool = false
 var _status_sight: bool = false
 var status_sight_timer: Timer
@@ -57,16 +61,13 @@ func do_collect(entity: Entity):
 		_status_sight = true
 		ss_node.show()
 	if entity is Chest:
-		if gold_pocket > 2:
-			print(gold_pocket, "Error, setting gold to 0") 
-			gold_pocket = 0
+		
 		gold_pocket += 1
 		print(gold_pocket)
 		if gold_pocket == 2:
 			gold_status_function_timer()
-		
 		if gold_pocket == 3:
-			pass #TODO - add function that turns on sparkle. 
+			glittery.emit()
 			
 
 			
@@ -96,7 +97,6 @@ func gold_status_function_timer() -> void:
 		status_gold_timer.timeout.connect(func():
 			sg_node.hide()
 			_status_gold = false
-			gold_pocket = 0
 		)
 		add_child(status_gold_timer)
 	status_gold_timer.start()
@@ -104,8 +104,6 @@ func gold_status_function_timer() -> void:
 	sg_node.show()
 
 
-
-		
 # called by subclasses depending on action states n whatnot
 func update_face_dir() -> void:
 	if !input_dir.is_zero_approx():

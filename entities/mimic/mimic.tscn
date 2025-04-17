@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://oxqfl114fs8h" path="res://entities/status_sight.tscn" id="2_k0262"]
 [ext_resource type="Script" uid="uid://b4bavx18aads8" path="res://entities/mimic/inventory.gd" id="3_mb4gf"]
 [ext_resource type="PackedScene" uid="uid://bsrd5mxs4lrxx" path="res://status_gold.tscn" id="4_chy24"]
-[ext_resource type="Texture2D" uid="uid://s12rbkphciy6" path="res://entities/sight_orb/glitter3.png" id="6_5nujv"]
+[ext_resource type="Texture2D" uid="uid://s12rbkphciy6" path="res://vfx/glitter3.png" id="6_5nujv"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_kleto"]
 radius = 19.88
@@ -119,6 +119,7 @@ unique_name_in_owner = true
 script = ExtResource("3_mb4gf")
 
 [node name="Glitter" type="GPUParticles2D" parent="."]
+visible = false
 modulate = Color(1, 1, 0.027451, 0.619608)
 top_level = true
 amount = 500

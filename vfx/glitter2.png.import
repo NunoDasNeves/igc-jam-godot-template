@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ck88u0ko3jq60"
-path="res://.godot/imported/glitter.png-d36be02999900376cfdc663404c05796.ctex"
+uid="uid://cb4h56gop8wfn"
+path="res://.godot/imported/glitter2.png-f8e21cdf65be8b6f0f4360b8f000796d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://entities/sight_orb/glitter.png"
-dest_files=["res://.godot/imported/glitter.png-d36be02999900376cfdc663404c05796.ctex"]
+source_file="res://vfx/glitter2.png"
+dest_files=["res://.godot/imported/glitter2.png-f8e21cdf65be8b6f0f4360b8f000796d.ctex"]
 
 [params]
 
