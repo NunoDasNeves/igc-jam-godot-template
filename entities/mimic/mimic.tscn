@@ -1,16 +1,57 @@
-[gd_scene load_steps=8 format=3 uid="uid://3tgyoc0ngvsg"]
+[gd_scene load_steps=10 format=3 uid="uid://3tgyoc0ngvsg"]
 
 [ext_resource type="Script" uid="uid://rj533hmh0is6" path="res://entities/mimic/mimic_class.gd" id="1_71vme"]
 [ext_resource type="Script" uid="uid://dkliywsva1nji" path="res://entities/hitbox.gd" id="2_4bgkd"]
 [ext_resource type="PackedScene" uid="uid://oxqfl114fs8h" path="res://entities/status_sight.tscn" id="2_k0262"]
 [ext_resource type="Script" uid="uid://b4bavx18aads8" path="res://entities/mimic/inventory.gd" id="3_mb4gf"]
 [ext_resource type="PackedScene" uid="uid://bsrd5mxs4lrxx" path="res://status_gold.tscn" id="4_chy24"]
+[ext_resource type="Texture2D" uid="uid://s12rbkphciy6" path="res://entities/sight_orb/glitter3.png" id="6_5nujv"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_kleto"]
 radius = 19.88
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_osxg3"]
 radius = 29.0
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ce6ut"]
+lifetime_randomness = 0.91
+particle_flag_rotate_y = true
+particle_flag_damping_as_friction = true
+emission_shape = 6
+emission_ring_axis = Vector3(10, 100, 100)
+emission_ring_height = 20.0
+emission_ring_radius = 20.0
+emission_ring_inner_radius = 20.0
+emission_ring_cone_angle = 90.0
+direction = Vector3(0, -100, 10)
+angular_velocity_min = -1.60933e-05
+angular_velocity_max = 115.86
+orbit_velocity_min = 0.529
+orbit_velocity_max = 1.609
+radial_velocity_min = -1.00002
+radial_velocity_max = 0.999978
+gravity = Vector3(0, -25, 100)
+linear_accel_min = 9.2
+linear_accel_max = 42.53
+radial_accel_min = -11.49
+radial_accel_max = 10.34
+tangential_accel_min = -2.23517e-06
+tangential_accel_max = 2.3
+damping_max = 4.023
+scale_min = 0.01
+scale_over_velocity_min = 752.87
+scale_over_velocity_max = 833.33
+hue_variation_min = 0.38
+hue_variation_max = 0.4
+anim_speed_min = 12.69
+anim_speed_max = 16.0
+turbulence_enabled = true
+turbulence_noise_strength = 4.15
+turbulence_noise_speed = Vector3(0, 1, 0)
+turbulence_influence_min = 0.0
+turbulence_influence_max = 0.065
+turbulence_initial_displacement_min = 1.49012e-06
+turbulence_initial_displacement_max = 4.3
 
 [node name="Mimic" type="CharacterBody2D" groups=["monster"]]
 collision_mask = 0
@@ -29,6 +70,7 @@ position = Vector2(-145, -617)
 scale = Vector2(0.90566, 0.905661)
 color = Color(4.09593e-05, 0.82369, 0.257114, 1)
 polygon = PackedVector2Array(135.813, 665.812, 140.229, 658.083, 149.063, 655.875, 172.25, 653.666, 179.979, 660.291, 184.396, 669.125, 184.396, 673.541, 183.292, 677.958, 179.979, 673.541, 178.875, 677.958, 173.354, 674.646, 171.146, 680.166, 166.729, 675.75, 164.521, 680.166, 156.792, 677.958, 155.688, 683.479, 159, 691.208, 159, 684.583, 165.625, 687.896, 166.729, 683.479, 171.146, 686.791, 174.458, 682.375, 177.771, 684.583, 181.083, 681.271, 183.292, 682.375, 182.188, 692.312, 149.063, 701.146, 136.917, 689)
+uv = PackedVector2Array(135.813, 665.812, 140.229, 658.083, 149.063, 655.875, 172.25, 653.666, 179.979, 660.291, 184.396, 669.125, 184.396, 673.541, 183.292, 677.958, 179.979, 673.541, 178.875, 677.958, 173.354, 674.646, 171.146, 680.166, 166.729, 675.75, 164.521, 680.166, 156.792, 677.958, 155.688, 683.479, 159, 691.208, 159, 684.583, 165.625, 687.896, 166.729, 683.479, 171.146, 686.791, 174.458, 682.375, 177.771, 684.583, 181.083, 681.271, 183.292, 682.375, 182.188, 692.312, 149.063, 701.146, 136.917, 689)
 
 [node name="ChestPoly" type="Polygon2D" parent="FlipVisuals"]
 visible = false
@@ -38,6 +80,7 @@ color = Color(0.997828, 0.902683, 0.309188, 1)
 polygon = PackedVector2Array(146, 628, 185, 618, 185, 594, 180, 579, 171, 574, 167, 573, 140, 577, 134, 583, 132, 591, 131.692, 612.431)
 
 [node name="Attack" type="Node2D" parent="."]
+visible = false
 
 [node name="Hitbox" type="Area2D" parent="Attack"]
 collision_layer = 0
@@ -74,3 +117,17 @@ scale = Vector2(0.8, 0.8)
 [node name="Inventory" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("3_mb4gf")
+
+[node name="Glitter" type="GPUParticles2D" parent="."]
+modulate = Color(1, 1, 0.027451, 0.619608)
+top_level = true
+amount = 500
+amount_ratio = 0.381
+texture = ExtResource("6_5nujv")
+lifetime = 5.84
+randomness = 0.11
+draw_order = 2
+trail_lifetime = 6.35
+process_material = SubResource("ParticleProcessMaterial_ce6ut")
+
+[node name="Camera2D" type="Camera2D" parent="."]

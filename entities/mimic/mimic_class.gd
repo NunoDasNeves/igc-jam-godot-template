@@ -10,6 +10,7 @@ class_name Mimic extends Entity
 @onready var hitbox: Hitbox = $Attack/Hitbox
 @onready var inventory: Inventory = %Inventory
 @onready var status_sight_node: Node2D = $StatusSight
+@onready var glitter: GPUParticles2D = $Glitter
 
 #------------------------------------------------------[Mimic Class Signals]---------------------------------------------------------------------------
 ## signal to triger Hero in being attracted to mimic. 
@@ -26,11 +27,17 @@ var anim_tween: Tween
 
 
 
+
+
+
 func _ready() -> void:
 	interacted.connect(interact)
 	attacked.connect(attack)
 	hitbox.connect("hit_entity", attack_hit)
 	set_state(State.NONE)
+
+
+
 #------------------------------------------------------[MimicClass State Machine]---------------------------------------------------------------------------
 func set_state(new_state: State) -> void:
 	if state_tween:
@@ -122,6 +129,8 @@ func check_if_attracting_hero() -> void:
 	if gold_pocket <= 3:
 		_is_attracting_hero = true
 		emit_signal("_is_attracting_hero_signal")
+		glitter.visible = true
+		
 		
 
 #------------------------------------------------------[Mimic Class Update Direction]---------------------------------------------------------------------------

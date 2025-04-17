@@ -192,6 +192,7 @@ func try_attack(node: Node2D) -> bool:
 	set_state(State.ATTACK)
 	return true
 
+## Ai logic for Hero Class
 func ai_decide() -> void:
 	## can only "decide" while in State.NORMAL
 	if state != State.NONE:
