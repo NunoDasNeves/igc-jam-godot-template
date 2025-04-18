@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bsrd5mxs4lrxx"]
 
-[ext_resource type="Script" uid="uid://c220t2pt53fsy" path="res://status_gold.gd" id="1_t0hjn"]
+[ext_resource type="Script" path="res://status_gold.gd" id="1_t0hjn"]
 [ext_resource type="PackedScene" uid="uid://bf8c2lgogbjpw" path="res://gold_piece.tscn" id="2_d3f4e"]
 
 [node name="StatusGold" type="Node2D"]
