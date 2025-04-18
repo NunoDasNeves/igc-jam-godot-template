@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://bf8c2lgogbjpw"]
+[gd_scene load_steps=0 format=3 uid="uid://bf8c2lgogbjpw"]
 
 [node name="GoldPiece" type="Node2D"]
 
