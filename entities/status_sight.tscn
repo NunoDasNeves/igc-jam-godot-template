@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://oxqfl114fs8h"]
+[gd_scene load_steps=0 format=3 uid="uid://oxqfl114fs8h"]
 
 [node name="StatusSight" type="Node2D"]
 
