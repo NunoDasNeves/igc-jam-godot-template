@@ -2,6 +2,8 @@ class_name Entity extends CharacterBody2D
 
 @export var collectible: bool = false
 @export var player_controlled: bool = false
+@export var gold_pocket: int = 0
+#Check this later. 
 
 signal interacted
 signal attacked
@@ -14,7 +16,7 @@ var face_dir: Vector2 = Vector2.RIGHT
 
 var speed: float = 150.0
 
-var status_sight: bool = false
+var _status_sight: bool = false
 var status_sight_timer: Timer
 
 
@@ -57,12 +59,23 @@ func do_collect(entity: Entity):
 			status_sight_timer.one_shot = true
 			status_sight_timer.timeout.connect(func():
 				ss_node.hide()
-				status_sight = false
+				_status_sight = false
 			)
 			add_child(status_sight_timer)
 		status_sight_timer.start()
-		status_sight = true
+		_status_sight = true
 		ss_node.show()
+
+	if entity is Chest:
+		var sg_node: StatusGold = find_child("StatusGold")
+		if !sg_node:
+			return
+
+		if gold_pocket < 3:
+			sg_node.add_one()
+			gold_pocket += 1
+
+		sg_node.show_then_fade()
 
 # called by subclasses depending on action states n whatnot
 func update_face_dir() -> void:

@@ -4,7 +4,7 @@ extends Entity
 @onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
 @onready var flip_node: Node2D = $FlipVisuals
 @onready var shield_poly: Polygon2D = $FlipVisuals/ShieldPoly
-@onready var hero_poly: Polygon2D = $FlipVisuals/HeroPoly
+@onready var hero_sprite: AnimatedSprite2D = $FlipVisuals/HeroSprite
 @onready var attack_node: Node2D = $Attack
 @onready var attack_swish: Polygon2D = $Attack/Swish
 @onready var hitbox: Hitbox = $Attack/Hitbox
@@ -55,7 +55,7 @@ func set_state(new_state: State) -> void:
 			if !collect_target:
 				print ("Switch to State.COLLECT but nothing to collect!")
 				return
-			hero_poly.self_modulate = Color.YELLOW
+			hero_sprite.self_modulate = Color.YELLOW
 			anim_tween = get_tree().create_tween()
 			anim_tween.tween_interval(0.7)
 			anim_tween.tween_callback(func ():
@@ -66,7 +66,7 @@ func set_state(new_state: State) -> void:
 					ai_seek_target = collect_target
 			)
 			anim_tween.tween_interval(0.3)
-			anim_tween.tween_callback(func (): hero_poly.self_modulate = Color.WHITE)
+			anim_tween.tween_callback(func (): hero_sprite.self_modulate = Color.WHITE)
 			state_tween = get_tree().create_tween()
 			state_tween.tween_callback(func (): set_state(State.NONE))
 			anim_tween.tween_subtween(state_tween)
@@ -90,7 +90,7 @@ func set_state(new_state: State) -> void:
 		State.EATEN:
 			collision_layer = 0
 			collision_mask = 0
-			hero_poly.self_modulate = Color.WHITE
+			hero_sprite.self_modulate = Color.WHITE
 			attack_node.hide()
 			exclamation_point.hide()
 			shield_poly.hide()

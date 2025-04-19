@@ -9,7 +9,6 @@ class_name Mimic extends Entity
 @onready var attack_node: Node2D = $Attack
 @onready var hitbox: Hitbox = $Attack/Hitbox
 @onready var inventory: Inventory = %Inventory
-@onready var status_sight_node: Node2D = $StatusSight
 
 enum State { NONE, HIDDEN, ATTACK, DIE }
 var state: State = State.NONE
@@ -52,13 +51,17 @@ func set_state(new_state: State) -> void:
 			anim_tween = get_tree().create_tween()
 			anim_tween.tween_interval(0.1)
 			anim_tween.set_parallel(true)
+			anim_tween.set_ease(Tween.EASE_IN)
 			anim_tween.tween_property(top_jaw, "rotation_degrees", 47, 0.1)
 			anim_tween.tween_property(bot_jaw, "rotation_degrees", -19.6, 0.1)
+			anim_tween.tween_property(self, "position", position + face_dir * 20, 0.1)
+			anim_tween.set_ease(Tween.EASE_OUT)
+			anim_tween.chain().tween_property(self, "position", position, 0.15)
 			state_tween = get_tree().create_tween()
 			state_tween.tween_callback(func (): hitbox.activate())
-			state_tween.tween_interval(0.4)
+			state_tween.tween_interval(0.32)
 			state_tween.tween_callback(func (): set_state(State.NONE))
-			anim_tween.chain().tween_subtween(state_tween)
+			#anim_tween.chain().tween_subtween(state_tween)
 		State.DIE:
 			if anim_tween:
 				anim_tween.stop()
