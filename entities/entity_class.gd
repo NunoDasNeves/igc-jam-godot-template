@@ -6,7 +6,6 @@ class_name Entity extends CharacterBody2D
 @onready var status_gold: PackedScene = preload("res://status_gold.tscn")
 
 
-
 #Check this later. 
 signal glittery
 signal interacted
@@ -24,7 +23,6 @@ var _is_glittery: bool = false
 var _status_gold: bool = false
 var _status_sight: bool = false
 var status_sight_timer: Timer
-var status_gold_timer: Timer
 
 func get_player_input() -> void:
 	var x_in = Input.get_axis("Left", "Right")
@@ -60,6 +58,7 @@ func do_collect(entity: Entity):
 		status_sight_timer.start()
 		_status_sight = true
 		ss_node.show()
+
 	if entity is Chest:
 		
 		gold_pocket += 1
@@ -74,16 +73,7 @@ func do_collect(entity: Entity):
 func get_sg_node() -> Node2D:
 	var node_name := "StatusGold"
 	var sg_node := find_child(node_name)
-
-	if sg_node == null:
-		var status_gold_scene := preload("res://status_gold.tscn") as PackedScene
-		var status_gold_instance := status_gold_scene.instantiate()
-		status_gold_instance.name = node_name
-		add_child(status_gold_instance)
-		status_gold_instance.show()
-		return status_gold_instance
-	
-	return sg_node
+  
 
 func gold_status_function_timer() -> void:
 	var sg_node: Node2D = get_sg_node()
@@ -102,7 +92,11 @@ func gold_status_function_timer() -> void:
 	status_gold_timer.start()
 	_status_gold = true
 	sg_node.show()
+		if gold_pocket < 3:
+			sg_node.add_one()
+			gold_pocket += 1
 
+		sg_node.show_then_fade()
 
 # called by subclasses depending on action states n whatnot
 func update_face_dir() -> void:
