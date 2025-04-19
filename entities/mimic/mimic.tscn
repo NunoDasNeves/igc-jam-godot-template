@@ -1,13 +1,161 @@
-[gd_scene load_steps=8 format=3 uid="uid://3tgyoc0ngvsg"]
+[gd_scene load_steps=27 format=3 uid="uid://3tgyoc0ngvsg"]
 
 [ext_resource type="Script" uid="uid://rj533hmh0is6" path="res://entities/mimic/mimic_class.gd" id="1_71vme"]
 [ext_resource type="Script" uid="uid://dkliywsva1nji" path="res://entities/hitbox.gd" id="2_4bgkd"]
+[ext_resource type="Texture2D" uid="uid://8jo22oncb4wc" path="res://entities/mimic/mimic.png" id="2_5nujv"]
 [ext_resource type="PackedScene" uid="uid://oxqfl114fs8h" path="res://entities/status_sight.tscn" id="2_k0262"]
 [ext_resource type="Script" uid="uid://b4bavx18aads8" path="res://entities/mimic/inventory.gd" id="3_mb4gf"]
 [ext_resource type="PackedScene" uid="uid://bsrd5mxs4lrxx" path="res://status_gold.tscn" id="4_chy24"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_kleto"]
 radius = 19.88
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5nujv"]
+atlas = ExtResource("2_5nujv")
+region = Rect2(0, 96, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ce6ut"]
+atlas = ExtResource("2_5nujv")
+region = Rect2(32, 96, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vd1rq"]
+atlas = ExtResource("2_5nujv")
+region = Rect2(64, 96, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_obuy5"]
+atlas = ExtResource("2_5nujv")
+region = Rect2(96, 96, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_41hyn"]
+atlas = ExtResource("2_5nujv")
+region = Rect2(128, 96, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uh21q"]
+atlas = ExtResource("2_5nujv")
+region = Rect2(160, 96, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_canda"]
+atlas = ExtResource("2_5nujv")
+region = Rect2(192, 96, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_avxlt"]
+atlas = ExtResource("2_5nujv")
+region = Rect2(224, 96, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2ienm"]
+atlas = ExtResource("2_5nujv")
+region = Rect2(256, 96, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7fld7"]
+atlas = ExtResource("2_5nujv")
+region = Rect2(288, 96, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wexq2"]
+atlas = ExtResource("2_5nujv")
+region = Rect2(0, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yxwmq"]
+atlas = ExtResource("2_5nujv")
+region = Rect2(0, 128, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_44g1k"]
+atlas = ExtResource("2_5nujv")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gkw28"]
+atlas = ExtResource("2_5nujv")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h0myg"]
+atlas = ExtResource("2_5nujv")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_igb8i"]
+atlas = ExtResource("2_5nujv")
+region = Rect2(64, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qdsgk"]
+atlas = ExtResource("2_5nujv")
+region = Rect2(96, 32, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ce6ut"]
+animations = [{
+"frames": [{
+"duration": 0.5,
+"texture": SubResource("AtlasTexture_5nujv")
+}, {
+"duration": 0.5,
+"texture": SubResource("AtlasTexture_ce6ut")
+}, {
+"duration": 0.5,
+"texture": SubResource("AtlasTexture_vd1rq")
+}, {
+"duration": 0.5,
+"texture": SubResource("AtlasTexture_obuy5")
+}, {
+"duration": 0.5,
+"texture": SubResource("AtlasTexture_41hyn")
+}, {
+"duration": 0.5,
+"texture": SubResource("AtlasTexture_uh21q")
+}, {
+"duration": 0.5,
+"texture": SubResource("AtlasTexture_canda")
+}, {
+"duration": 0.5,
+"texture": SubResource("AtlasTexture_avxlt")
+}, {
+"duration": 0.5,
+"texture": SubResource("AtlasTexture_2ienm")
+}, {
+"duration": 0.5,
+"texture": SubResource("AtlasTexture_7fld7")
+}],
+"loop": false,
+"name": &"attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wexq2")
+}],
+"loop": true,
+"name": &"chest",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yxwmq")
+}],
+"loop": true,
+"name": &"die",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_44g1k")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gkw28")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h0myg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_igb8i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qdsgk")
+}],
+"loop": true,
+"name": &"move",
+"speed": 5.0
+}]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_osxg3"]
 radius = 29.0
@@ -25,6 +173,7 @@ shape = SubResource("CircleShape2D_kleto")
 [node name="FlipVisuals" type="Node2D" parent="."]
 
 [node name="MimicPoly" type="Polygon2D" parent="FlipVisuals"]
+visible = false
 position = Vector2(-145, -617)
 scale = Vector2(0.90566, 0.905661)
 color = Color(4.09593e-05, 0.82369, 0.257114, 1)
@@ -37,30 +186,73 @@ scale = Vector2(0.806631, 0.806631)
 color = Color(0.997828, 0.902683, 0.309188, 1)
 polygon = PackedVector2Array(146, 628, 185, 618, 185, 594, 180, 579, 171, 574, 167, 573, 140, 577, 134, 583, 132, 591, 131.692, 612.431)
 
+[node name="MimicSprite" type="AnimatedSprite2D" parent="FlipVisuals"]
+position = Vector2(-1, -9)
+scale = Vector2(3, 3)
+sprite_frames = SubResource("SpriteFrames_ce6ut")
+animation = &"die"
+
 [node name="Attack" type="Node2D" parent="."]
 
 [node name="Hitbox" type="Area2D" parent="Attack"]
+position = Vector2(11, 0)
 collision_layer = 0
 collision_mask = 22
 script = ExtResource("2_4bgkd")
 duration_secs = 0.1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Attack/Hitbox"]
-position = Vector2(24, -3)
+position = Vector2(29, -3)
 shape = SubResource("CircleShape2D_osxg3")
 debug_color = Color(0.88185, 0, 0.116802, 0.42)
 
 [node name="TopJaw" type="Polygon2D" parent="Attack"]
-position = Vector2(-3, -1)
+visible = false
+position = Vector2(23, -18)
 rotation = 0.820305
-color = Color(0.832601, 0.628577, 0.355676, 1)
+scale = Vector2(0.691495, 0.644155)
 polygon = PackedVector2Array(-2, -11, 18, -42, 21, -44, 29, -44, 42, -34, 31, -35, 34, -27, 19, -28, 22, -21, 13, -20, 15, -10, 7, -12, 3, -2, -6, -6)
 
 [node name="BottomJaw" type="Polygon2D" parent="Attack"]
+visible = false
 position = Vector2(2, 3)
 rotation = -0.342085
-color = Color(0.831373, 0.627451, 0.356863, 1)
 polygon = PackedVector2Array(-4, -1, 31, 21, 37, 21, 41, 18, 45, 7, 37, 11, 36, 2, 27, 7, 24, -3, 17, 2, 16, -6, 8, -2, 5, -8, -4, -11)
+
+[node name="Swipes" type="Node2D" parent="Attack"]
+position = Vector2(15, 1)
+
+[node name="Polygon2D" type="Polygon2D" parent="Attack/Swipes"]
+position = Vector2(-2.1, 0.48)
+scale = Vector2(1.1, 1.32)
+polygon = PackedVector2Array(30, -15, 31, -9, 28, -4, 27, -11.6667, 25, -17.5, 21, -22.5, 26, -19.1667)
+
+[node name="Polygon2D2" type="Polygon2D" parent="Attack/Swipes"]
+position = Vector2(-1, 2)
+scale = Vector2(1.41667, 1.7)
+polygon = PackedVector2Array(29, -16.6667, 31, -11.6667, 28, -4, 28, -10, 27, -14.1667, 25, -18.3333, 19, -24.1667, 27, -19.1667)
+
+[node name="Polygon2D3" type="Polygon2D" parent="Attack/Swipes"]
+position = Vector2(-10, 5)
+scale = Vector2(1, 1.13333)
+polygon = PackedVector2Array(32, -12.0588, 29, -5, 29, -10.2941, 28, -14.7059, 25, -20, 31, -16.6667)
+
+[node name="Polygon2D4" type="Polygon2D" parent="Attack/Swipes"]
+position = Vector2(12, -1)
+scale = Vector2(1.28571, 1.45714)
+polygon = PackedVector2Array(32, -12.0588, 29, -5, 29, -10.2941, 28, -14.7059, 25, -20, 31, -16.6667)
+
+[node name="Polygon2D5" type="Polygon2D" parent="Attack/Swipes"]
+position = Vector2(1, -1)
+polygon = PackedVector2Array(23, 0, 22, 5, 20, 11, 14, 20, 21, 14, 24, 10, 25, 4)
+
+[node name="Polygon2D6" type="Polygon2D" parent="Attack/Swipes"]
+position = Vector2(11, -5)
+polygon = PackedVector2Array(22, -1, 22, 6, 21, 11, 18, 17, 23, 13, 25, 9, 25, 4)
+
+[node name="Polygon2D7" type="Polygon2D" parent="Attack/Swipes"]
+position = Vector2(21, 1)
+polygon = PackedVector2Array(23, -5, 22, 3, 20, 10, 15, 20, 22, 13, 24, 7, 25, 1)
 
 [node name="StatusGold" parent="." instance=ExtResource("4_chy24")]
 position = Vector2(0, -49)
