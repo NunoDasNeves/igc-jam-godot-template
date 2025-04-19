@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://ctaxcdbad6eko"]
 
-[ext_resource type="Script" uid="uid://dt0tm0i5xeb3i" path="res://entities/demon/demon.gd" id="1_gs8ps"]
+[ext_resource type="Script" path="res://entities/demon/demon.gd" id="1_gs8ps"]
 [ext_resource type="Script" uid="uid://dkliywsva1nji" path="res://entities/hitbox.gd" id="1_ps5su"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_kleto"]

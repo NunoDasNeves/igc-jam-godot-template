@@ -105,14 +105,13 @@ rotation = -0.342085
 color = Color(0.831373, 0.627451, 0.356863, 1)
 polygon = PackedVector2Array(-4, -1, 31, 21, 37, 21, 41, 18, 45, 7, 37, 11, 36, 2, 27, 7, 24, -3, 17, 2, 16, -6, 8, -2, 5, -8, -4, -11)
 
+[node name="StatusGold" parent="." instance=ExtResource("4_chy24")]
+position = Vector2(0, -49)
+scale = Vector2(0.8, 0.8)
+
 [node name="StatusSight" parent="." instance=ExtResource("2_k0262")]
 visible = false
 position = Vector2(-1, -42)
-
-[node name="StatusGold" parent="." instance=ExtResource("4_chy24")]
-visible = false
-position = Vector2(0, -53)
-scale = Vector2(0.8, 0.8)
 
 [node name="Inventory" type="Node" parent="."]
 unique_name_in_owner = true
