@@ -9,12 +9,15 @@ class_name Mimic extends Entity
 @onready var attack_node: Node2D = $Attack
 @onready var hitbox: Hitbox = $Attack/Hitbox
 @onready var inventory: Inventory = %Inventory
+@onready var hunger_meter: Hunger_Bar = $UI/HungerMeter
 
 enum State { NONE, HIDDEN, ATTACK, DIE }
 var state: State = State.NONE
 
 var state_tween: Tween
 var anim_tween: Tween
+
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -88,6 +91,10 @@ func attack_hit(other: Entity) -> void:
 		other.collect()
 		inventory.pocket.append(other)
 		do_collect(other)
+		if other == Hero:
+			hunger_meter.set_value(-20)
+
+			
 
 func attack() -> void:
 	match state:

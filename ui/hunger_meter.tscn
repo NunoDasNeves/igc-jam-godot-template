@@ -1,0 +1,29 @@
+[gd_scene load_steps=3 format=3 uid="uid://hxv2n25l7fru"]
+
+[ext_resource type="Theme" uid="uid://bqkb7o7uit11j" path="res://default_theme.tres" id="1_kw428"]
+[ext_resource type="Script" uid="uid://ck1ef8m7lcodp" path="res://ui/hunger_meter.gd" id="2_ogyd0"]
+
+[node name="HungerMeter" type="ProgressBar"]
+offset_right = 210.0
+offset_bottom = 39.0
+theme = ExtResource("1_kw428")
+min_value = 100.0
+value = 100.0
+exp_edit = true
+script = ExtResource("2_ogyd0")
+
+[node name="Label" type="Label" parent="."]
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 50.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_kw428")
+text = "Hunger"
+horizontal_alignment = 1
+
+[connection signal="value_changed" from="." to="." method="_on_value_changed"]

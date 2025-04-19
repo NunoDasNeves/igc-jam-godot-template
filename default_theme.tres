@@ -1,4 +1,6 @@
-[gd_resource type="Theme" load_steps=5 format=3 uid="uid://bqkb7o7uit11j"]
+[gd_resource type="Theme" load_steps=8 format=3 uid="uid://bqkb7o7uit11j"]
+
+[ext_resource type="FontFile" uid="uid://uyrdamjna2ok" path="res://fonts/pixeloperator.ttf" id="1_e7bfs"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7j863"]
 content_margin_left = 10.0
@@ -44,9 +46,27 @@ corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_50bnw"]
+bg_color = Color(0.447059, 0.313726, 0.25098, 1)
+shadow_size = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cefca"]
+bg_color = Color(0.282353, 0.192157, 0.145098, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 0.803922)
+border_blend = true
+
 [resource]
-default_font_size = 25
+default_font = ExtResource("1_e7bfs")
+default_font_size = 50
+Button/fonts/font = ExtResource("1_e7bfs")
 Button/styles/disabled = SubResource("StyleBoxFlat_7j863")
 Button/styles/hover = SubResource("StyleBoxFlat_e7bfs")
 Button/styles/normal = SubResource("StyleBoxFlat_bp0wp")
 Button/styles/pressed = SubResource("StyleBoxFlat_3taad")
+Label/styles/normal = null
+ProgressBar/styles/background = SubResource("StyleBoxFlat_50bnw")
+ProgressBar/styles/fill = SubResource("StyleBoxFlat_cefca")

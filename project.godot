@@ -42,6 +42,7 @@ chest=""
 [gui]
 
 theme/custom="uid://bqkb7o7uit11j"
+theme/custom_font="uid://uyrdamjna2ok"
 
 [input]
 
