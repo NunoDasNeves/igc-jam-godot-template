@@ -1,0 +1,63 @@
+[gd_scene load_steps=4 format=3 uid="uid://b0vb53ld5motj"]
+
+[ext_resource type="Script" uid="uid://iwpm225rjp3" path="res://entities/entity_class.gd" id="1_hwg70"]
+[ext_resource type="Texture2D" uid="uid://s12rbkphciy6" path="res://vfx/glitter3.png" id="1_prbbf"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ce6ut"]
+lifetime_randomness = 0.91
+particle_flag_rotate_y = true
+particle_flag_damping_as_friction = true
+emission_shape = 6
+emission_ring_axis = Vector3(10, 100, 100)
+emission_ring_height = 20.0
+emission_ring_radius = 20.0
+emission_ring_inner_radius = 20.0
+emission_ring_cone_angle = 90.0
+direction = Vector3(0, -100, 10)
+angular_velocity_min = -1.60933e-05
+angular_velocity_max = 115.86
+orbit_velocity_min = 0.529
+orbit_velocity_max = 1.609
+radial_velocity_min = -1.00002
+radial_velocity_max = 0.999978
+gravity = Vector3(0, -25, 100)
+linear_accel_min = 9.2
+linear_accel_max = 42.53
+radial_accel_min = -11.49
+radial_accel_max = 10.34
+tangential_accel_min = -2.23517e-06
+tangential_accel_max = 2.3
+damping_max = 4.023
+scale_min = 0.01
+scale_over_velocity_min = 752.87
+scale_over_velocity_max = 833.33
+hue_variation_min = 0.38
+hue_variation_max = 0.4
+anim_speed_min = 12.69
+anim_speed_max = 16.0
+turbulence_enabled = true
+turbulence_noise_strength = 4.15
+turbulence_noise_speed = Vector3(0, 1, 0)
+turbulence_influence_min = 0.0
+turbulence_influence_max = 0.065
+turbulence_initial_displacement_min = 1.49012e-06
+turbulence_initial_displacement_max = 4.3
+
+[node name="Glitter" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("1_hwg70")
+metadata/_custom_type_script = "uid://iwpm225rjp3"
+
+[node name="GlitterParticle" type="GPUParticles2D" parent="."]
+modulate = Color(1, 1, 0.027451, 0.619608)
+top_level = true
+amount = 500
+amount_ratio = 0.381
+texture = ExtResource("1_prbbf")
+lifetime = 5.84
+randomness = 0.11
+collision_base_size = 0.0
+draw_order = 2
+trail_lifetime = 6.35
+process_material = SubResource("ParticleProcessMaterial_ce6ut")

@@ -10,8 +10,7 @@ class_name Mimic extends Entity
 @onready var hitbox: Hitbox = $Attack/Hitbox
 @onready var inventory: Inventory = %Inventory
 @onready var status_sight_node: Node2D = $StatusSight
-@onready var glitter: GPUParticles2D = $Glitter
-
+const GLITTER = preload("res://glitter.tscn")
 #------------------------------------------------------[Mimic Class Signals]---------------------------------------------------------------------------
 ## signal to triger Hero in being attracted to mimic. 
 signal _is_attracting_hero_signal()
@@ -25,6 +24,7 @@ var state: State = State.NONE
 var state_tween: Tween
 var anim_tween: Tween
 
+var _glitter: Node2D 
 
 
 
@@ -126,13 +126,14 @@ func hit(hitbox: Hitbox) -> void:
 
 #------------------------------------------------------[Mimic Class Checks]---------------------------------------------------------------------------
 func check_if_attracting_hero() -> void:
-	print(gold_pocket, "check_if_attracting_hero")
+	# Early‑out guard
 	if gold_pocket <= 3:
-		_is_attracting_hero = true
-		emit_signal("_is_attracting_hero_signal")
-		glitter.visible = true
-		print("check_if_attracting_hero")
-		
+		return 
+	_is_attracting_hero = true
+	emit_signal("attracting_hero")
+	_glitter = GLITTER.instantiate()
+	_glitter.global_position = global_position
+	get_parent().add_child(_glitter)
 
 #------------------------------------------------------[Mimic Class Update Direction]---------------------------------------------------------------------------
 
