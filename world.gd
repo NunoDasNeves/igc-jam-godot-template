@@ -26,7 +26,10 @@ var spawn_queue: Array[QueuedSpawn]
 func load_level(_level_scene: PackedScene):
 	# we have to clear *all* the state that will affect the loaded level!
 	spawn_queue.clear()
-	Util.remove_all_children(entities_container)
+	# have to explicitly free the entities
+	for entity in entities_container.get_children():
+		entity.queue_free()
+		entities_container.remove_child(entity)
 	if level:
 		level.queue_free()
 
