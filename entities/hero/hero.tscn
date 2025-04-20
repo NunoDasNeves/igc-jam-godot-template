@@ -1,19 +1,87 @@
-[gd_scene load_steps=10 format=3 uid="uid://mqinaasi0323"]
+[gd_scene load_steps=18 format=3 uid="uid://mqinaasi0323"]
 
 [ext_resource type="Script" uid="uid://owx21u4do8v4" path="res://entities/hero/hero_class.gd" id="1_qxmll"]
 [ext_resource type="Script" uid="uid://dkliywsva1nji" path="res://entities/hitbox.gd" id="2_chcl2"]
-[ext_resource type="Texture2D" uid="uid://bw6tj2louj30d" path="res://entities/hero/hero-test.png" id="2_epm60"]
+[ext_resource type="Texture2D" uid="uid://clgeludiv84jf" path="res://entities/hero/hero.png" id="2_epm60"]
 [ext_resource type="PackedScene" uid="uid://oxqfl114fs8h" path="res://entities/status_sight.tscn" id="3_s8sb5"]
 [ext_resource type="PackedScene" uid="uid://bsrd5mxs4lrxx" path="res://status_gold.tscn" id="4_kaf33"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_epm60"]
+atlas = ExtResource("2_epm60")
+region = Rect2(0, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e3e81"]
+atlas = ExtResource("2_epm60")
+region = Rect2(32, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mmvsa"]
+atlas = ExtResource("2_epm60")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uggo3"]
+atlas = ExtResource("2_epm60")
+region = Rect2(0, 96, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_veknu"]
+atlas = ExtResource("2_epm60")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gni3p"]
+atlas = ExtResource("2_epm60")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e52mo"]
+atlas = ExtResource("2_epm60")
+region = Rect2(64, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nwgdy"]
+atlas = ExtResource("2_epm60")
+region = Rect2(96, 32, 32, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_mmvsa"]
 animations = [{
 "frames": [{
+"duration": 2.0,
+"texture": SubResource("AtlasTexture_epm60")
+}, {
+"duration": 4.0,
+"texture": SubResource("AtlasTexture_e3e81")
+}],
+"loop": false,
+"name": &"attack",
+"speed": 5.0
+}, {
+"frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_epm60")
+"texture": SubResource("AtlasTexture_mmvsa")
 }],
 "loop": true,
-"name": &"default",
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uggo3")
+}],
+"loop": true,
+"name": &"kneel",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_veknu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gni3p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e52mo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nwgdy")
+}],
+"loop": true,
+"name": &"move",
 "speed": 5.0
 }]
 
@@ -21,12 +89,14 @@ animations = [{
 radius = 26.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_s8sb5"]
-radius = 29.0
+radius = 32.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_chcl2"]
 radius = 45.5412
 
 [node name="Hero" type="CharacterBody2D" groups=["hero"]]
+z_index = 2
+y_sort_enabled = true
 collision_layer = 16
 collision_mask = 0
 motion_mode = 1
@@ -50,6 +120,7 @@ polygon = PackedVector2Array(73, -17, 78, -16, 82, -17, 85, -20, 88, -17, 92, -1
 position = Vector2(-2, -10)
 scale = Vector2(3, 3)
 sprite_frames = SubResource("SpriteFrames_mmvsa")
+animation = &"attack"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_kaf33")
@@ -76,6 +147,7 @@ debug_path_custom_color = Color(0.758488, 0.000512111, 0.772897, 1)
 [node name="Attack" type="Node2D" parent="."]
 
 [node name="Hitbox" type="Area2D" parent="Attack"]
+position = Vector2(8, 0)
 collision_layer = 0
 collision_mask = 7
 script = ExtResource("2_chcl2")
@@ -87,7 +159,8 @@ shape = SubResource("CircleShape2D_s8sb5")
 debug_color = Color(0.88185, 0, 0.116802, 0.42)
 
 [node name="Swish" type="Polygon2D" parent="Attack"]
-position = Vector2(17, 31)
+z_index = 1
+position = Vector2(21, 31)
 polygon = PackedVector2Array(6, -8, 29, -6, 39, -20, 41, -40, 32, -52, 22, -60, 13, -63, -2, -63, 7, -58, 14, -51, 17, -37, 16, -22)
 
 [node name="InteractOrAttackArea" type="Area2D" parent="."]
