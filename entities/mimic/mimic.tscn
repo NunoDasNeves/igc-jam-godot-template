@@ -161,6 +161,8 @@ animations = [{
 radius = 29.0
 
 [node name="Mimic" type="CharacterBody2D" groups=["monster"]]
+z_index = 2
+y_sort_enabled = true
 collision_mask = 0
 motion_mode = 1
 platform_on_leave = 2
@@ -190,7 +192,7 @@ polygon = PackedVector2Array(146, 628, 185, 618, 185, 594, 180, 579, 171, 574, 1
 position = Vector2(-1, -9)
 scale = Vector2(3, 3)
 sprite_frames = SubResource("SpriteFrames_ce6ut")
-animation = &"die"
+animation = &"attack"
 
 [node name="Attack" type="Node2D" parent="."]
 
@@ -220,6 +222,7 @@ rotation = -0.342085
 polygon = PackedVector2Array(-4, -1, 31, 21, 37, 21, 41, 18, 45, 7, 37, 11, 36, 2, 27, 7, 24, -3, 17, 2, 16, -6, 8, -2, 5, -8, -4, -11)
 
 [node name="Swipes" type="Node2D" parent="Attack"]
+z_index = 1
 position = Vector2(15, 1)
 
 [node name="Polygon2D" type="Polygon2D" parent="Attack/Swipes"]
