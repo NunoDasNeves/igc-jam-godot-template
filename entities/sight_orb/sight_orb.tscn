@@ -7,6 +7,9 @@
 radius = 5.45894
 
 [node name="SightOrb" type="CharacterBody2D"]
+z_index = 2
+z_as_relative = false
+y_sort_enabled = true
 collision_layer = 4
 collision_mask = 0
 motion_mode = 1

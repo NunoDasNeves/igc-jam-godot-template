@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://ctaxcdbad6eko"]
 
-[ext_resource type="Script" path="res://entities/demon/demon.gd" id="1_gs8ps"]
+[ext_resource type="Script" uid="uid://dt0tm0i5xeb3i" path="res://entities/demon/demon.gd" id="1_gs8ps"]
 [ext_resource type="Script" uid="uid://dkliywsva1nji" path="res://entities/hitbox.gd" id="1_ps5su"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_kleto"]
@@ -13,6 +13,9 @@ radius = 23.0217
 radius = 42.0476
 
 [node name="Demon" type="CharacterBody2D" groups=["monster"]]
+z_index = 2
+z_as_relative = false
+y_sort_enabled = true
 collision_layer = 2
 collision_mask = 0
 motion_mode = 1
@@ -20,6 +23,7 @@ platform_on_leave = 2
 script = ExtResource("1_gs8ps")
 
 [node name="FlipVisuals" type="Node2D" parent="."]
+y_sort_enabled = true
 
 [node name="DemonPoly" type="Polygon2D" parent="FlipVisuals"]
 position = Vector2(-175, -840)
@@ -50,6 +54,9 @@ shape = SubResource("CircleShape2D_gs8ps")
 debug_color = Color(0.88185, 0, 0.116802, 0.42)
 
 [node name="Swish" type="Polygon2D" parent="Attack"]
+z_index = 3
+z_as_relative = false
+y_sort_enabled = true
 position = Vector2(-6, 33)
 polygon = PackedVector2Array(11, -34, 22, -33, 40, -35, 47, -40, 40, -43, 24, -45, 12, -45, 31, -39)
 

@@ -10,9 +10,11 @@ script = ExtResource("1_0xm2m")
 
 [node name="World" type="Node2D" parent="."]
 process_mode = 1
+y_sort_enabled = true
 script = ExtResource("2_7mycd")
 
 [node name="Entities" type="Node2D" parent="World"]
+y_sort_enabled = true
 
 [node name="UI" type="CanvasLayer" parent="."]
 
