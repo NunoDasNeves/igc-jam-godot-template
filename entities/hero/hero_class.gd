@@ -86,15 +86,15 @@ func set_state(new_state: State) -> void:
 			anim_tween.tween_subtween(state_tween)
 
 		State.EATEN:
+			if anim_tween:
+				anim_tween.stop()
+			if shield_tween:
+				shield_tween.stop()
 			collision_layer = 0
 			collision_mask = 0
 			attack_node.hide()
 			exclamation_point.hide()
 			shield_poly.hide()
-			if anim_tween:
-				anim_tween.stop()
-			if shield_tween:
-				shield_tween.stop()
 			anim_tween = get_tree().create_tween()
 			anim_tween.tween_property(flip_node, "rotation_degrees", 90, 0.3)
 			anim_tween.tween_interval(0.3)

@@ -36,6 +36,10 @@ func set_state(new_state: State) -> void:
 			collision_layer = 4
 			add_to_group("chest")
 			collectible = true
+			if gold_pocket >= 3:
+				mimic_sprite.play("chest_open")
+			else:
+				mimic_sprite.play("chest_closed")
 		State.ATTACK:
 			# TODO replace with real animation
 			update_visual_dir()
@@ -126,7 +130,6 @@ func _process(_delta: float) -> void:
 					mimic_sprite.play("idle")
 		State.HIDDEN:
 			update_face_dir()
-			mimic_sprite.play("chest")
 			input_dir = Vector2.ZERO
 		State.ATTACK:
 			mimic_sprite.play("attack")
