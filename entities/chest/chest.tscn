@@ -1,9 +1,25 @@
-[gd_scene load_steps=3 format=3 uid="uid://bq3uou3pscid6"]
+[gd_scene load_steps=6 format=3 uid="uid://bq3uou3pscid6"]
 
 [ext_resource type="Script" uid="uid://ce717bpn1ha8f" path="res://entities/chest/chest.gd" id="1_agy02"]
+[ext_resource type="Texture2D" uid="uid://dd344vmtl4ypj" path="res://entities/chest/chest.png" id="2_vvkul"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_kleto"]
 radius = 19.88
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bbmqp"]
+atlas = ExtResource("2_vvkul")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ektp4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bbmqp")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
 
 [node name="Chest" type="CharacterBody2D" groups=["chest"]]
 z_index = 2
@@ -26,3 +42,8 @@ polygon = PackedVector2Array(146, 628, 185, 618, 185, 594, 180, 579, 171, 574, 1
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -2)
 shape = SubResource("CircleShape2D_kleto")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -9)
+scale = Vector2(3, 3)
+sprite_frames = SubResource("SpriteFrames_ektp4")
