@@ -1,6 +1,7 @@
-[gd_scene load_steps=0 format=3 uid="uid://bf8c2lgogbjpw"]
+[gd_scene format=3 uid="uid://bf8c2lgogbjpw"]
 
 [node name="GoldPiece" type="Node2D"]
+y_sort_enabled = true
 
 [node name="Polygon2D" type="Polygon2D" parent="."]
 position = Vector2(-4, 7)

@@ -1,5 +1,5 @@
 class_name Level
-extends Node
+extends Node2D
 
 @onready var floor_tiles: TileMapLayer = $FloorTiles
 @onready var other_tiles: TileMapLayer = $OtherTiles
