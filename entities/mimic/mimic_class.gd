@@ -7,6 +7,8 @@ class_name Mimic extends Entity
 @onready var attack_node: Node2D = $Attack
 @onready var hitbox: Hitbox = $Attack/Hitbox
 @onready var inventory: Inventory = %Inventory
+@onready var status_gold: StatusGold = $StatusGold
+@onready var gold_glow: Node2D = $GoldGlow
 
 enum State { NONE, HIDDEN, ATTACK, DIE }
 var state: State = State.NONE
@@ -34,13 +36,14 @@ func set_state(new_state: State) -> void:
 		State.HIDDEN:
 			attack_node.hide()
 			collision_layer = 4
-			add_to_group("chest")
-			collectible = true
 			if gold_pocket >= 3:
 				mimic_sprite.play("chest_open")
+				add_to_group("chest")
+				collectible = true
 			else:
 				mimic_sprite.play("chest_closed")
 		State.ATTACK:
+			gold_glow.hide()
 			# TODO replace with real animation
 			update_visual_dir()
 			attack_node.show()
@@ -89,6 +92,9 @@ func attack_hit(other: Entity) -> void:
 		other.collect()
 		inventory.pocket.append(other)
 		do_collect(other)
+	if other is Hero:
+		gold_pocket = 0
+		status_gold.clear()
 
 func attack() -> void:
 	match state:
@@ -118,6 +124,11 @@ func update_visual_dir() -> void:
 func _process(_delta: float) -> void:
 	if player_controlled:
 		get_player_input()
+
+	if gold_pocket >= 3:
+		gold_glow.show()
+	else:
+		gold_glow.hide()
 
 	match state:
 		State.NONE:
