@@ -4,6 +4,8 @@ const gold_piece_scene = preload("res://gold_piece.tscn")
 
 @onready var gold_container: Node2D = $GoldContainer
 
+const gold_piece_spacing: float = 15
+
 var tween: Tween
 var count: int = 1 # NOTE gets cleared on _ready()
 
@@ -14,9 +16,9 @@ func add_one():
 	assert(count == gold_container.get_child_count())
 	var piece = gold_piece_scene.instantiate()
 	gold_container.add_child(piece)
-	piece.position.x = count * 10
+	piece.position.x = count * gold_piece_spacing
 	# center the container
-	gold_container.position.x = -count * 10 * 0.5
+	gold_container.position.x = -count * gold_piece_spacing * 0.5
 	count += 1
 
 func show_then_fade():
