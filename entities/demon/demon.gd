@@ -98,7 +98,7 @@ func _process(delta: float) -> void:
 		State.NONE:
 			update_face_dir()
 			update_visual_dir()
-			if input_dir:
+			if velocity:
 				demon_sprite.play("move")
 			else:
 				demon_sprite.play("idle")
