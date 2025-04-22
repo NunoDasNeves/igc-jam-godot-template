@@ -1,6 +1,6 @@
 [gd_resource type="TileSet" load_steps=7 format=3 uid="uid://woxckrqp2r8f"]
 
-[ext_resource type="Texture2D" uid="uid://b2ua1p7w0voks" path="res://tilesets/tileset-v2.png" id="1_8n1lv"]
+[ext_resource type="Texture2D" uid="uid://c7v5ts4da6ckk" path="res://tilesets/tileset-v2.png" id="1_8n1lv"]
 [ext_resource type="Texture2D" uid="uid://gfkshg5leffq" path="res://tilesets/tileset-walls.png" id="2_8n1lv"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_rlcim"]
@@ -65,11 +65,9 @@ texture_region_size = Vector2i(64, 64)
 0:5/0/custom_data_1 = true
 0:6/next_alternative_id = 3
 0:6/0 = 0
-0:6/0/y_sort_origin = 10
 0:6/0/custom_data_3 = true
 0:6/1 = 1
 0:6/1/modulate = Color(0, 1, 1, 1)
-0:6/1/y_sort_origin = 10
 0:6/1/custom_data_4 = true
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_xv5dm"]
