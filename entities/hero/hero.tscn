@@ -119,7 +119,7 @@ z_index = 3
 z_as_relative = false
 y_sort_enabled = true
 position = Vector2(-81, 6)
-color = Color(0.211765, 1, 1, 1)
+color = Color(0, 0.868017, 0.959374, 1)
 polygon = PackedVector2Array(73, -17, 78, -16, 82, -17, 85, -20, 88, -17, 92, -16, 97, -17, 100, -20, 100, -8, 98, 1, 92, 9, 85, 15, 78, 9, 73, 1, 70, -8, 70, -20)
 
 [node name="HeroSprite" type="AnimatedSprite2D" parent="FlipVisuals"]
