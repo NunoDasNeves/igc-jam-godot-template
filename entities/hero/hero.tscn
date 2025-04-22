@@ -92,7 +92,7 @@ radius = 26.0
 radius = 32.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_chcl2"]
-radius = 45.5412
+radius = 55.0
 
 [node name="Hero" type="CharacterBody2D" groups=["hero"]]
 z_index = 2
