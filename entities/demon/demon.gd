@@ -3,7 +3,7 @@ extends Entity
 
 @onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
 @onready var flip_node: Node2D = $FlipVisuals
-@onready var demon_poly: Polygon2D = $FlipVisuals/DemonPoly
+@onready var demon_sprite: AnimatedSprite2D = $FlipVisuals/DemonSprite
 @onready var attack_node: Node2D = $Attack
 @onready var attack_swish: Polygon2D = $Attack/Swish
 @onready var hitbox: Hitbox = $Attack/Hitbox
@@ -43,21 +43,23 @@ func set_state(new_state: State) -> void:
 			# TODO replace with "real" animation
 			update_visual_dir()
 			attack_node.show()
-			attack_swish.self_modulate.a = 1
+			attack_swish.self_modulate.a = 0
 			anim_tween = get_tree().create_tween()
-			anim_tween.tween_interval(0.2)
-			anim_tween.tween_callback(func (): hitbox.activate())
+			anim_tween.tween_interval(0.25)
+			anim_tween.tween_callback(func ():
+				hitbox.activate()
+				attack_swish.self_modulate.a = 1
+			)
 			anim_tween.tween_property(attack_swish, "self_modulate:a", 0, 0.1)
-			anim_tween.tween_interval(0.3)
+			anim_tween.tween_interval(0.6)
 			anim_tween.tween_callback(func (): attack_node.hide())
 			state_tween = get_tree().create_tween()
 			state_tween.tween_callback(func (): set_state(State.NONE))
 			anim_tween.tween_subtween(state_tween)
-
+			demon_sprite.play("attack")
 		State.DIE:
 			collision_layer = 0
 			collision_mask = 0
-			demon_poly.self_modulate = Color.WHITE
 			attack_node.hide()
 			if anim_tween:
 				anim_tween.stop()
@@ -96,10 +98,15 @@ func _process(delta: float) -> void:
 		State.NONE:
 			update_face_dir()
 			update_visual_dir()
+			if input_dir:
+				demon_sprite.play("move")
+			else:
+				demon_sprite.play("idle")
 		State.ATTACK:
 			input_dir = Vector2.ZERO
 		State.DIE:
 			input_dir = Vector2.ZERO
+			demon_sprite.play("idle")
 
 func try_attack(node: Node2D) -> bool:
 	if state != State.NONE or not node is Entity:
