@@ -8,6 +8,7 @@ var coord: Vector2i
 # if set, ready to actually spawn once area is clear
 var _spawn_scene: PackedScene
 var _spawn_parent: Node
+var _show_spawner: bool = true
 
 func _ready() -> void:
 	delay_timer.stop()
@@ -19,18 +20,19 @@ func _physics_process(_delta: float) -> void:
 
 func _do_spawn(scene: PackedScene, entities_parent: Node) -> void:
 	var node = scene.instantiate()
-	entities_parent.add_child(node)
-	node.global_position = global_position
-	#print("spawn at %s" % global_position)
-	# this shoould be the case - $Level, $Entities, $World shouldn't be transformed..
-	assert(node.position == node.global_position)
+	if _show_spawner:
+		Spawner.create(node, entities_parent, global_position)
+	else:
+		entities_parent.add_child(node)
+		node.global_position = global_position
 
-func queue_spawn(scene: PackedScene, parent: Node, delay_secs: float = 0) -> void:
+func queue_spawn(scene: PackedScene, parent: Node, delay_secs: float = 0, use_spawner_vis: bool = true) -> void:
 	if !can_spawn():
 		print ("Tried to queue_spawn() but can't use this one")
 
 	_spawn_scene = scene
 	_spawn_parent = parent
+	_show_spawner = use_spawner_vis
 
 	if delay_secs == 0:
 		delay_timer.stop()
