@@ -35,6 +35,7 @@ func _ready() -> void:
 	exclamation_point.hide()
 	shield_poly.hide()
 	set_state(State.NONE)
+	Audio.play_sfx("hero_respawn opt 2.wav")
 
 func node_to_entity(node2d: Node2D) -> Entity:
 	if node2d is Entity:
@@ -75,6 +76,7 @@ func set_state(new_state: State) -> void:
 			anim_tween = get_tree().create_tween()
 			anim_tween.tween_interval(0.4)
 			anim_tween.tween_callback(func ():
+				Audio.play_sfx("sword_impact_1.wav", 0.5, 0)
 				hitbox.activate()
 				attack_swish.self_modulate.a = 1
 			)
@@ -204,6 +206,8 @@ func ai_decide() -> void:
 	var seen_enemy = get_nearest_seen_entity()
 	if seen_enemy:
 		ai_seek_target = seen_enemy
+		if ai_state != AIState.SEEK_ENEMY:
+			Audio.play_sfx("player_spotted_by_hero.wav", 0.5, 0)
 		ai_state = AIState.SEEK_ENEMY
 
 	var overlapping_bodies: Array[Node2D] = interact_or_attack_area.get_overlapping_bodies()
