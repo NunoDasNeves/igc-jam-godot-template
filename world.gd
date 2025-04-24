@@ -20,6 +20,7 @@ class QueuedSpawn extends RefCounted:
 	var scene: PackedScene
 	var spawn_point_name: String
 	var delay_secs: float = 0
+	var use_spawner_vis: bool = true
 
 var spawn_queue: Array[QueuedSpawn]
 
@@ -41,15 +42,15 @@ func load_level(_level_scene: PackedScene):
 
 	# initial spawning
 	for chest_spawner: SpawnPoint in level.chest_spawn_points:
-		chest_spawner.queue_spawn(chest_scene, entities_container)
+		chest_spawner.queue_spawn(chest_scene, entities_container, 0, false)
 	for sight_orb_spawner: SpawnPoint in level.sight_orb_spawn_points:
-		sight_orb_spawner.queue_spawn(sight_orb_scene, entities_container)
+		sight_orb_spawner.queue_spawn(sight_orb_scene, entities_container, 0, false)
 
 	queue_spawn(mimic_scene, "monster")
 	for _i in range(level.max_monsters):
 		queue_spawn(demon_scene, "monster")
 	for _i in range(level.max_heroes):
-		queue_spawn(hero_scene, "hero")
+		queue_spawn(hero_scene, "hero", 1)
 
 func _enter_tree() -> void:
 	Global.world = self
@@ -135,11 +136,12 @@ func process_entity(entity: Entity) -> void:
 			entity.move_dir = move_dir
 
 # Queue something to spawn as soon as a spawn point is available
-func queue_spawn(scene: PackedScene, spawn_point_name: String, delay_secs: float = 0):
+func queue_spawn(scene: PackedScene, spawn_point_name: String, delay_secs: float = 0, use_spawner_vis: bool = true):
 	var queued_spawn = QueuedSpawn.new()
 	queued_spawn.scene = scene
 	queued_spawn.spawn_point_name = spawn_point_name
 	queued_spawn.delay_secs = delay_secs
+	queued_spawn.use_spawner_vis = use_spawner_vis
 	spawn_queue.append(queued_spawn)
 
 # Process the spawn_queue to find available spawners
@@ -157,7 +159,7 @@ func try_spawn_queued():
 		while spawners.size() > 0:
 			var spawner = spawners.pop_back()
 			if spawner.can_spawn():
-				spawner.queue_spawn(queued.scene, entities_container, queued.delay_secs)
+				spawner.queue_spawn(queued.scene, entities_container, queued.delay_secs, queued.use_spawner_vis)
 				succeeded = true
 				break
 		# done with this queued spawn; take it out of the list
