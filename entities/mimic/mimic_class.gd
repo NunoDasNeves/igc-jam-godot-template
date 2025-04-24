@@ -22,6 +22,7 @@ func _ready() -> void:
 	attacked.connect(attack)
 	hitbox.connect("hit_entity", attack_hit)
 	set_state(State.NONE)
+	Audio.play_sfx("player_respawn opt 2.wav")
 
 func set_state(new_state: State) -> void:
 	if state_tween:
