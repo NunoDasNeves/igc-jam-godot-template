@@ -32,6 +32,7 @@ window/size/viewport_height=1080
 window/size/window_width_override=1280
 window/size/window_height_override=720
 window/stretch/mode="viewport"
+window/dpi/allow_hidpi=false
 
 [global_group]
 
