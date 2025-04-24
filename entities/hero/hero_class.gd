@@ -35,7 +35,6 @@ func _ready() -> void:
 	exclamation_point.hide()
 	shield_poly.hide()
 	set_state(State.NONE)
-	Audio.play_sfx("hero_respawn opt 2.wav")
 
 func node_to_entity(node2d: Node2D) -> Entity:
 	if node2d is Entity:

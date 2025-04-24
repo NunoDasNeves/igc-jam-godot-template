@@ -3,6 +3,7 @@ class_name Entity extends CharacterBody2D
 @export var collectible: bool = false
 @export var player_controlled: bool = false
 @export var gold_pocket: int = 0
+@export var spawn_sound: AudioStream
 #Check this later. 
 
 signal interacted
