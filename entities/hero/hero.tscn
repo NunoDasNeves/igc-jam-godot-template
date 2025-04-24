@@ -1,8 +1,9 @@
-[gd_scene load_steps=18 format=3 uid="uid://mqinaasi0323"]
+[gd_scene load_steps=19 format=3 uid="uid://mqinaasi0323"]
 
 [ext_resource type="Script" uid="uid://owx21u4do8v4" path="res://entities/hero/hero_class.gd" id="1_qxmll"]
 [ext_resource type="Script" uid="uid://dkliywsva1nji" path="res://entities/hitbox.gd" id="2_chcl2"]
 [ext_resource type="Texture2D" uid="uid://clgeludiv84jf" path="res://entities/hero/hero.png" id="2_epm60"]
+[ext_resource type="AudioStream" uid="uid://s4l70ap6mhiq" path="res://audio/sfx/hero_respawn opt 2.wav" id="2_mmvsa"]
 [ext_resource type="PackedScene" uid="uid://oxqfl114fs8h" path="res://entities/status_sight.tscn" id="3_s8sb5"]
 [ext_resource type="PackedScene" uid="uid://bsrd5mxs4lrxx" path="res://status_gold.tscn" id="4_kaf33"]
 
@@ -103,6 +104,7 @@ collision_mask = 0
 motion_mode = 1
 platform_on_leave = 2
 script = ExtResource("1_qxmll")
+spawn_sound = ExtResource("2_mmvsa")
 
 [node name="FlipVisuals" type="Node2D" parent="."]
 y_sort_enabled = true

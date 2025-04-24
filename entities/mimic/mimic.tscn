@@ -1,8 +1,9 @@
-[gd_scene load_steps=34 format=3 uid="uid://3tgyoc0ngvsg"]
+[gd_scene load_steps=35 format=3 uid="uid://3tgyoc0ngvsg"]
 
 [ext_resource type="Script" uid="uid://rj533hmh0is6" path="res://entities/mimic/mimic_class.gd" id="1_71vme"]
 [ext_resource type="Script" uid="uid://dkliywsva1nji" path="res://entities/hitbox.gd" id="2_4bgkd"]
 [ext_resource type="Texture2D" uid="uid://8jo22oncb4wc" path="res://entities/mimic/mimic.png" id="2_5nujv"]
+[ext_resource type="AudioStream" uid="uid://xj6i86lmj6pl" path="res://audio/sfx/player_respawn opt 2.wav" id="2_ce6ut"]
 [ext_resource type="PackedScene" uid="uid://oxqfl114fs8h" path="res://entities/status_sight.tscn" id="2_k0262"]
 [ext_resource type="Script" uid="uid://b4bavx18aads8" path="res://entities/mimic/inventory.gd" id="3_mb4gf"]
 [ext_resource type="PackedScene" uid="uid://bsrd5mxs4lrxx" path="res://status_gold.tscn" id="4_chy24"]
@@ -225,6 +226,7 @@ motion_mode = 1
 platform_on_leave = 2
 script = ExtResource("1_71vme")
 player_controlled = true
+spawn_sound = ExtResource("2_ce6ut")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_kleto")
