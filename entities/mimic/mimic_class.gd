@@ -59,7 +59,10 @@ func set_state(new_state: State) -> void:
 			anim_tween.chain().tween_property(flip_node, "position", flip_node.position, 0.15)
 			state_tween = get_tree().create_tween()
 			state_tween.tween_interval(0.2)
-			state_tween.tween_callback(func (): hitbox.activate())
+			state_tween.tween_callback(func ():
+				hitbox.activate()
+				Audio.play_sfx("mimic_attack_randomizer.tres")
+			)
 			state_tween.tween_interval(0.6)
 			state_tween.tween_callback(func (): set_state(State.NONE))
 			#anim_tween.chain().tween_subtween(state_tween)

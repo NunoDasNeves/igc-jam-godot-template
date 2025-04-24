@@ -49,6 +49,7 @@ func set_state(new_state: State) -> void:
 			anim_tween.tween_callback(func ():
 				hitbox.activate()
 				attack_swish.self_modulate.a = 1
+				Audio.play_sfx("sword_impact_randomizer.tres")
 			)
 			anim_tween.tween_property(attack_swish, "self_modulate:a", 0, 0.1)
 			anim_tween.tween_interval(0.6)
