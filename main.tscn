@@ -16,6 +16,8 @@ script = ExtResource("2_7mycd")
 [node name="Entities" type="Node2D" parent="World"]
 y_sort_enabled = true
 
+[node name="Camera2D" type="Camera2D" parent="World"]
+
 [node name="UI" type="CanvasLayer" parent="."]
 
 [node name="PauseMenu" parent="UI" instance=ExtResource("4_1bvp3")]

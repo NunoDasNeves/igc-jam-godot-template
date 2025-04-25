@@ -14,6 +14,7 @@ var levels: Array[PackedScene] = [
 var curr_level_idx: int = 0
 
 @onready var entities_container: Node2D = $Entities
+@onready var camera: Camera2D = $Camera2D
 var level: Level
 
 class QueuedSpawn extends RefCounted:
@@ -39,6 +40,10 @@ func load_level(_level_scene: PackedScene):
 	add_child(level)
 	# level should be first child (rn because of drawing order though could use fixed Z)
 	move_child(level, 0)
+	var level_size_px = Vector2(level.floor_tiles.get_used_rect().size * level.floor_tiles.tile_set.tile_size)
+	var center_pos = level_size_px * 0.5
+	camera.global_position = center_pos
+	#camera.zoom = Vector2(1.5, 1.5)
 
 	# initial spawning
 	for chest_spawner: SpawnPoint in level.chest_spawn_points:
