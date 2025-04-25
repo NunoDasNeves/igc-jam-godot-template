@@ -209,11 +209,6 @@ func _physics_process(delta: float) -> void:
 
 	try_spawn_queued()
 
-	# kill first monster in group, for testing spawning
-	if Input.is_key_pressed(KEY_K):
-		var monsters = get_tree().get_nodes_in_group("monster")
-		if monsters.size() > 0:
-			monsters[0].queue_free()
-			Events.char_killed.emit(monsters[0])
-	if Input.is_key_pressed(KEY_R):
-		change_level(curr_level_idx)
+	if OS.is_debug_build():
+		if Input.is_action_just_pressed("debug_reset_level"):
+			change_level(curr_level_idx)
