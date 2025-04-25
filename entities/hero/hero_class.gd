@@ -58,6 +58,8 @@ func set_state(new_state: State) -> void:
 			state_tween = get_tree().create_tween()
 			state_tween.tween_interval(1)
 			state_tween.tween_callback(func ():
+				if !collect_target or !collect_target.get_parent():
+					return
 				collect_target.collect()
 				do_collect(collect_target)
 				if collect_target is Mimic:
