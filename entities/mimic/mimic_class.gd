@@ -1,5 +1,7 @@
 class_name Mimic extends Entity
 
+@export var num_gold_for_glow: int = 1
+
 # NOTE all these visuals are placeholder til we get actual art
 @onready var mimic_sprite: AnimatedSprite2D = $FlipVisuals/MimicSprite
 @onready var flip_node: Node2D = $FlipVisuals
@@ -42,7 +44,7 @@ func set_state(new_state: State) -> void:
 			attack_node.hide()
 			collision_layer = 4
 			Audio.play_sfx("player_transform_into_chest.wav")
-			if gold_pocket >= 3:
+			if gold_pocket >= num_gold_for_glow:
 				mimic_sprite.play("chest_open")
 				add_to_group("chest")
 				collectible = true
@@ -105,8 +107,11 @@ func attack_hit(other: Entity) -> void:
 		inventory.pocket.append(other)
 		do_collect(other)
 	if other is Hero:
-		gold_pocket = 0
-		status_gold.clear()
+		var hero = other as Hero
+		# this means we successfully hit the hero
+		if hero.state == Hero.State.COLLECT:
+			gold_pocket = 0
+			status_gold.clear()
 
 func attack() -> void:
 	match state:
@@ -133,7 +138,7 @@ func _process(_delta: float) -> void:
 	if player_controlled:
 		get_player_input()
 
-	if gold_pocket >= 3:
+	if gold_pocket >= num_gold_for_glow:
 		gold_glow.show()
 	else:
 		gold_glow.hide()

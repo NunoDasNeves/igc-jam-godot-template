@@ -338,6 +338,7 @@ position = Vector2(21, 1)
 polygon = PackedVector2Array(23, -5, 22, 3, 20, 10, 15, 20, 22, 13, 24, 7, 25, 1)
 
 [node name="StatusGold" parent="." instance=ExtResource("4_chy24")]
+visible = false
 position = Vector2(0, -49)
 scale = Vector2(0.8, 0.8)
 
