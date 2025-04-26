@@ -11,6 +11,7 @@ class_name Mimic extends Entity
 @onready var inventory: Inventory = %Inventory
 @onready var status_gold: StatusGold = $StatusGold
 @onready var gold_glow: Node2D = $GoldGlow
+@onready var hunger_bar: ProgressBar = $ProgressBar
 
 enum State { NONE, HIDDEN, ATTACK, DIE }
 var state: State = State.NONE
@@ -108,6 +109,7 @@ func attack_hit(other: Entity) -> void:
 		do_collect(other)
 	if other is Hero:
 		var hero = other as Hero
+		hunger_bar.set_value(5)
 		# this means we successfully hit the hero
 		if hero.state == Hero.State.COLLECT:
 			gold_pocket = 0
