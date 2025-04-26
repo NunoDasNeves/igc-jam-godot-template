@@ -23,16 +23,19 @@ func _ready() -> void:
 	hitbox.connect("hit_entity", attack_hit)
 	set_state(State.NONE)
 
+func unhide_if_hidden():
+	collision_layer = 1
+	remove_from_group("chest")
+	collectible = false
+
 func set_state(new_state: State) -> void:
 	if state_tween:
 		state_tween.stop()
 
 	match new_state:
 		State.NONE:
+			unhide_if_hidden()
 			attack_node.hide()
-			collision_layer = 1
-			remove_from_group("chest")
-			collectible = false
 			if state == State.HIDDEN:
 				Audio.play_sfx("player_transform_back_to_mimic.wav")
 		State.HIDDEN:
@@ -46,6 +49,7 @@ func set_state(new_state: State) -> void:
 			else:
 				mimic_sprite.play("chest_closed")
 		State.ATTACK:
+			unhide_if_hidden()
 			gold_glow.hide()
 			# TODO replace with real animation
 			update_visual_dir()
@@ -64,12 +68,13 @@ func set_state(new_state: State) -> void:
 			state_tween.tween_interval(0.2)
 			state_tween.tween_callback(func ():
 				hitbox.activate()
-				Audio.play_sfx("mimic_attack_randomizer.tres")
+				Audio.play_sfx("mimic_attack_randomizer.tres", 1)
 			)
 			state_tween.tween_interval(0.6)
 			state_tween.tween_callback(func (): set_state(State.NONE))
 			#anim_tween.chain().tween_subtween(state_tween)
 		State.DIE:
+			unhide_if_hidden()
 			if anim_tween:
 				anim_tween.stop()
 			attack_node.hide()
@@ -105,12 +110,8 @@ func attack_hit(other: Entity) -> void:
 
 func attack() -> void:
 	match state:
-		State.ATTACK:
-			return
-	# TODO remove/change when real visuals exist.
-	# show green mimic again, first
-	set_state(State.NONE)
-	set_state(State.ATTACK)
+		State.NONE, State.HIDDEN:
+			set_state(State.ATTACK)
 
 func collect():
 	set_state(State.NONE)
