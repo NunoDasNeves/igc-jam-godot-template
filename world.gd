@@ -14,19 +14,24 @@ var levels: Array[PackedScene] = [
 var curr_level_idx: int = 0
 
 @onready var entities_container: Node2D = $Entities
+@onready var camera: Camera2D = $Camera2D
 var level: Level
 
 class QueuedSpawn extends RefCounted:
 	var scene: PackedScene
 	var spawn_point_name: String
 	var delay_secs: float = 0
+	var use_spawner_vis: bool = true
 
 var spawn_queue: Array[QueuedSpawn]
 
 func load_level(_level_scene: PackedScene):
 	# we have to clear *all* the state that will affect the loaded level!
 	spawn_queue.clear()
-	Util.remove_all_children(entities_container)
+	# have to explicitly free the entities
+	for entity in entities_container.get_children():
+		entity.queue_free()
+		entities_container.remove_child(entity)
 	if level:
 		level.queue_free()
 
@@ -35,18 +40,22 @@ func load_level(_level_scene: PackedScene):
 	add_child(level)
 	# level should be first child (rn because of drawing order though could use fixed Z)
 	move_child(level, 0)
+	var level_size_px = Vector2(level.floor_tiles.get_used_rect().size * level.floor_tiles.tile_set.tile_size)
+	var center_pos = level_size_px * 0.5
+	camera.global_position = center_pos
+	#camera.zoom = Vector2(1.5, 1.5)
 
 	# initial spawning
 	for chest_spawner: SpawnPoint in level.chest_spawn_points:
-		chest_spawner.queue_spawn(chest_scene, entities_container)
+		chest_spawner.queue_spawn(chest_scene, entities_container, 0, false)
 	for sight_orb_spawner: SpawnPoint in level.sight_orb_spawn_points:
-		sight_orb_spawner.queue_spawn(sight_orb_scene, entities_container)
+		sight_orb_spawner.queue_spawn(sight_orb_scene, entities_container, 0, false)
 
 	queue_spawn(mimic_scene, "monster")
 	for _i in range(level.max_monsters):
 		queue_spawn(demon_scene, "monster")
 	for _i in range(level.max_heroes):
-		queue_spawn(hero_scene, "hero")
+		queue_spawn(hero_scene, "hero", 1)
 
 func _enter_tree() -> void:
 	Global.world = self
@@ -132,11 +141,12 @@ func process_entity(entity: Entity) -> void:
 			entity.move_dir = move_dir
 
 # Queue something to spawn as soon as a spawn point is available
-func queue_spawn(scene: PackedScene, spawn_point_name: String, delay_secs: float = 0):
+func queue_spawn(scene: PackedScene, spawn_point_name: String, delay_secs: float = 0, use_spawner_vis: bool = true):
 	var queued_spawn = QueuedSpawn.new()
 	queued_spawn.scene = scene
 	queued_spawn.spawn_point_name = spawn_point_name
 	queued_spawn.delay_secs = delay_secs
+	queued_spawn.use_spawner_vis = use_spawner_vis
 	spawn_queue.append(queued_spawn)
 
 # Process the spawn_queue to find available spawners
@@ -154,7 +164,7 @@ func try_spawn_queued():
 		while spawners.size() > 0:
 			var spawner = spawners.pop_back()
 			if spawner.can_spawn():
-				spawner.queue_spawn(queued.scene, entities_container, queued.delay_secs)
+				spawner.queue_spawn(queued.scene, entities_container, queued.delay_secs, queued.use_spawner_vis)
 				succeeded = true
 				break
 		# done with this queued spawn; take it out of the list
@@ -199,11 +209,6 @@ func _physics_process(delta: float) -> void:
 
 	try_spawn_queued()
 
-	# kill first monster in group, for testing spawning
-	if Input.is_key_pressed(KEY_K):
-		var monsters = get_tree().get_nodes_in_group("monster")
-		if monsters.size() > 0:
-			monsters[0].queue_free()
-			Events.char_killed.emit(monsters[0])
-	if Input.is_key_pressed(KEY_R):
-		change_level(curr_level_idx)
+	if OS.is_debug_build():
+		if Input.is_action_just_pressed("debug_reset_level"):
+			change_level(curr_level_idx)

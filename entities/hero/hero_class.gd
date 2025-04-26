@@ -55,49 +55,51 @@ func set_state(new_state: State) -> void:
 			if !collect_target:
 				print ("Switch to State.COLLECT but nothing to collect!")
 				return
-			hero_sprite.self_modulate = Color.YELLOW
-			anim_tween = get_tree().create_tween()
-			anim_tween.tween_interval(0.7)
-			anim_tween.tween_callback(func ():
+			state_tween = get_tree().create_tween()
+			state_tween.tween_interval(1)
+			state_tween.tween_callback(func ():
+				if !collect_target or !collect_target.get_parent():
+					return
 				collect_target.collect()
 				do_collect(collect_target)
 				if collect_target is Mimic:
 					set_state(State.NONE)
 					ai_seek_target = collect_target
+				elif collect_target is Chest:
+					Audio.play_sfx("hero_open_chest_randomizer.tres")
 			)
-			anim_tween.tween_interval(0.3)
-			anim_tween.tween_callback(func (): hero_sprite.self_modulate = Color.WHITE)
-			state_tween = get_tree().create_tween()
 			state_tween.tween_callback(func (): set_state(State.NONE))
-			anim_tween.tween_subtween(state_tween)
 
 		State.ATTACK:
 			collect_target = null
 			# TODO replace with "real" animation
 			update_visual_dir()
 			attack_node.show()
-			attack_swish.self_modulate.a = 1
+			attack_swish.self_modulate.a = 0
 			anim_tween = get_tree().create_tween()
-			anim_tween.tween_interval(0.2)
-			anim_tween.tween_callback(func (): hitbox.activate())
-			anim_tween.tween_property(attack_swish, "self_modulate:a", 0, 0.1)
-			anim_tween.tween_interval(0.3)
+			anim_tween.tween_interval(0.4)
+			anim_tween.tween_callback(func ():
+				Audio.play_sfx("sword_impact_randomizer.tres")
+				hitbox.activate()
+				attack_swish.self_modulate.a = 1
+			)
+			anim_tween.tween_property(attack_swish, "self_modulate:a", 0, 0.2)
+			anim_tween.tween_interval(0.6)
 			anim_tween.tween_callback(func (): attack_node.hide())
 			state_tween = get_tree().create_tween()
 			state_tween.tween_callback(func (): set_state(State.NONE))
 			anim_tween.tween_subtween(state_tween)
 
 		State.EATEN:
-			collision_layer = 0
-			collision_mask = 0
-			hero_sprite.self_modulate = Color.WHITE
-			attack_node.hide()
-			exclamation_point.hide()
-			shield_poly.hide()
 			if anim_tween:
 				anim_tween.stop()
 			if shield_tween:
 				shield_tween.stop()
+			collision_layer = 0
+			collision_mask = 0
+			attack_node.hide()
+			exclamation_point.hide()
+			shield_poly.hide()
 			anim_tween = get_tree().create_tween()
 			anim_tween.tween_property(flip_node, "rotation_degrees", 90, 0.3)
 			anim_tween.tween_interval(0.3)
@@ -105,6 +107,7 @@ func set_state(new_state: State) -> void:
 				Events.char_killed.emit(self)
 				queue_free()
 			)
+			Audio.play_sfx("hero_swallowed_vocals.wav")
 
 	state = new_state
 
@@ -127,6 +130,7 @@ func hit(hitbox: Hitbox) -> void:
 		shield_tween = get_tree().create_tween()
 		shield_tween.tween_property(shield_poly, "self_modulate:a", 0, 0.7)
 		shield_tween.tween_callback(func (): shield_poly.hide())
+		Audio.play_sfx("hero_shields_attack.wav")
 
 func attack() -> void:
 	if state != State.NONE:
@@ -141,11 +145,18 @@ func _process(delta: float) -> void:
 		State.NONE:
 			update_face_dir()
 			update_visual_dir()
+			if velocity:
+				hero_sprite.play("move")
+			else:
+				hero_sprite.play("idle")
 		State.COLLECT:
+			hero_sprite.play("kneel")
 			input_dir = Vector2.ZERO
 		State.ATTACK:
+			hero_sprite.play("attack")
 			input_dir = Vector2.ZERO
 		State.EATEN:
+			hero_sprite.play("idle")
 			input_dir = Vector2.ZERO
 
 func get_nearest_seen_entity() -> Entity:
@@ -200,6 +211,8 @@ func ai_decide() -> void:
 	var seen_enemy = get_nearest_seen_entity()
 	if seen_enemy:
 		ai_seek_target = seen_enemy
+		if ai_state != AIState.SEEK_ENEMY:
+			Audio.play_sfx("player_spotted_by_hero.wav", 0.5, 0)
 		ai_state = AIState.SEEK_ENEMY
 
 	var overlapping_bodies: Array[Node2D] = interact_or_attack_area.get_overlapping_bodies()

@@ -1,0 +1,13 @@
+[gd_resource type="AudioStreamRandomizer" load_steps=5 format=3 uid="uid://b0hhltnqpfqnp"]
+
+[ext_resource type="AudioStream" uid="uid://cl4j56dglh2gf" path="res://audio/sfx/sword_impact_1.wav" id="1_lhjhg"]
+[ext_resource type="AudioStream" uid="uid://dbdo87v8qm7he" path="res://audio/sfx/sword_impact_2.wav" id="2_qspnk"]
+[ext_resource type="AudioStream" uid="uid://iyk31dgxgd5p" path="res://audio/sfx/sword_impact_3.wav" id="3_upk1e"]
+[ext_resource type="AudioStream" uid="uid://c16uk3qrfe8ph" path="res://audio/sfx/sword_impact_4.wav" id="4_bx0ff"]
+
+[resource]
+streams_count = 4
+stream_0/stream = ExtResource("1_lhjhg")
+stream_1/stream = ExtResource("2_qspnk")
+stream_2/stream = ExtResource("3_upk1e")
+stream_3/stream = ExtResource("4_bx0ff")
