@@ -1,6 +1,8 @@
 class_name Hero
 extends Entity
 
+@export var num_gold_to_exit: int = 3
+
 @onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
 @onready var flip_node: Node2D = $FlipVisuals
 @onready var shield_poly: Polygon2D = $FlipVisuals/ShieldPoly
@@ -12,10 +14,10 @@ extends Entity
 @onready var ray_casts: Node2D = $RayCasts
 @onready var exclamation_point: Node2D = $ExclamationPoint
 
-enum State { NONE, ATTACK, COLLECT, EATEN }
+enum State { NONE, ATTACK, COLLECT, EATEN, EXIT_LEVEL }
 var state: State = State.NONE
 
-enum AIState { SEEK_ITEM, SEEK_ENEMY }
+enum AIState { SEEK_ITEM, SEEK_ENEMY, SEEK_EXIT }
 var ai_state: AIState = AIState.SEEK_ITEM
 var ai_seek_target: Entity
 
@@ -36,10 +38,16 @@ func _ready() -> void:
 	shield_poly.hide()
 	set_state(State.NONE)
 
-func node_to_entity(node2d: Node2D) -> Entity:
-	if node2d is Entity:
-		return node2d as Entity
-	return null
+func stop_tweens_hide_stuff_disable_coll():
+	if anim_tween:
+				anim_tween.stop()
+	if shield_tween:
+		shield_tween.stop()
+	collision_layer = 0
+	collision_mask = 0
+	attack_node.hide()
+	exclamation_point.hide()
+	shield_poly.hide()
 
 func set_state(new_state: State) -> void:
 
@@ -91,15 +99,7 @@ func set_state(new_state: State) -> void:
 			anim_tween.tween_subtween(state_tween)
 
 		State.EATEN:
-			if anim_tween:
-				anim_tween.stop()
-			if shield_tween:
-				shield_tween.stop()
-			collision_layer = 0
-			collision_mask = 0
-			attack_node.hide()
-			exclamation_point.hide()
-			shield_poly.hide()
+			stop_tweens_hide_stuff_disable_coll()
 			anim_tween = get_tree().create_tween()
 			anim_tween.tween_property(flip_node, "rotation_degrees", 90, 0.3)
 			anim_tween.tween_interval(0.3)
@@ -108,6 +108,15 @@ func set_state(new_state: State) -> void:
 				queue_free()
 			)
 			Audio.play_sfx("hero_swallowed_vocals.wav")
+		State.EXIT_LEVEL:
+			stop_tweens_hide_stuff_disable_coll()
+			anim_tween = get_tree().create_tween()
+			anim_tween.tween_property(self, "modulate:a", 0, 1)
+			anim_tween.tween_callback(func ():
+				Events.char_killed.emit(self)
+				queue_free()
+			)
+			Audio.play_sfx("hero_respawn opt 2.wav", 0.5, 0, 0.7)
 
 	state = new_state
 
@@ -199,6 +208,12 @@ func try_attack(node: Node2D) -> bool:
 	set_state(State.ATTACK)
 	return true
 
+func set_ai_seek_item_or_exit():
+	if gold_pocket >= num_gold_to_exit:
+		ai_state = AIState.SEEK_EXIT
+	else:
+		ai_state = AIState.SEEK_ITEM
+
 func ai_decide() -> void:
 	# can only "decide" while in State.NORMAL
 	if state != State.NONE:
@@ -214,10 +229,26 @@ func ai_decide() -> void:
 		if ai_state != AIState.SEEK_ENEMY:
 			Audio.play_sfx("player_spotted_by_hero.wav", 0.5, 0)
 		ai_state = AIState.SEEK_ENEMY
+	# change to other seek states, but not if already seeking an enemy
+	elif !ai_seek_target:
+		set_ai_seek_item_or_exit()
 
 	var overlapping_bodies: Array[Node2D] = interact_or_attack_area.get_overlapping_bodies()
 
 	match ai_state:
+		AIState.SEEK_EXIT:
+			exclamation_point.hide()
+			# go to nearest exit
+			var exits: Array[Node2D]
+			# argh gdscript... Array.assign() is needed for casting to Array[Node2D] here..
+			exits.assign(Global.world.level.monster_spawn_points)
+			var nearest_exit = Util.get_nearest_node2d(global_position, exits)
+			if nav_agent.is_navigation_finished():
+				if nearest_exit:
+					nav_agent.target_position = nearest_exit.position
+			# exit if close enough to stairs
+			if nearest_exit.global_position.distance_squared_to(global_position) < 30:
+				set_state(State.EXIT_LEVEL)
 		AIState.SEEK_ITEM:
 			exclamation_point.hide()
 			# go to nearest chest - stick to this path until done
@@ -238,12 +269,12 @@ func ai_decide() -> void:
 			if seen_enemy: # chase latest seen enemy (seen this frame)
 				nav_agent.target_position = seen_enemy.position
 
-			elif ai_seek_target: # chast last seen enemy to last seen location
+			elif ai_seek_target: # chase last seen enemy to last seen location
 				if nav_agent.is_navigation_finished():
 					ai_seek_target = null
 
-			else: # reset back to seeking items
-				ai_state = AIState.SEEK_ITEM
+			else: # reset back to seeking items or exit
+				set_ai_seek_item_or_exit()
 
 			# attack any enemy we touch
 			if overlapping_bodies.size() > 0:
