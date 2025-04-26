@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://3tgyoc0ngvsg"]
+[gd_scene load_steps=36 format=3 uid="uid://3tgyoc0ngvsg"]
 
 [ext_resource type="Script" uid="uid://rj533hmh0is6" path="res://entities/mimic/mimic_class.gd" id="1_71vme"]
 [ext_resource type="Script" uid="uid://dkliywsva1nji" path="res://entities/hitbox.gd" id="2_4bgkd"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://oxqfl114fs8h" path="res://entities/status_sight.tscn" id="2_k0262"]
 [ext_resource type="Script" uid="uid://b4bavx18aads8" path="res://entities/mimic/inventory.gd" id="3_mb4gf"]
 [ext_resource type="PackedScene" uid="uid://bsrd5mxs4lrxx" path="res://status_gold.tscn" id="4_chy24"]
+[ext_resource type="PackedScene" uid="uid://vmwox7q07a0" path="res://ui/player_hud/hud.tscn" id="8_vd1rq"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_kleto"]
 radius = 19.88
@@ -349,3 +350,5 @@ position = Vector2(-1, -42)
 [node name="Inventory" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("3_mb4gf")
+
+[node name="ProgressBar" parent="." instance=ExtResource("8_vd1rq")]

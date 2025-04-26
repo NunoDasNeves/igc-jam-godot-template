@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://vmwox7q07a0"]
+
+[node name="ProgressBar" type="ProgressBar"]
+modulate = Color(0.698039, 0.694118, 0, 0.894118)
+top_level = true
+z_index = 3
+z_as_relative = false
+offset_right = 390.0
+offset_bottom = 39.0
+min_value = 0.1
+value = 100.0
+exp_edit = true

@@ -11,6 +11,7 @@ class_name Mimic extends Entity
 @onready var inventory: Inventory = %Inventory
 @onready var status_gold: StatusGold = $StatusGold
 @onready var gold_glow: Node2D = $GoldGlow
+@onready var hunger_bar: ProgressBar = $ProgressBar
 
 enum State { NONE, HIDDEN, ATTACK, DIE }
 var state: State = State.NONE
@@ -44,6 +45,7 @@ func set_state(new_state: State) -> void:
 			attack_node.hide()
 			collision_layer = 4
 			Audio.play_sfx("player_transform_into_chest.wav")
+			if gold_pocket >= num_gold_for_glow:
 			if gold_pocket >= num_gold_for_glow:
 				mimic_sprite.play("chest_open")
 				add_to_group("chest")
@@ -108,6 +110,12 @@ func attack_hit(other: Entity) -> void:
 		do_collect(other)
 	if other is Hero:
 		var hero = other as Hero
+		hunger_bar.set_value(5)
+		# this means we successfully hit the hero
+		if hero.state == Hero.State.COLLECT:
+			gold_pocket = 0
+			status_gold.clear()
+		var hero = other as Hero
 		# this means we successfully hit the hero
 		if hero.state == Hero.State.COLLECT:
 			gold_pocket = 0
@@ -138,6 +146,7 @@ func _process(_delta: float) -> void:
 	if player_controlled:
 		get_player_input()
 
+	if gold_pocket >= num_gold_for_glow:
 	if gold_pocket >= num_gold_for_glow:
 		gold_glow.show()
 	else:
