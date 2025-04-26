@@ -168,10 +168,13 @@ func _process(delta: float) -> void:
 			hero_sprite.play("idle")
 			input_dir = Vector2.ZERO
 
-func get_nearest_seen_entity() -> Entity:
+func get_nearest_seen_entity(coll_mask: int) -> Entity:
+	var wall_coll_mask = Global.coll_layers["Wall"]
 	var min_entity: Entity = null
 	var min_dist_sqrd: float = INF
 	for ray_cast: RayCast2D in ray_casts.get_children():
+		ray_cast.collision_mask = coll_mask | wall_coll_mask
+		ray_cast.force_raycast_update()
 		if ray_cast.is_colliding():
 			var obj = ray_cast.get_collider()
 			if not obj is Entity:
@@ -223,7 +226,7 @@ func ai_decide() -> void:
 		return
 
 	# prioritize chasing nearest seen enemy
-	var seen_enemy = get_nearest_seen_entity()
+	var seen_enemy = get_nearest_seen_entity(Global.coll_layers["Player"] | Global.coll_layers["Mob"])
 	if seen_enemy:
 		ai_seek_target = seen_enemy
 		if ai_state != AIState.SEEK_ENEMY:
