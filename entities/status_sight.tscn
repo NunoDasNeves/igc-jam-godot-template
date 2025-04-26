@@ -1,9 +1,33 @@
-[gd_scene format=3 uid="uid://oxqfl114fs8h"]
+[gd_scene load_steps=4 format=3 uid="uid://1fstbrsnmip6"]
+
+[sub_resource type="GDScript" id="GDScript_jnvex"]
+script/source = "class_name StatusSight extends Node2D
+
+@onready var circle: Sprite2D = $Circle
+
+var radius: float = 200
+
+func _ready() -> void:
+	var gradient: GradientTexture2D = circle.texture
+	gradient.width = radius * 2
+	gradient.height = radius * 2
+"
+
+[sub_resource type="Gradient" id="Gradient_j41ws"]
+offsets = PackedFloat32Array(0.845455, 1)
+colors = PackedColorArray(0.803473, 0.570768, 0.858566, 0.623529, 0.864363, 0.42932, 0.739009, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_kk3yc"]
+gradient = SubResource("Gradient_j41ws")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.84, 0.84)
 
 [node name="StatusSight" type="Node2D"]
 z_index = 3
 z_as_relative = false
 y_sort_enabled = true
+script = SubResource("GDScript_jnvex")
 
 [node name="Polygon2D" type="Polygon2D" parent="."]
 y_sort_enabled = true
@@ -13,3 +37,6 @@ polygon = PackedVector2Array(-32, 0, -14, -12, -3, -15, 10, -15, 23, -9, 32, 0, 
 [node name="Polygon2D" type="Polygon2D" parent="Polygon2D"]
 color = Color(0.439956, 0.790101, 0.600527, 1)
 polygon = PackedVector2Array(-10, -7, -10, -2, -7, 5, 2, 6, 9, 3, 11, -4, 10, -8, 6, -12, -4, -12)
+
+[node name="Circle" type="Sprite2D" parent="."]
+texture = SubResource("GradientTexture2D_kk3yc")

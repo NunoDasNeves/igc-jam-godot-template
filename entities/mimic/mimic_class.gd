@@ -31,7 +31,6 @@ func _ready() -> void:
 	set_state(State.NONE)
 
 func unhide_if_hidden():
-	collision_layer = 1
 	remove_from_group("chest")
 	collectible = false
 
@@ -47,7 +46,6 @@ func set_state(new_state: State) -> void:
 				Audio.play_sfx("player_transform_back_to_mimic.wav")
 		State.HIDDEN:
 			attack_node.hide()
-			collision_layer = 4
 			Audio.play_sfx("player_transform_into_chest.wav")
 			if gold_pocket >= num_gold_for_glow:
 				mimic_sprite.play("chest_open")
@@ -98,6 +96,12 @@ func set_state(new_state: State) -> void:
 			Audio.play_sfx("player_death.wav")
 
 	state = new_state
+
+func do_collect(entity: Entity) -> void:
+	if entity is SightOrb:
+		pass # TODO speedup buff
+	else:
+		super(entity)
 
 func interact() -> void:
 	match state:

@@ -1,10 +1,9 @@
-[gd_scene load_steps=19 format=3 uid="uid://mqinaasi0323"]
+[gd_scene load_steps=20 format=3 uid="uid://mqinaasi0323"]
 
 [ext_resource type="Script" uid="uid://owx21u4do8v4" path="res://entities/hero/hero_class.gd" id="1_qxmll"]
 [ext_resource type="Script" uid="uid://dkliywsva1nji" path="res://entities/hitbox.gd" id="2_chcl2"]
 [ext_resource type="Texture2D" uid="uid://clgeludiv84jf" path="res://entities/hero/hero.png" id="2_epm60"]
 [ext_resource type="AudioStream" uid="uid://s4l70ap6mhiq" path="res://audio/sfx/hero_respawn opt 2.wav" id="2_mmvsa"]
-[ext_resource type="PackedScene" uid="uid://oxqfl114fs8h" path="res://entities/status_sight.tscn" id="3_s8sb5"]
 [ext_resource type="PackedScene" uid="uid://bsrd5mxs4lrxx" path="res://status_gold.tscn" id="4_kaf33"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_epm60"]
@@ -95,6 +94,16 @@ radius = 32.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_chcl2"]
 radius = 55.0
 
+[sub_resource type="Gradient" id="Gradient_j41ws"]
+offsets = PackedFloat32Array(0.845455, 1)
+colors = PackedColorArray(0.803473, 0.570768, 0.858566, 0.623529, 0.864363, 0.42932, 0.739009, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_mmvsa"]
+gradient = SubResource("Gradient_j41ws")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.84, 0.84)
+
 [node name="Hero" type="CharacterBody2D" groups=["hero"]]
 z_index = 2
 z_as_relative = false
@@ -139,14 +148,17 @@ shape = SubResource("CircleShape2D_kaf33")
 [node name="RayCastLeft" type="RayCast2D" parent="RayCasts"]
 target_position = Vector2(0, -1000)
 collision_mask = 11
+hit_from_inside = true
 
 [node name="RayCastRight" type="RayCast2D" parent="RayCasts"]
 target_position = Vector2(0, 1000)
 collision_mask = 11
+hit_from_inside = true
 
 [node name="RayCastForward" type="RayCast2D" parent="RayCasts"]
 target_position = Vector2(1000, 0)
 collision_mask = 11
+hit_from_inside = true
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 path_postprocessing = 1
@@ -184,10 +196,6 @@ shape = SubResource("CircleShape2D_chcl2")
 [node name="StatusGold" parent="." instance=ExtResource("4_kaf33")]
 position = Vector2(0, -69)
 
-[node name="StatusSight" parent="." instance=ExtResource("3_s8sb5")]
-visible = false
-position = Vector2(0, -62)
-
 [node name="ExclamationPoint" type="Node2D" parent="."]
 visible = false
 z_index = 3
@@ -205,3 +213,24 @@ position = Vector2(-0.363636, 5.18181)
 scale = Vector2(1.27273, 1.27273)
 color = Color(0.999659, 0.12594, 0.0876049, 1)
 polygon = PackedVector2Array(-4, -55, 0, -57, 5, -74, -6, -74)
+
+[node name="StatusSight" type="Node2D" parent="."]
+
+[node name="Timer" type="Timer" parent="StatusSight"]
+wait_time = 5.0
+one_shot = true
+
+[node name="Circle" type="Sprite2D" parent="StatusSight"]
+z_index = 2
+z_as_relative = false
+texture = SubResource("GradientTexture2D_mmvsa")
+
+[node name="Polygon2D" type="Polygon2D" parent="StatusSight"]
+y_sort_enabled = true
+position = Vector2(0, -98)
+color = Color(0.80736, 0.421874, 0.860868, 1)
+polygon = PackedVector2Array(-32, 0, -14, -12, -3, -15, 10, -15, 23, -9, 32, 0, 16, 8, 4, 10, -4, 10, -21, 6)
+
+[node name="Polygon2D" type="Polygon2D" parent="StatusSight/Polygon2D"]
+color = Color(0.439956, 0.790101, 0.600527, 1)
+polygon = PackedVector2Array(-10, -7, -10, -2, -7, 5, 2, 6, 9, 3, 11, -4, 10, -8, 6, -12, -4, -12)
