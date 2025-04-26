@@ -109,6 +109,7 @@ func set_state(new_state: State) -> void:
 			)
 			Audio.play_sfx("hero_swallowed_vocals.wav")
 		State.EXIT_LEVEL:
+			speed = 5 # walk slooowly "down" stairs
 			stop_tweens_hide_stuff_disable_coll()
 			anim_tween = get_tree().create_tween()
 			anim_tween.tween_property(self, "modulate:a", 0, 1)

@@ -75,5 +75,5 @@ func update_face_dir() -> void:
 			face_dir = Vector2(0, signf(input_dir.y))
 
 func _physics_process(delta: float) -> void:
-	velocity = move_dir * 150
+	velocity = move_dir * speed
 	move_and_slide()
