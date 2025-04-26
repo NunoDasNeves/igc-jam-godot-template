@@ -65,6 +65,8 @@ func set_state(new_state: State) -> void:
 				if collect_target is Mimic:
 					set_state(State.NONE)
 					ai_seek_target = collect_target
+				elif collect_target is Chest:
+					Audio.play_sfx("hero_open_chest_randomizer.tres")
 			)
 			state_tween.tween_callback(func (): set_state(State.NONE))
 
@@ -105,6 +107,7 @@ func set_state(new_state: State) -> void:
 				Events.char_killed.emit(self)
 				queue_free()
 			)
+			Audio.play_sfx("hero_swallowed_vocals.wav")
 
 	state = new_state
 
@@ -127,6 +130,7 @@ func hit(hitbox: Hitbox) -> void:
 		shield_tween = get_tree().create_tween()
 		shield_tween.tween_property(shield_poly, "self_modulate:a", 0, 0.7)
 		shield_tween.tween_callback(func (): shield_poly.hide())
+		Audio.play_sfx("hero_shields_attack.wav")
 
 func attack() -> void:
 	if state != State.NONE:

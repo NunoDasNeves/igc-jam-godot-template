@@ -1,9 +1,7 @@
-[gd_resource type="AudioStreamRandomizer" load_steps=3 format=3 uid="uid://dgi0o4fpdl4ug"]
+[gd_resource type="AudioStreamRandomizer" load_steps=2 format=3 uid="uid://dgi0o4fpdl4ug"]
 
-[ext_resource type="AudioStream" uid="uid://cl4j56dglh2gf" path="res://audio/sfx/sword_impact_1.wav" id="1_yyub1"]
-[ext_resource type="AudioStream" uid="uid://c16uk3qrfe8ph" path="res://audio/sfx/sword_impact_4.wav" id="4_8aha8"]
+[ext_resource type="AudioStream" uid="uid://h1nb81barmq4" path="res://audio/sfx/chest_chomp.wav" id="1_611w8"]
 
 [resource]
-streams_count = 2
-stream_0/stream = ExtResource("1_yyub1")
-stream_1/stream = ExtResource("4_8aha8")
+streams_count = 1
+stream_0/stream = ExtResource("1_611w8")

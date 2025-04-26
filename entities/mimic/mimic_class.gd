@@ -33,9 +33,12 @@ func set_state(new_state: State) -> void:
 			collision_layer = 1
 			remove_from_group("chest")
 			collectible = false
+			if state == State.HIDDEN:
+				Audio.play_sfx("player_transform_back_to_mimic.wav")
 		State.HIDDEN:
 			attack_node.hide()
 			collision_layer = 4
+			Audio.play_sfx("player_transform_into_chest.wav")
 			if gold_pocket >= 3:
 				mimic_sprite.play("chest_open")
 				add_to_group("chest")
@@ -80,6 +83,7 @@ func set_state(new_state: State) -> void:
 				queue_free()
 			)
 			Events.char_killed.emit(self)
+			Audio.play_sfx("player_death.wav")
 
 	state = new_state
 

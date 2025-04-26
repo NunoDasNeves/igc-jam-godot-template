@@ -1,0 +1,13 @@
+[gd_resource type="AudioStreamRandomizer" load_steps=5 format=3 uid="uid://dtbauvb88c3v0"]
+
+[ext_resource type="AudioStream" uid="uid://b13coueu1ilm0" path="res://audio/sfx/hero_open-chest_1.wav" id="1_5uuvj"]
+[ext_resource type="AudioStream" uid="uid://bdm7pnpu3u74m" path="res://audio/sfx/hero_open-chest_2.wav" id="2_7tbf8"]
+[ext_resource type="AudioStream" uid="uid://bn5dylkpii67x" path="res://audio/sfx/hero_open-chest_3.wav" id="3_vf7io"]
+[ext_resource type="AudioStream" uid="uid://d3oyd10l25k8b" path="res://audio/sfx/hero_open-chest_4.wav" id="4_1lday"]
+
+[resource]
+streams_count = 4
+stream_0/stream = ExtResource("1_5uuvj")
+stream_1/stream = ExtResource("2_7tbf8")
+stream_2/stream = ExtResource("3_vf7io")
+stream_3/stream = ExtResource("4_1lday")
