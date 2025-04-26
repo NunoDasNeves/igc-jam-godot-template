@@ -1,5 +1,9 @@
 class_name Mimic extends Entity
 
+
+
+
+
 @export var num_gold_for_glow: int = 1
 
 # NOTE all these visuals are placeholder til we get actual art
@@ -109,7 +113,8 @@ func attack_hit(other: Entity) -> void:
 		do_collect(other)
 	if other is Hero:
 		var hero = other as Hero
-		hunger_bar.set_value(5)
+		hunger_bar.value += 20
+		## Add function to check is 
 		# this means we successfully hit the hero
 		if hero.state == Hero.State.COLLECT:
 			gold_pocket = 0
@@ -119,6 +124,8 @@ func attack() -> void:
 	match state:
 		State.NONE, State.HIDDEN:
 			set_state(State.ATTACK)
+
+
 
 func collect():
 	set_state(State.NONE)

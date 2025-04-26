@@ -352,3 +352,5 @@ unique_name_in_owner = true
 script = ExtResource("3_mb4gf")
 
 [node name="ProgressBar" parent="." instance=ExtResource("8_vd1rq")]
+
+[connection signal="value_changed" from="ProgressBar" to="." method="_on_progress_bar_value_changed"]
