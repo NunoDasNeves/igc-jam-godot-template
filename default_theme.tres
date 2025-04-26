@@ -1,4 +1,6 @@
-[gd_resource type="Theme" load_steps=5 format=3 uid="uid://bqkb7o7uit11j"]
+[gd_resource type="Theme" load_steps=8 format=3 uid="uid://bqkb7o7uit11j"]
+
+[ext_resource type="FontFile" uid="uid://uyrdamjna2ok" path="res://fonts/pixeloperator.ttf" id="1_e7bfs"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7j863"]
 content_margin_left = 10.0
@@ -44,9 +46,36 @@ corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cefca"]
+bg_color = Color(0.0807833, 0.0807834, 0.0807833, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_50bnw"]
+bg_color = Color(0.803922, 0.913725, 0, 0.494118)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.051971, 0.051971, 0.0519709, 1)
+border_blend = true
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+corner_detail = 12
+expand_margin_left = 1.0
+expand_margin_top = 1.0
+expand_margin_right = 1.0
+expand_margin_bottom = 1.0
+shadow_size = 1
+
 [resource]
 default_font_size = 25
+Button/font_sizes/font_size = 50
+Button/fonts/font = ExtResource("1_e7bfs")
 Button/styles/disabled = SubResource("StyleBoxFlat_7j863")
 Button/styles/hover = SubResource("StyleBoxFlat_e7bfs")
 Button/styles/normal = SubResource("StyleBoxFlat_bp0wp")
 Button/styles/pressed = SubResource("StyleBoxFlat_3taad")
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_cefca")
+ProgressBar/fonts/font = ExtResource("1_e7bfs")
+ProgressBar/styles/background = SubResource("StyleBoxFlat_50bnw")
