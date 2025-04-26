@@ -3,9 +3,6 @@
 [ext_resource type="Script" uid="uid://bjnw0tr11q2h8" path="res://main.gd" id="1_0xm2m"]
 [ext_resource type="Script" uid="uid://dtgcr1m25t20a" path="res://world.gd" id="2_7mycd"]
 [ext_resource type="PackedScene" uid="uid://b326cb226l8ye" path="res://ui/pause_menu.tscn" id="4_1bvp3"]
-[ext_resource type="Script" path="res://entities/entity_class.gd" id="4_ixft2"]
-[ext_resource type="PackedScene" uid="uid://mqinaasi0323" path="res://entities/hero/hero.tscn" id="5_an6f7"]
-[ext_resource type="PackedScene" uid="uid://3tgyoc0ngvsg" path="res://entities/mimic/mimic.tscn" id="6_2hlvy"]
 
 [node name="Main" type="Node"]
 process_mode = 3
