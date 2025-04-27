@@ -99,6 +99,7 @@ func set_state(new_state: State) -> void:
 
 func do_collect(entity: Entity) -> void:
 	if entity is SightOrb:
+		Global.player_score -= 5
 		pass # TODO speedup buff
 	else:
 		super(entity)
@@ -115,9 +116,11 @@ func attack_hit(other: Entity) -> void:
 		other.collect()
 		inventory.pocket.append(other)
 		do_collect(other)
+		Global.player_score += 10
 	if other is Hero:
 		var hero = other as Hero
 		hunger_bar.value += 20
+		Global.player_score += 25
 		## Add function to check is 
 		# this means we successfully hit the hero
 		if hero.state == Hero.State.COLLECT:

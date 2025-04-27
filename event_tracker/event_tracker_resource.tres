@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="Event_Tracker" load_steps=2 format=3 uid="uid://bmwmiov8jhr7n"]
+
+[ext_resource type="Script" uid="uid://bdr4u14l30dw3" path="res://event_tracker/event_tracker_resource_script.gd" id="1_pfr7p"]
+
+[resource]
+script = ExtResource("1_pfr7p")
+player_score = 0
