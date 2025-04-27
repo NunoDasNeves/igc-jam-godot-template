@@ -2,6 +2,8 @@ class_name Hero
 extends Entity
 
 @export var num_gold_to_exit: int = 3
+@export var status_sight_radius: float = 250
+var status_sight_radius_squared = status_sight_radius * status_sight_radius
 
 @onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
 @onready var flip_node: Node2D = $FlipVisuals
@@ -13,6 +15,9 @@ extends Entity
 @onready var interact_or_attack_area: Area2D = $InteractOrAttackArea
 @onready var ray_casts: Node2D = $RayCasts
 @onready var exclamation_point: Node2D = $ExclamationPoint
+@onready var status_sight: Node2D = $StatusSight
+@onready var status_sight_circle: Sprite2D = $StatusSight/Circle
+@onready var status_sight_timer: Timer = $StatusSight/Timer
 
 enum State { NONE, ATTACK, COLLECT, EATEN, EXIT_LEVEL }
 var state: State = State.NONE
@@ -31,6 +36,13 @@ var anim_tween: Tween
 var shield_tween: Tween
 
 func _ready() -> void:
+	status_sight.hide()
+	var gradient: GradientTexture2D = status_sight_circle.texture
+	gradient.width = status_sight_radius * 2 + 40
+	gradient.height = status_sight_radius * 2 + 40
+	status_sight_timer.timeout.connect(func():
+		status_sight.hide()
+	)
 	#assign_player_is_controlled()
 	attacked.connect(attack)
 	attack_node.hide()
@@ -109,6 +121,7 @@ func set_state(new_state: State) -> void:
 			)
 			Audio.play_sfx("hero_swallowed_vocals.wav")
 		State.EXIT_LEVEL:
+			speed = 5 # walk slooowly "down" stairs
 			stop_tweens_hide_stuff_disable_coll()
 			anim_tween = get_tree().create_tween()
 			anim_tween.tween_property(self, "modulate:a", 0, 1)
@@ -129,6 +142,16 @@ func update_visual_dir() -> void:
 	elif face_dir.x > 0:
 		#attack_swish.scale.x = 1
 		flip_node.scale.x = 1
+
+func can_see_hidden() -> bool:
+	return status_sight_timer and status_sight_timer.time_left > 0
+
+func do_collect(entity: Entity) -> void:
+	if entity is SightOrb:
+		status_sight_timer.start()
+		status_sight.show()
+	else:
+		super(entity)
 
 func hit(hitbox: Hitbox) -> void:
 	if state == State.COLLECT:
@@ -168,10 +191,13 @@ func _process(delta: float) -> void:
 			hero_sprite.play("idle")
 			input_dir = Vector2.ZERO
 
-func get_nearest_seen_entity() -> Entity:
+func get_nearest_seen_entity(coll_mask: int) -> Entity:
+	var wall_coll_mask = Global.coll_layers["Wall"]
 	var min_entity: Entity = null
 	var min_dist_sqrd: float = INF
 	for ray_cast: RayCast2D in ray_casts.get_children():
+		ray_cast.collision_mask = coll_mask | wall_coll_mask
+		ray_cast.force_raycast_update()
 		if ray_cast.is_colliding():
 			var obj = ray_cast.get_collider()
 			if not obj is Entity:
@@ -183,6 +209,20 @@ func get_nearest_seen_entity() -> Entity:
 				min_dist_sqrd = dist_sqrd
 
 	return min_entity
+
+func get_nearest_seen_enemy() -> Entity:
+	var enemy: Entity = get_nearest_seen_entity(Global.coll_layers["Player"] | Global.coll_layers["Mob"])
+	if !enemy:
+		return null
+	# hidden mimic can't hide when status sight is on
+	if can_see_hidden() and enemy.global_position.distance_squared_to(global_position) <= status_sight_radius_squared:
+		return enemy
+	# check if mimic is hidden and try again without player mask if so
+	if enemy is Mimic:
+		var mimic = enemy as Mimic
+		if mimic.state == Mimic.State.HIDDEN:
+			return get_nearest_seen_entity(Global.coll_layers["Mob"])
+	return enemy
 
 func try_collect(node: Node2D) -> bool:
 	if state != State.NONE or not node is Entity:
@@ -223,7 +263,7 @@ func ai_decide() -> void:
 		return
 
 	# prioritize chasing nearest seen enemy
-	var seen_enemy = get_nearest_seen_entity()
+	var seen_enemy = get_nearest_seen_enemy()
 	if seen_enemy:
 		ai_seek_target = seen_enemy
 		if ai_state != AIState.SEEK_ENEMY:

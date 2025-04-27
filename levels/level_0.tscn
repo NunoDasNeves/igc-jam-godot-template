@@ -17,7 +17,7 @@ tile_set = ExtResource("1_eus5j")
 z_index = 1
 z_as_relative = false
 y_sort_enabled = true
-tile_map_data = PackedByteArray("AAAFAAUAAQAAAAQAAAAIAAUAAQAAAAUAAAACAAUAAQAAAAYAAAALAAUAAQAAAAYAAAAGAAgAAQAAAAYAAAAHAAIAAQAAAAYAAAA=")
+tile_map_data = PackedByteArray("AAAFAAUAAQAAAAQAAAAIAAUAAQAAAAUAAAACAAUAAQAAAAYAAAALAAUAAQAAAAYAAAAGAAgAAQAAAAYAAAAHAAIAAQAAAAYAAAAJAAMAAQAAAAYAAQAEAAcAAQAAAAYAAQA=")
 tile_set = ExtResource("1_eus5j")
 
 [node name="WallTiles" type="TileMapLayer" parent="."]
