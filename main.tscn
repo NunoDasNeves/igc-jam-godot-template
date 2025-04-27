@@ -25,4 +25,4 @@ position = Vector2(961, 547)
 [node name="PauseMenu" parent="UI" instance=ExtResource("4_1bvp3")]
 visible = false
 
-[node name="LevelCompleted" parent="UI" instance=ExtResource("4_lquwl")]
+[node name="LevelCompletedMenu" parent="UI" instance=ExtResource("4_lquwl")]

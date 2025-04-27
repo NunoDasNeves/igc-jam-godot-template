@@ -65,6 +65,7 @@ func _ready() -> void:
 	Events.char_killed.connect(trigger_char_respawn)
 	Events.relative_level_selected.connect(change_level_rel)
 	change_level(curr_level_idx)
+	
 
 func _change_level_deferred(index: int):
 	curr_level_idx = index
