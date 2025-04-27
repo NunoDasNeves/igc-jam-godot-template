@@ -1,9 +1,5 @@
 class_name Mimic extends Entity
 
-
-
-
-
 @export var num_gold_for_glow: int = 1
 
 # NOTE all these visuals are placeholder til we get actual art
@@ -16,6 +12,9 @@ class_name Mimic extends Entity
 @onready var status_gold: StatusGold = $StatusGold
 @onready var gold_glow: Node2D = $GoldGlow
 @onready var hunger_bar: ProgressBar = $ProgressBar
+@onready var status_speed: Node2D = $FlipVisuals/StatusSpeed
+@onready var status_speed_timer: Timer = $FlipVisuals/StatusSpeed/Timer
+@onready var status_speed_particles_2d: GPUParticles2D = $FlipVisuals/StatusSpeed/GPUParticles2D
 
 enum State { NONE, HIDDEN, ATTACK, DIE }
 var state: State = State.NONE
@@ -29,6 +28,21 @@ func _ready() -> void:
 	attacked.connect(attack)
 	hitbox.connect("hit_entity", attack_hit)
 	set_state(State.NONE)
+	status_speed_timer.timeout.connect(end_status_speed)
+	status_speed.hide()
+
+func status_speed_enabled() -> bool:
+	return status_speed_timer.time_left > 0
+
+func end_status_speed():
+	speed = 150
+	status_speed.hide()
+	status_speed_timer.stop() # in case this is called from somewhere else..
+
+func start_status_speed():
+	speed = 250
+	status_speed_timer.start()
+	status_speed.show()
 
 func unhide_if_hidden():
 	remove_from_group("chest")
@@ -99,7 +113,7 @@ func set_state(new_state: State) -> void:
 
 func do_collect(entity: Entity) -> void:
 	if entity is SightOrb:
-		pass # TODO speedup buff
+		start_status_speed()
 	else:
 		super(entity)
 
@@ -155,6 +169,18 @@ func _process(_delta: float) -> void:
 		gold_glow.show()
 	else:
 		gold_glow.hide()
+
+	if status_speed_enabled():
+		var speed = velocity.length()
+		var dir = -velocity.normalized()
+		var prmat: ParticleProcessMaterial = status_speed_particles_2d.process_material
+		prmat.initial_velocity_min = speed
+		prmat.initial_velocity_max = speed
+		# particles are in FlipVisuals so gotta account for x flip
+		if dir.x != 0:
+			prmat.direction = Vector3(-1, dir.y, 0)
+		else:
+			prmat.direction = Vector3(dir.x, dir.y, 0)
 
 	match state:
 		State.NONE:
