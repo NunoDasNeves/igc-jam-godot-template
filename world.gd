@@ -103,7 +103,7 @@ func process_entity(entity: Entity) -> void:
 			continue
 		var to_center: Vector2 = tile_center_pos - entity.position
 		var angle = (-to_center).angle()
-		var close_to_center = to_center.length_squared() < 2
+		var close_to_center = to_center.length_squared() < 5
 		var move_n_dir: Vector2i
 		# okay check axis depending on input direction
 		if dir_f.x != 0:
