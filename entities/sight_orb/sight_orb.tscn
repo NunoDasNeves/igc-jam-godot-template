@@ -1,10 +1,47 @@
-[gd_scene load_steps=4 format=3 uid="uid://bk21jikbc61qe"]
+[gd_scene load_steps=10 format=3 uid="uid://bk21jikbc61qe"]
 
 [ext_resource type="Script" uid="uid://qgtqrt2rsax2" path="res://entities/sight_orb/sight_orb.gd" id="1_eytlg"]
 [ext_resource type="Texture2D" uid="uid://bbjwlby0xhoic" path="res://entities/sight_orb/sight_orb.svg" id="2_kirg0"]
+[ext_resource type="Texture2D" uid="uid://hbv5j7t315lm" path="res://entities/sight_orb/power-orb.png" id="3_0w6yi"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_eytlg"]
 radius = 5.45894
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vn8kb"]
+atlas = ExtResource("3_0w6yi")
+region = Rect2(0, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_of8mk"]
+atlas = ExtResource("3_0w6yi")
+region = Rect2(24, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_shs74"]
+atlas = ExtResource("3_0w6yi")
+region = Rect2(48, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bmejk"]
+atlas = ExtResource("3_0w6yi")
+region = Rect2(72, 0, 24, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_6itg2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vn8kb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_of8mk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_shs74")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bmejk")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
 
 [node name="SightOrb" type="CharacterBody2D"]
 z_index = 2
@@ -18,6 +55,7 @@ script = ExtResource("1_eytlg")
 collectible = true
 
 [node name="StaticBody2D" type="TextureRect" parent="."]
+visible = false
 offset_left = -8.0
 offset_top = -8.0
 offset_right = 8.0
@@ -26,3 +64,8 @@ texture = ExtResource("2_kirg0")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_eytlg")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(2, -9)
+scale = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_6itg2")
