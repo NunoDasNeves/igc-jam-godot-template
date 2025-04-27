@@ -31,7 +31,6 @@ func load_level(_level_scene: PackedScene):
 	# have to explicitly free the entities
 	for entity in entities_container.get_children():
 		entity.queue_free()
-		entities_container.remove_child(entity)
 	if level:
 		level.queue_free()
 
