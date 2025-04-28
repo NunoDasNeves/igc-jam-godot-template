@@ -4,9 +4,9 @@
 [ext_resource type="Script" uid="uid://dtgcr1m25t20a" path="res://world.gd" id="2_7mycd"]
 [ext_resource type="PackedScene" uid="uid://b326cb226l8ye" path="res://ui/pause_menu.tscn" id="4_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://dggw30ngib67k" path="res://level_completed.tscn" id="4_lquwl"]
-[ext_resource type="AudioStream" uid="uid://dcbi6bv73lu8x" path="res://audio/music/IGC Theme 1 draft intro.mp3" id="5_272bh"]
-[ext_resource type="AudioStream" uid="uid://bo8pyufsolytb" path="res://audio/music/IGC Theme 1 draft sectionA.mp3" id="6_5vw27"]
-[ext_resource type="AudioStream" uid="uid://brcscwr3w073y" path="res://audio/music/IGC Theme 1 draft sectionsBC.mp3" id="7_kek77"]
+[ext_resource type="AudioStream" uid="uid://k4fnjbb2j8ax" path="res://audio/music/IGC Theme 1 intro draft.ogg" id="5_272bh"]
+[ext_resource type="AudioStream" uid="uid://p4ak8ra838m3" path="res://audio/music/IGC Theme 1 A Section draft.ogg" id="6_5vw27"]
+[ext_resource type="AudioStream" uid="uid://phjvij321do8" path="res://audio/music/IGC Theme 1 BC sections draft.ogg" id="7_kek77"]
 
 [sub_resource type="AudioStreamInteractive" id="AudioStreamInteractive_4c57u"]
 clip_count = 3

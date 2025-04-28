@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://k4fnjbb2j8ax"
+path="res://.godot/imported/IGC Theme 1 intro draft.ogg-af04cb7f080becf952f3be7aa2dd6328.oggvorbisstr"
+
+[deps]
+
+source_file="res://audio/music/IGC Theme 1 intro draft.ogg"
+dest_files=["res://.godot/imported/IGC Theme 1 intro draft.ogg-af04cb7f080becf952f3be7aa2dd6328.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
