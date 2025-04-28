@@ -283,14 +283,15 @@ func ai_decide() -> void:
 			# go to nearest exit
 			var exits: Array[Node2D]
 			# argh gdscript... Array.assign() is needed for casting to Array[Node2D] here..
-			exits.assign(Global.world.level.monster_spawn_points)
+			exits.assign(Global.world.level.player_spawn_points)
 			var nearest_exit = Util.get_nearest_node2d(global_position, exits)
-			if nav_agent.is_navigation_finished():
-				if nearest_exit:
+			if nearest_exit:
+				if nav_agent.is_navigation_finished():
 					nav_agent.target_position = nearest_exit.position
-			# exit if close enough to stairs
-			if nearest_exit.global_position.distance_squared_to(global_position) < 30:
-				set_state(State.EXIT_LEVEL)
+				# exit if close enough to stairs
+				if nearest_exit.global_position.distance_squared_to(global_position) < 30:
+					set_state(State.EXIT_LEVEL)
+
 		AIState.SEEK_ITEM:
 			exclamation_point.hide()
 			# go to nearest chest - stick to this path until done
