@@ -30,6 +30,7 @@ func _ready() -> void:
 	set_state(State.NONE)
 	status_speed_timer.timeout.connect(end_status_speed)
 	status_speed.hide()
+	hunger_bar.max_value = Global.world.level.num_heroes_to_eat
 
 func status_speed_enabled() -> bool:
 	return status_speed_timer.time_left > 0
@@ -131,12 +132,12 @@ func attack_hit(other: Entity) -> void:
 		do_collect(other)
 	if other is Hero:
 		var hero = other as Hero
-		hunger_bar.value += 20
-		## Add function to check is 
+
 		# this means we successfully hit the hero
 		if hero.state == Hero.State.COLLECT:
 			gold_pocket = 0
 			status_gold.clear()
+			hunger_bar.value += 1
 
 func attack() -> void:
 	match state:
