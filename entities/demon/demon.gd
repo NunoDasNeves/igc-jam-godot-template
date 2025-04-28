@@ -40,7 +40,9 @@ func set_state(new_state: State) -> void:
 		State.NONE:
 			pass
 		State.ATTACK:
-			# TODO replace with "real" animation
+			if ai_seek_target:
+				input_dir = global_position.direction_to(ai_seek_target.global_position)
+			update_face_dir()
 			update_visual_dir()
 			attack_node.show()
 			attack_swish.self_modulate.a = 0
