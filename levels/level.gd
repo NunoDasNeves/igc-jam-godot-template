@@ -12,6 +12,7 @@ var spawn_points: Dictionary[String, Array] = {}
 
 var hero_spawn_points: Array[SpawnPoint] = []
 var monster_spawn_points: Array[SpawnPoint] = []
+var player_spawn_points: Array[SpawnPoint] = []
 var chest_spawn_points: Array[SpawnPoint] = []
 var sight_orb_spawn_points: Array[SpawnPoint] = []
 
@@ -29,8 +30,10 @@ func _ready() -> void:
 		var tile_data: TileData = other_tiles.get_cell_tile_data(coord)
 		if tile_data.get_custom_data("stairs_up"):
 			hero_spawn_points.append(create_spawn_point(coord))
-		if tile_data.get_custom_data("stairs_down"):
+		if tile_data.get_custom_data("stairs_down_monster"):
 			monster_spawn_points.append(create_spawn_point(coord))
+		if tile_data.get_custom_data("stairs_down"):
+			player_spawn_points.append(create_spawn_point(coord))
 		if tile_data.get_custom_data("chest"):
 			chest_spawn_points.append(create_spawn_point(coord))
 		if tile_data.get_custom_data("sight_orb"):
@@ -38,6 +41,7 @@ func _ready() -> void:
 
 	spawn_points["hero"] = hero_spawn_points
 	spawn_points["monster"] = monster_spawn_points
+	spawn_points["player"] = player_spawn_points
 	spawn_points["chest"] = chest_spawn_points
 	spawn_points["sight_orb"] = sight_orb_spawn_points
 
