@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://btmldnvbxxvtk"
+path="res://.godot/imported/IGC Theme 1 demo draft.mp3-2dac603209e5b5f134cc52d1c18b4291.mp3str"
+
+[deps]
+
+source_file="res://audio/music/IGC Theme 1 demo draft.mp3"
+dest_files=["res://.godot/imported/IGC Theme 1 demo draft.mp3-2dac603209e5b5f134cc52d1c18b4291.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0.0
+bpm=0.0
+beat_count=0
+bar_beats=4

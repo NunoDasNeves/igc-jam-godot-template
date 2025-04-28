@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://bo8pyufsolytb"
+path="res://.godot/imported/IGC Theme 1 draft sectionA.mp3-a36e1b9be460db46e19619a196712ed7.mp3str"
+
+[deps]
+
+source_file="res://audio/music/IGC Theme 1 draft sectionA.mp3"
+dest_files=["res://.godot/imported/IGC Theme 1 draft sectionA.mp3-a36e1b9be460db46e19619a196712ed7.mp3str"]
+
+[params]
+
+loop=true
+loop_offset=0.0
+bpm=0.0
+beat_count=0
+bar_beats=4
