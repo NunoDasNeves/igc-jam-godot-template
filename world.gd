@@ -50,7 +50,7 @@ func load_level(_level_scene: PackedScene):
 	for sight_orb_spawner: SpawnPoint in level.sight_orb_spawn_points:
 		sight_orb_spawner.queue_spawn(sight_orb_scene, entities_container, 0, false)
 
-	queue_spawn(mimic_scene, "monster")
+	queue_spawn(mimic_scene, "player")
 	for _i in range(level.max_monsters):
 		queue_spawn(demon_scene, "monster")
 	for _i in range(level.max_heroes):
@@ -197,7 +197,7 @@ func trigger_collectible_respawn(entity: Entity) -> void:
 
 func trigger_char_respawn(entity: Entity):
 	if entity is Mimic:
-		queue_spawn(mimic_scene, "monster", 3)
+		queue_spawn(mimic_scene, "player", 3)
 	elif entity is Demon:
 		queue_spawn(demon_scene, "monster", 3)
 	elif entity is Hero:
