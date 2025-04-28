@@ -250,6 +250,7 @@ platform_on_leave = 2
 script = ExtResource("1_71vme")
 player_controlled = true
 spawn_sound = ExtResource("2_ce6ut")
+spawn_volume = 0.3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_kleto")

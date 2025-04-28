@@ -73,6 +73,7 @@ func set_state(new_state: State) -> void:
 				Events.char_killed.emit(self)
 				queue_free()
 			)
+			Audio.play_sfx("demon_die.wav", 1)
 
 	state = new_state
 

@@ -15,7 +15,7 @@ static func create(entity_node: Entity, container_node: Node2D, gpos: Vector2):
 
 func _ready() -> void:
 	if entity_to_spawn.spawn_sound:
-		Audio.play_stream(Audio.sfx_player, entity_to_spawn.spawn_sound)
+		Audio.play_stream(Audio.sfx_player, entity_to_spawn.spawn_sound, entity_to_spawn.spawn_volume)
 	var particles_timer = get_tree().create_timer(0.1)
 	particles_timer.timeout.connect(func(): gpu_particles_2d.restart())
 	var tween = get_tree().create_tween()

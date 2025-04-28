@@ -115,6 +115,7 @@ func set_state(new_state: State) -> void:
 func do_collect(entity: Entity) -> void:
 	if entity is SightOrb:
 		start_status_speed()
+		Audio.play_sfx("player_collects_orb.wav")
 	else:
 		super(entity)
 

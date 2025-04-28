@@ -86,9 +86,13 @@ func set_state(new_state: State) -> void:
 					set_state(State.NONE)
 					ai_seek_target = collect_target
 				elif collect_target is Chest:
-					Audio.play_sfx("hero_open_chest_randomizer.tres")
+					pass
+				elif collect_target is SightOrb:
+					Audio.play_sfx("hero_collects_orb.wav")
 			)
 			state_tween.tween_callback(func (): set_state(State.NONE))
+			if collect_target is Chest:
+				Audio.play_sfx("hero_open_chest_randomizer.tres")
 
 		State.ATTACK:
 			collect_target = null
@@ -131,7 +135,7 @@ func set_state(new_state: State) -> void:
 				Events.char_killed.emit(self)
 				queue_free()
 			)
-			Audio.play_sfx("hero_respawn opt 2.wav", 0.5, 0, 0.7)
+			Audio.play_sfx("hero_finishes_level.wav", 1)
 
 	state = new_state
 
@@ -269,7 +273,7 @@ func ai_decide() -> void:
 	if seen_enemy:
 		ai_seek_target = seen_enemy
 		if ai_state != AIState.SEEK_ENEMY:
-			Audio.play_sfx("player_spotted_by_hero.wav", 0.5, 0)
+			Audio.play_sfx("player_spotted_by_hero.wav", 0.25, 0)
 		ai_state = AIState.SEEK_ENEMY
 	# change to other seek states, but not if already seeking an enemy
 	elif !ai_seek_target:

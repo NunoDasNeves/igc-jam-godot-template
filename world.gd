@@ -53,7 +53,7 @@ func load_level(_level_scene: PackedScene):
 
 	queue_spawn(mimic_scene, "player")
 	for _i in range(level.max_monsters):
-		queue_spawn(demon_scene, "monster")
+		queue_spawn(demon_scene, "monster", 0.5)
 	for _i in range(level.max_heroes):
 		queue_spawn(hero_scene, "hero", 1)
 

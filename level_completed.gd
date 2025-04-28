@@ -18,3 +18,7 @@ func _process(delta: float) -> void:
 
 func trigger_on_level_complete() -> void:
 	show()
+	var timer = get_tree().create_timer(0.25)
+	timer.timeout.connect(func():
+		Audio.play_sfx("player_meter_full.wav", 1)
+	)

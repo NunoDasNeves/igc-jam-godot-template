@@ -1,8 +1,9 @@
-[gd_scene load_steps=15 format=3 uid="uid://ctaxcdbad6eko"]
+[gd_scene load_steps=16 format=3 uid="uid://ctaxcdbad6eko"]
 
 [ext_resource type="Script" uid="uid://dt0tm0i5xeb3i" path="res://entities/demon/demon.gd" id="1_gs8ps"]
 [ext_resource type="Script" uid="uid://dkliywsva1nji" path="res://entities/hitbox.gd" id="1_ps5su"]
 [ext_resource type="Texture2D" uid="uid://cm154lfvh5yqo" path="res://entities/demon/demon.png" id="2_1saa8"]
+[ext_resource type="AudioStream" uid="uid://dbfy10x4n7184" path="res://audio/sfx/demon_spawn.wav" id="2_kpe3d"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1saa8"]
 atlas = ExtResource("2_1saa8")
@@ -89,6 +90,8 @@ collision_mask = 0
 motion_mode = 1
 platform_on_leave = 2
 script = ExtResource("1_gs8ps")
+spawn_sound = ExtResource("2_kpe3d")
+spawn_volume = 1.0
 
 [node name="FlipVisuals" type="Node2D" parent="."]
 y_sort_enabled = true

@@ -40,6 +40,7 @@ func set_state(val: State) -> void:
 func set_paused(val: bool) -> void:
 	get_tree().paused = val
 	visible = val
+	Audio.play_sfx("unpause_close_menu.wav")
 
 func _unhandled_key_input(event: InputEvent) -> void:
 	if event.keycode == KEY_ESCAPE and event.pressed and !event.echo:

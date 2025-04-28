@@ -114,6 +114,7 @@ motion_mode = 1
 platform_on_leave = 2
 script = ExtResource("1_qxmll")
 spawn_sound = ExtResource("2_mmvsa")
+spawn_volume = 0.3
 
 [node name="FlipVisuals" type="Node2D" parent="."]
 y_sort_enabled = true
