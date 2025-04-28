@@ -297,7 +297,6 @@ func ai_decide() -> void:
 		ai_state = AIState.SEEK_ITEM
 	# no chests? just wander around to keep the player on their toes
 	else:
-		print("wandering!")
 		ai_state = AIState.WANDER
 
 	var overlapping_bodies: Array[Node2D] = interact_or_attack_area.get_overlapping_bodies()
