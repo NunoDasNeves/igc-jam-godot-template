@@ -7,6 +7,7 @@ extends Node2D
 
 @export var max_heroes: int = 1
 @export var max_monsters: int = 1
+@export var num_heroes_to_eat: int = 2
 
 var spawn_points: Dictionary[String, Array] = {}
 
