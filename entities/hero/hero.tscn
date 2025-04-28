@@ -86,13 +86,13 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_kaf33"]
-radius = 26.0
+radius = 32.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_s8sb5"]
 radius = 32.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_chcl2"]
-radius = 55.0
+radius = 50.0
 
 [sub_resource type="Gradient" id="Gradient_j41ws"]
 offsets = PackedFloat32Array(0.845455, 1)

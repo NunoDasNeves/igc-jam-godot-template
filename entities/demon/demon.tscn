@@ -72,13 +72,13 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_kleto"]
-radius = 26.0
+radius = 32.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_gs8ps"]
 radius = 23.0217
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_1saa8"]
-radius = 56.0
+radius = 50.0
 
 [node name="Demon" type="CharacterBody2D" groups=["monster"]]
 z_index = 2
