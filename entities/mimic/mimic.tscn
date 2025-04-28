@@ -9,7 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://vmwox7q07a0" path="res://ui/player_hud/hud.tscn" id="8_vd1rq"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_kleto"]
-radius = 19.88
+radius = 32.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5nujv"]
 atlas = ExtResource("2_5nujv")
