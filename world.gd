@@ -10,6 +10,7 @@ const levels_path: String = "res://levels/"
 var levels: Array[PackedScene] = [
 	preload(levels_path + "level_0.tscn"),
 	preload(levels_path + "level_1.tscn"),
+	preload(levels_path + "level_2.tscn"),
 ]
 var curr_level_idx: int = 0
 
