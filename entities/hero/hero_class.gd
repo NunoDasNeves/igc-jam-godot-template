@@ -22,7 +22,7 @@ var status_sight_radius_squared = status_sight_radius * status_sight_radius
 enum State { NONE, ATTACK, COLLECT, EATEN, EXIT_LEVEL }
 var state: State = State.NONE
 
-enum AIState { SEEK_ITEM, SEEK_ENEMY, SEEK_EXIT }
+enum AIState { SEEK_ITEM, SEEK_ENEMY, SEEK_EXIT, WANDER }
 var ai_state: AIState = AIState.SEEK_ITEM
 var ai_seek_target: Entity
 
@@ -268,26 +268,79 @@ func ai_decide() -> void:
 			nav_agent.target_position = global_position
 		return
 
+	# Get all the info we need to make a decision
+	var chests: Array[Node2D]
+	# argh gdscript... Array.assign() is needed for casting to Array[Node2D] here..
+	chests.assign(get_tree().get_nodes_in_group("chest"))
+
+	var exits: Array[Node2D]
+	# argh gdscript... Array.assign() is needed for casting to Array[Node2D] here..
+	exits.assign(Global.world.level.player_spawn_points)
 	# prioritize chasing nearest seen enemy
+
 	var seen_enemy = get_nearest_seen_enemy()
+
+	# decide which AIState to use
 	if seen_enemy:
 		ai_seek_target = seen_enemy
 		if ai_state != AIState.SEEK_ENEMY:
 			Audio.play_sfx("player_spotted_by_hero.wav", 0.25, 0)
 		ai_state = AIState.SEEK_ENEMY
-	# change to other seek states, but not if already seeking an enemy
-	elif !ai_seek_target:
-		set_ai_seek_item_or_exit()
+	# we're still looking for that enemy we saw earlier (until navigation is completed, see below)
+	elif ai_seek_target:
+		ai_state = AIState.SEEK_ENEMY
+	# done with collecting gold, go to exit (assuming there's an exit)
+	elif exits.size() > 0 and gold_pocket >= num_gold_to_exit:
+		ai_state = AIState.SEEK_EXIT
+	# need moar gold
+	elif chests.size() > 0:
+		ai_state = AIState.SEEK_ITEM
+	# no chests? just wander around to keep the player on their toes
+	else:
+		print("wandering!")
+		ai_state = AIState.WANDER
 
 	var overlapping_bodies: Array[Node2D] = interact_or_attack_area.get_overlapping_bodies()
 
+	# "do" the ai state
 	match ai_state:
+		AIState.WANDER:
+			var level = Global.world.level
+			var tile_coord = level.wall_tiles.local_to_map(global_position)
+			var tile_center_pos = level.wall_tiles.map_to_local(tile_coord)
+			var to_center: Vector2 = tile_center_pos - global_position
+			var close_to_center = to_center.length_squared() < 5
+			# only decide when close to center of tile (or we ain't moving already)
+			if !input_dir or close_to_center:
+				var snapped_dir = Vector2()
+				if absf(face_dir.x) > absf(face_dir.y):
+					snapped_dir.x = signf(face_dir.x)
+				else:
+					snapped_dir.y = signf(face_dir.y)
+				assert(snapped_dir)
+				var dir_i = Vector2i(snapped_dir)
+				var all_dirs = [dir_i, -dir_i, Vector2i(dir_i.y, -dir_i.x), Vector2i(-dir_i.y, dir_i.x)]
+				var viable_dirs = []
+				for d in all_dirs:
+					var next_coord = tile_coord + d
+					if !level.coord_is_wall(next_coord):
+						viable_dirs.append(d)
+				#print(viable_dirs)
+				# keep going in same direction if possible
+				if viable_dirs[0] == dir_i:
+					input_dir = snapped_dir
+				# don't backtrack if possible
+				elif viable_dirs.size() > 1 and viable_dirs[0] == -dir_i:
+					viable_dirs.pop_front()
+					viable_dirs.shuffle()
+					input_dir = viable_dirs[0]
+				else:
+					viable_dirs.shuffle()
+					input_dir = viable_dirs[0]
+
 		AIState.SEEK_EXIT:
 			exclamation_point.hide()
 			# go to nearest exit
-			var exits: Array[Node2D]
-			# argh gdscript... Array.assign() is needed for casting to Array[Node2D] here..
-			exits.assign(Global.world.level.player_spawn_points)
 			var nearest_exit = Util.get_nearest_node2d(global_position, exits)
 			if nearest_exit:
 				if nav_agent.is_navigation_finished():
@@ -300,12 +353,10 @@ func ai_decide() -> void:
 			exclamation_point.hide()
 			# go to nearest chest - stick to this path until done
 			if nav_agent.is_navigation_finished():
-				var chests: Array[Node2D]
-				# argh gdscript... Array.assign() is needed for casting to Array[Node2D] here..
-				chests.assign(get_tree().get_nodes_in_group("chest"))
 				var nearest_chest = Util.get_nearest_node2d(global_position, chests)
 				if nearest_chest and nearest_chest is Entity:
 					nav_agent.target_position = nearest_chest.position
+
 			# collect any chest we touch
 			if overlapping_bodies.size() > 0:
 				for body: Node2D in overlapping_bodies:
@@ -319,9 +370,6 @@ func ai_decide() -> void:
 			elif ai_seek_target: # chase last seen enemy to last seen location
 				if nav_agent.is_navigation_finished():
 					ai_seek_target = null
-
-			else: # reset back to seeking items or exit
-				set_ai_seek_item_or_exit()
 
 			# attack any enemy we touch
 			if overlapping_bodies.size() > 0:
