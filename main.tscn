@@ -22,10 +22,11 @@ position = Vector2(961, 547)
 
 [node name="UI" type="CanvasLayer" parent="."]
 
-[node name="PauseMenu" parent="UI" instance=ExtResource("4_1bvp3")]
+[node name="LevelCompletedMenu" parent="UI" instance=ExtResource("4_lquwl")]
 visible = false
 
-[node name="LevelCompletedMenu" parent="UI" instance=ExtResource("4_lquwl")]
+[node name="PauseMenu" parent="UI" instance=ExtResource("4_1bvp3")]
+visible = false
 
 [node name="MusicPlayer1" type="AudioStreamPlayer" parent="."]
 bus = &"music"

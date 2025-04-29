@@ -26,7 +26,7 @@ class QueuedSpawn extends RefCounted:
 
 var spawn_queue: Array[QueuedSpawn]
 
-func load_level(_level_scene: PackedScene):
+func unload_curr_level():
 	# we have to clear *all* the state that will affect the loaded level!
 	spawn_queue.clear()
 	# have to explicitly free the entities
@@ -34,6 +34,9 @@ func load_level(_level_scene: PackedScene):
 		entity.queue_free()
 	if level:
 		level.queue_free()
+
+func load_level(_level_scene: PackedScene):
+	unload_curr_level()
 
 	# ok now create the level
 	level = _level_scene.instantiate()
@@ -64,8 +67,9 @@ func _ready() -> void:
 	Events.entity_collected.connect(trigger_collectible_respawn)
 	Events.char_killed.connect(trigger_char_respawn)
 	Events.relative_level_selected.connect(change_level_rel)
+	Events.level_complete.connect(func(_idx, _score): unload_curr_level())
+	Events.hunger_bar_full.connect(end_level)
 	change_level(curr_level_idx)
-	
 
 func _change_level_deferred(index: int):
 	curr_level_idx = index
@@ -81,6 +85,13 @@ func change_level(index: int):
 func change_level_rel(rel_index: int):
 	var new_index = clampi(curr_level_idx + rel_index, 0, levels.size() - 1)
 	change_level(new_index)
+
+func end_level():
+	# TODO some kind of fade or something
+	var timer = get_tree().create_timer(1)
+	timer.timeout.connect(func():
+		Events.level_complete.emit(curr_level_idx, 0)
+	)
 
 func _process(_delta: float) -> void:
 	pass
