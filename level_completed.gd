@@ -17,11 +17,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	pass
 
-func trigger_on_level_complete(level_index: int, level_score: int) -> void:
+func trigger_on_level_complete(level_index: int, deaths: int) -> void:
 	title_label.text = "You beat level %s" % (level_index + 1)
-	score_label.text = "Score: %s" % level_score
+	score_label.text = "Deaths: %s" % deaths
 	show()
-	var timer = get_tree().create_timer(0.25)
-	timer.timeout.connect(func():
-		Audio.play_sfx("player_meter_full.wav", 1)
-	)

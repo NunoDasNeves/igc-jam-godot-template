@@ -13,6 +13,8 @@ var levels: Array[PackedScene] = [
 	preload(levels_path + "level_2.tscn"),
 ]
 var curr_level_idx: int = 0
+var curr_level_deaths: int = 0
+var total_deaths: int = 0
 
 @onready var entities_container: Node2D = $Entities
 @onready var camera: Camera2D = $Camera2D
@@ -37,7 +39,7 @@ func unload_curr_level():
 
 func load_level(_level_scene: PackedScene):
 	unload_curr_level()
-
+	curr_level_deaths = 0
 	# ok now create the level
 	level = _level_scene.instantiate()
 	add_child(level)
@@ -66,8 +68,9 @@ func _enter_tree() -> void:
 func _ready() -> void:
 	Events.entity_collected.connect(trigger_collectible_respawn)
 	Events.char_killed.connect(trigger_char_respawn)
+	Events.char_killed.connect(count_deaths)
 	Events.relative_level_selected.connect(change_level_rel)
-	Events.level_complete.connect(func(_idx, _score): unload_curr_level())
+	Events.level_complete.connect(func(_idx, _deaths): unload_curr_level())
 	Events.hunger_bar_full.connect(end_level)
 	change_level(curr_level_idx)
 
@@ -82,6 +85,10 @@ func change_level(index: int):
 	# everything is hooked up yet, or elsewhere in the frame..
 	call_deferred("_change_level_deferred", index)
 
+func reset_game():
+	change_level(0)
+	total_deaths = 0
+
 func change_level_rel(rel_index: int):
 	var new_index = clampi(curr_level_idx + rel_index, 0, levels.size() - 1)
 	change_level(new_index)
@@ -90,7 +97,14 @@ func end_level():
 	# TODO some kind of fade or something
 	var timer = get_tree().create_timer(1)
 	timer.timeout.connect(func():
-		Events.level_complete.emit(curr_level_idx, 0)
+		if curr_level_idx == levels.size() - 1:
+			Events.win_game.emit(total_deaths)
+		else:
+			Events.level_complete.emit(curr_level_idx, curr_level_deaths)
+	)
+	var timer2 = get_tree().create_timer(1.25)
+	timer2.timeout.connect(func():
+		Audio.play_sfx("player_meter_full.wav", 1)
 	)
 
 func _process(_delta: float) -> void:
@@ -206,6 +220,11 @@ func trigger_collectible_respawn(entity: Entity) -> void:
 		return
 	var spawn_point: SpawnPoint = spawn_points[idx]
 	spawn_point.queue_spawn(scene, entities_container, 10)
+
+func count_deaths(entity: Entity):
+	if entity is Mimic:
+		total_deaths += 1
+		curr_level_deaths += 1
 
 func trigger_char_respawn(entity: Entity):
 	if entity is Mimic:

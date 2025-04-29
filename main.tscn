@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://cib81fcg33t4e"]
+[gd_scene load_steps=6 format=3 uid="uid://cib81fcg33t4e"]
 
 [ext_resource type="Script" uid="uid://bjnw0tr11q2h8" path="res://main.gd" id="1_0xm2m"]
 [ext_resource type="Script" uid="uid://dtgcr1m25t20a" path="res://world.gd" id="2_7mycd"]
 [ext_resource type="PackedScene" uid="uid://b326cb226l8ye" path="res://ui/pause_menu.tscn" id="4_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://dggw30ngib67k" path="res://level_completed.tscn" id="4_lquwl"]
+[ext_resource type="PackedScene" uid="uid://b4o512ovxg81k" path="res://win_game.tscn" id="5_lquwl"]
 
 [node name="Main" type="Node"]
 process_mode = 3
@@ -26,6 +27,9 @@ position = Vector2(961, 547)
 visible = false
 
 [node name="PauseMenu" parent="UI" instance=ExtResource("4_1bvp3")]
+visible = false
+
+[node name="WinGame" parent="UI" instance=ExtResource("5_lquwl")]
 visible = false
 
 [node name="MusicPlayer1" type="AudioStreamPlayer" parent="."]
