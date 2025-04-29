@@ -18,7 +18,7 @@ func _ready() -> void:
 	var sfx_bus_name: StringName = &"sfx"
 	if Global.is_web:
 		sfx_bus_name = &"Master"
-	setup_polyphonic_player(sfx_player, 8, sfx_bus_name)
+	setup_polyphonic_player(sfx_player, 128, sfx_bus_name)
 	music_player = AudioStreamPlayer.new()
 	setup_polyphonic_player(music_player, 8, &"music")
 	process_mode = Node.PROCESS_MODE_ALWAYS
