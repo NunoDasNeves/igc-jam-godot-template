@@ -1,7 +1,7 @@
 extends HSlider
 class_name VolumeSlider
 
-@export var bus_name: String = "Master"
+@export var bus_name: StringName = &"Master"
 
 @onready var bus_idx = AudioServer.get_bus_index(bus_name)
 

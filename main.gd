@@ -17,7 +17,6 @@ var music_parts: Array[AudioStream] = [
 var music_part_idx = 0
 var music_switching: bool = false
 @onready var audio_output_latency = AudioServer.get_output_latency()
-@onready var is_web = OS.has_feature("web")
 
 var looping_ambience_sfx_id: int
 
@@ -64,11 +63,11 @@ func process_music(delta: float):
 
 	#print (length_left)
 	var check_time = 0.2
-	if is_web:
+	if Global.is_web:
 		check_time = 0.5
 	if length_left <= check_time:
 		var d = 0
-		if is_web:
+		if Global.is_web:
 			d = audio_output_latency * 4
 		var time_to_wait = maxf(length_left - audio_output_latency - d, 0)
 		var timer = get_tree().create_timer(time_to_wait, true, false, false)

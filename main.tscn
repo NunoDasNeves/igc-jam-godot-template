@@ -28,7 +28,7 @@ visible = false
 [node name="LevelCompletedMenu" parent="UI" instance=ExtResource("4_lquwl")]
 
 [node name="MusicPlayer1" type="AudioStreamPlayer" parent="."]
-bus = &"Music"
+bus = &"music"
 
 [node name="MusicPlayer2" type="AudioStreamPlayer" parent="."]
-bus = &"Music"
+bus = &"music"

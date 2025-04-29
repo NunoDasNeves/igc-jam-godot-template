@@ -1,5 +1,7 @@
 extends Node
 
+@onready var is_web = OS.has_feature("web")
+
 var coll_layers: Dictionary[String, int] = {}
 
 var main: Main

@@ -4,7 +4,7 @@ var sfx_player: AudioStreamPlayer
 var music_player: AudioStreamPlayer
 
 # This is how AudioStreamPolyphonic is meant to be used, apparently
-func setup_polyphonic_player(player: AudioStreamPlayer, max_polyphony: int, bus: String) -> void:
+func setup_polyphonic_player(player: AudioStreamPlayer, max_polyphony: int, bus: StringName) -> void:
 	player.bus = bus
 	player.max_polyphony = max_polyphony
 	var stream = AudioStreamPolyphonic.new()
@@ -15,9 +15,12 @@ func setup_polyphonic_player(player: AudioStreamPlayer, max_polyphony: int, bus:
 
 func _ready() -> void:
 	sfx_player = AudioStreamPlayer.new()
-	setup_polyphonic_player(sfx_player, 128, "SFX")
+	var sfx_bus_name: StringName = &"sfx"
+	if Global.is_web:
+		sfx_bus_name = &"Master"
+	setup_polyphonic_player(sfx_player, 8, sfx_bus_name)
 	music_player = AudioStreamPlayer.new()
-	setup_polyphonic_player(music_player, 8, "Music")
+	setup_polyphonic_player(music_player, 8, &"music")
 	process_mode = Node.PROCESS_MODE_ALWAYS
 
 ##

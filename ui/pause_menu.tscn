@@ -109,7 +109,7 @@ text = "SFX"
 [node name="HSlider2" parent="Options/VBoxContainer/GridContainer" instance=ExtResource("2_avurv")]
 layout_mode = 2
 script = ExtResource("3_npydk")
-bus_name = "SFX"
+bus_name = &"sfx"
 
 [node name="Label3" type="Label" parent="Options/VBoxContainer/GridContainer"]
 layout_mode = 2
@@ -118,7 +118,7 @@ text = "Music"
 [node name="HSlider3" parent="Options/VBoxContainer/GridContainer" instance=ExtResource("2_avurv")]
 layout_mode = 2
 script = ExtResource("3_npydk")
-bus_name = "Music"
+bus_name = &"music"
 
 [node name="BackButton" type="Button" parent="Options/VBoxContainer"]
 layout_mode = 2

@@ -10,6 +10,9 @@ extends PanelContainer
 @onready var level_label: Label = $Main/VBoxContainer/LevelSelectContainer/LevelLabel
 @onready var level_next_button: Button = $Main/VBoxContainer/LevelSelectContainer/NextButton
 
+@onready var sfx_label: Label = $Options/VBoxContainer/GridContainer/Label2
+@onready var sfx_slider: VolumeSlider = $Options/VBoxContainer/GridContainer/HSlider2
+
 enum State {MAIN, OPTIONS}
 var state: State = State.MAIN
 
@@ -21,6 +24,9 @@ func _ready() -> void:
 	level_prev_button.connect("button_down", func(): Events.relative_level_selected.emit(-1))
 	level_next_button.connect("button_down", func(): Events.relative_level_selected.emit(1))
 	Events.level_changed.connect(level_select_update)
+	if Global.is_web:
+		sfx_label.hide()
+		sfx_slider.hide()
 
 func level_select_update(index: int):
 	level_label.text = "Level %s" % index
