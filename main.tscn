@@ -1,27 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://cib81fcg33t4e"]
+[gd_scene load_steps=5 format=3 uid="uid://cib81fcg33t4e"]
 
 [ext_resource type="Script" uid="uid://bjnw0tr11q2h8" path="res://main.gd" id="1_0xm2m"]
 [ext_resource type="Script" uid="uid://dtgcr1m25t20a" path="res://world.gd" id="2_7mycd"]
 [ext_resource type="PackedScene" uid="uid://b326cb226l8ye" path="res://ui/pause_menu.tscn" id="4_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://dggw30ngib67k" path="res://level_completed.tscn" id="4_lquwl"]
-[ext_resource type="AudioStream" uid="uid://k4fnjbb2j8ax" path="res://audio/music/intro.ogg" id="5_272bh"]
-[ext_resource type="AudioStream" uid="uid://p4ak8ra838m3" path="res://audio/music/a_section.ogg" id="6_5vw27"]
-[ext_resource type="AudioStream" uid="uid://phjvij321do8" path="res://audio/music/bc_sections.ogg" id="7_kek77"]
-
-[sub_resource type="AudioStreamInteractive" id="AudioStreamInteractive_4c57u"]
-clip_count = 3
-clip_0/name = &"intro"
-clip_0/stream = ExtResource("5_272bh")
-clip_0/auto_advance = 1
-clip_0/next_clip = 1
-clip_1/name = &"A"
-clip_1/stream = ExtResource("6_5vw27")
-clip_1/auto_advance = 1
-clip_1/next_clip = 2
-clip_2/name = &"BC"
-clip_2/stream = ExtResource("7_kek77")
-clip_2/auto_advance = 1
-clip_2/next_clip = 1
 
 [node name="Main" type="Node"]
 process_mode = 3
@@ -45,7 +27,8 @@ visible = false
 
 [node name="LevelCompletedMenu" parent="UI" instance=ExtResource("4_lquwl")]
 
-[node name="MusicPlayer" type="AudioStreamPlayer2D" parent="."]
-stream = SubResource("AudioStreamInteractive_4c57u")
-autoplay = true
+[node name="MusicPlayer1" type="AudioStreamPlayer" parent="."]
+bus = &"Music"
+
+[node name="MusicPlayer2" type="AudioStreamPlayer" parent="."]
 bus = &"Music"
