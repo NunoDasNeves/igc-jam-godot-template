@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=3 uid="uid://3tgyoc0ngvsg"]
+[gd_scene load_steps=37 format=3 uid="uid://3tgyoc0ngvsg"]
 
 [ext_resource type="Script" uid="uid://rj533hmh0is6" path="res://entities/mimic/mimic_class.gd" id="1_71vme"]
 [ext_resource type="Script" uid="uid://dkliywsva1nji" path="res://entities/hitbox.gd" id="2_4bgkd"]
@@ -6,7 +6,6 @@
 [ext_resource type="AudioStream" uid="uid://xj6i86lmj6pl" path="res://audio/sfx/player_respawn opt 2.wav" id="2_ce6ut"]
 [ext_resource type="Script" uid="uid://b4bavx18aads8" path="res://entities/mimic/inventory.gd" id="3_mb4gf"]
 [ext_resource type="PackedScene" uid="uid://bsrd5mxs4lrxx" path="res://status_gold.tscn" id="4_chy24"]
-[ext_resource type="PackedScene" uid="uid://vmwox7q07a0" path="res://ui/player_hud/hud.tscn" id="8_vd1rq"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_kleto"]
 radius = 32.0
@@ -394,7 +393,3 @@ scale = Vector2(0.8, 0.8)
 [node name="Inventory" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("3_mb4gf")
-
-[node name="ProgressBar" parent="." instance=ExtResource("8_vd1rq")]
-
-[connection signal="value_changed" from="ProgressBar" to="." method="_on_progress_bar_value_changed"]

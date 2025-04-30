@@ -11,7 +11,6 @@ class_name Mimic extends Entity
 @onready var inventory: Inventory = %Inventory
 @onready var status_gold: StatusGold = $StatusGold
 @onready var gold_glow: Node2D = $GoldGlow
-@onready var hunger_bar: ProgressBar = $ProgressBar
 @onready var status_speed: Node2D = $FlipVisuals/StatusSpeed
 @onready var status_speed_timer: Timer = $FlipVisuals/StatusSpeed/Timer
 @onready var status_speed_particles_2d: GPUParticles2D = $FlipVisuals/StatusSpeed/GPUParticles2D
@@ -30,7 +29,6 @@ func _ready() -> void:
 	set_state(State.NONE)
 	status_speed_timer.timeout.connect(end_status_speed)
 	status_speed.hide()
-	hunger_bar.max_value = Global.world.level.num_heroes_to_eat
 
 func status_speed_enabled() -> bool:
 	return status_speed_timer.time_left > 0
@@ -138,14 +136,12 @@ func attack_hit(other: Entity) -> void:
 		if hero.state == Hero.State.COLLECT:
 			gold_pocket = 0
 			status_gold.clear()
-			hunger_bar.value += 1
+			Events.hero_eaten.emit()
 
 func attack() -> void:
 	match state:
 		State.NONE, State.HIDDEN:
 			set_state(State.ATTACK)
-
-
 
 func collect():
 	set_state(State.NONE)

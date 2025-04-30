@@ -1,5 +1,10 @@
 class_name HungerBar extends ProgressBar
 
-func _on_value_changed(value: float) -> void:
-	if value == max_value:
-		Events.hunger_bar_full.emit()
+func _ready() -> void:
+	Events.hero_eaten.connect(func():
+		value += 1
+	)
+	value_changed.connect(func(val: float):
+		if val == max_value:
+			Events.hunger_bar_full.emit()
+	)
