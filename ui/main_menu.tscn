@@ -1,7 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://31iqcntsjqui"]
+[gd_scene load_steps=6 format=3 uid="uid://31iqcntsjqui"]
 
 [ext_resource type="Theme" uid="uid://bqkb7o7uit11j" path="res://default_theme.tres" id="1_7vrkn"]
 [ext_resource type="Script" uid="uid://6djtyyd51eio" path="res://ui/main_menu.gd" id="2_7vrkn"]
+[ext_resource type="Texture2D" uid="uid://gx8jtihey1d1" path="res://title-screen.png" id="3_8uxxo"]
+[ext_resource type="FontFile" uid="uid://uyrdamjna2ok" path="res://fonts/pixeloperator.ttf" id="3_rmr83"]
+[ext_resource type="Texture2D" uid="uid://bfvrcxtngo747" path="res://title.png" id="3_wk0pr"]
 
 [node name="MainMenu" type="PanelContainer"]
 anchors_preset = 15
@@ -13,6 +16,11 @@ size_flags_horizontal = 8
 size_flags_vertical = 8
 theme = ExtResource("1_7vrkn")
 script = ExtResource("2_7vrkn")
+
+[node name="Title-screen" type="Sprite2D" parent="."]
+position = Vector2(640, 480)
+scale = Vector2(4, 4)
+texture = ExtResource("3_8uxxo")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
@@ -28,21 +36,29 @@ layout_mode = 2
 theme_override_constants/separation = 30
 
 [node name="TitleLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 80
 text = "PacMimic"
 horizontal_alignment = 1
 
+[node name="Panel2" type="Panel" parent="MarginContainer/VBoxContainer"]
+modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(0, 11.62)
+layout_mode = 2
+
 [node name="SubTitleLabel" type="Label" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme = ExtResource("1_7vrkn")
-theme_override_font_sizes/font_size = 40
+theme_override_colors/font_color = Color(0.0887478, 0.0725951, 0.0121859, 1)
+theme_override_fonts/font = ExtResource("3_rmr83")
+theme_override_font_sizes/font_size = 32
 text = "IGC Collab Jam 2025"
 horizontal_alignment = 1
 
 [node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer"]
 modulate = Color(1, 1, 1, 0)
-custom_minimum_size = Vector2(0, 60.205)
+custom_minimum_size = Vector2(0, 11.62)
 layout_mode = 2
 
 [node name="PlayButton" type="Button" parent="MarginContainer/VBoxContainer"]
@@ -56,3 +72,8 @@ layout_mode = 2
 size_flags_vertical = 4
 theme = ExtResource("1_7vrkn")
 text = "Options"
+
+[node name="Title" type="Sprite2D" parent="."]
+position = Vector2(640, 328)
+scale = Vector2(4, 4)
+texture = ExtResource("3_wk0pr")
