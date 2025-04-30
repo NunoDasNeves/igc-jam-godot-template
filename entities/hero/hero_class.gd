@@ -286,17 +286,22 @@ func ai_decide() -> void:
 		if ai_state != AIState.SEEK_ENEMY:
 			Audio.play_sfx("player_spotted_by_hero.wav", 0.25, 0)
 		ai_state = AIState.SEEK_ENEMY
+		exclamation_point.show()
 	# we're still looking for that enemy we saw earlier (until navigation is completed, see below)
 	elif ai_seek_target:
+		exclamation_point.show()
 		ai_state = AIState.SEEK_ENEMY
 	# done with collecting gold, go to exit (assuming there's an exit)
 	elif exits.size() > 0 and gold_pocket >= num_gold_to_exit:
+		exclamation_point.hide()
 		ai_state = AIState.SEEK_EXIT
 	# need moar gold
 	elif chests.size() > 0:
+		exclamation_point.hide()
 		ai_state = AIState.SEEK_ITEM
 	# no chests? just wander around to keep the player on their toes
 	else:
+		exclamation_point.hide()
 		ai_state = AIState.WANDER
 
 	var overlapping_bodies: Array[Node2D] = interact_or_attack_area.get_overlapping_bodies()
@@ -338,7 +343,6 @@ func ai_decide() -> void:
 					input_dir = viable_dirs[0]
 
 		AIState.SEEK_EXIT:
-			exclamation_point.hide()
 			# go to nearest exit
 			var nearest_exit = Util.get_nearest_node2d(global_position, exits)
 			if nearest_exit:
@@ -349,7 +353,6 @@ func ai_decide() -> void:
 					set_state(State.EXIT_LEVEL)
 
 		AIState.SEEK_ITEM:
-			exclamation_point.hide()
 			# go to nearest chest - stick to this path until done
 			if nav_agent.is_navigation_finished():
 				var nearest_chest = Util.get_nearest_node2d(global_position, chests)
@@ -362,7 +365,6 @@ func ai_decide() -> void:
 					if try_collect(body):
 						break
 		AIState.SEEK_ENEMY:
-			exclamation_point.show()
 			if seen_enemy: # chase latest seen enemy (seen this frame)
 				nav_agent.target_position = seen_enemy.position
 
