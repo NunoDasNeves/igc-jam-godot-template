@@ -134,7 +134,7 @@ func attack_hit(other: Entity) -> void:
 		var hero = other as Hero
 
 		# this means we successfully hit the hero
-		if hero.state == Hero.State.COLLECT:
+		if hero.is_vulnerable():
 			gold_pocket = 0
 			status_gold.clear()
 			Events.hero_eaten.emit()

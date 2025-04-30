@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://mqinaasi0323"]
+[gd_scene load_steps=22 format=3 uid="uid://mqinaasi0323"]
 
 [ext_resource type="Script" uid="uid://owx21u4do8v4" path="res://entities/hero/hero_class.gd" id="1_qxmll"]
 [ext_resource type="Script" uid="uid://dkliywsva1nji" path="res://entities/hitbox.gd" id="2_chcl2"]
@@ -13,6 +13,14 @@ region = Rect2(0, 64, 32, 32)
 [sub_resource type="AtlasTexture" id="AtlasTexture_e3e81"]
 atlas = ExtResource("2_epm60")
 region = Rect2(32, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mfyd7"]
+atlas = ExtResource("2_epm60")
+region = Rect2(0, 128, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b4vnm"]
+atlas = ExtResource("2_epm60")
+region = Rect2(32, 128, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mmvsa"]
 atlas = ExtResource("2_epm60")
@@ -49,6 +57,17 @@ animations = [{
 }],
 "loop": false,
 "name": &"attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 2.0,
+"texture": SubResource("AtlasTexture_mfyd7")
+}, {
+"duration": 2.0,
+"texture": SubResource("AtlasTexture_b4vnm")
+}],
+"loop": true,
+"name": &"huh",
 "speed": 5.0
 }, {
 "frames": [{
@@ -138,7 +157,8 @@ polygon = PackedVector2Array(73, -17, 78, -16, 82, -17, 85, -20, 88, -17, 92, -1
 y_sort_enabled = true
 scale = Vector2(3, 3)
 sprite_frames = SubResource("SpriteFrames_mmvsa")
-animation = &"attack"
+animation = &"huh"
+frame_progress = 0.524562
 offset = Vector2(0, -4)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -204,13 +224,13 @@ z_as_relative = false
 y_sort_enabled = true
 
 [node name="Polygon2D" type="Polygon2D" parent="ExclamationPoint"]
-position = Vector2(-0.333334, 7.84848)
+position = Vector2(-0.333334, 11)
 scale = Vector2(1.33333, 1.33333)
 color = Color(1, 0.12549, 0.0862745, 1)
 polygon = PackedVector2Array(-5, -50, -1, -47, 2, -52, -1, -53)
 
 [node name="Polygon2D2" type="Polygon2D" parent="ExclamationPoint"]
-position = Vector2(-0.363636, 5.18181)
+position = Vector2(-0.363636, 7)
 scale = Vector2(1.27273, 1.27273)
 color = Color(0.999659, 0.12594, 0.0876049, 1)
 polygon = PackedVector2Array(-4, -55, 0, -57, 5, -74, -6, -74)
@@ -228,10 +248,29 @@ texture = SubResource("GradientTexture2D_mmvsa")
 
 [node name="Polygon2D" type="Polygon2D" parent="StatusSight"]
 y_sort_enabled = true
-position = Vector2(0, -98)
-color = Color(0.80736, 0.421874, 0.860868, 1)
+position = Vector2(0, -101)
+color = Color(0.753742, 0.478955, 0.946067, 1)
 polygon = PackedVector2Array(-32, 0, -14, -12, -3, -15, 10, -15, 23, -9, 32, 0, 16, 8, 4, 10, -4, 10, -21, 6)
 
 [node name="Polygon2D" type="Polygon2D" parent="StatusSight/Polygon2D"]
-color = Color(0.439956, 0.790101, 0.600527, 1)
+color = Color(0, 0, 0, 1)
 polygon = PackedVector2Array(-10, -7, -10, -2, -7, 5, 2, 6, 9, 3, 11, -4, 10, -8, 6, -12, -4, -12)
+
+[node name="Polygon2D2" type="Polygon2D" parent="StatusSight/Polygon2D"]
+position = Vector2(0, -2.14577e-06)
+scale = Vector2(0.777778, 0.777778)
+color = Color(0.752941, 0.478431, 0.945098, 1)
+polygon = PackedVector2Array(-9, -7.71428, -9, -2.57143, -6.42857, 2.57143, 2.57143, 3.85715, 9, 1.28571, 11, -4, 10, -8, 6, -12, -4, -12)
+
+[node name="QuestionMark" type="Node2D" parent="."]
+z_index = 3
+z_as_relative = false
+y_sort_enabled = true
+
+[node name="Polygon2D" type="Polygon2D" parent="QuestionMark"]
+color = Color(1.54018e-06, 0.881121, 0.981526, 1)
+polygon = PackedVector2Array(-13, -85, -15, -76, -1, -80, 2, -78, 1, -74, -8, -69, -7, -63, 2, -64, 2, -68, 7, -71, 11, -78, 10, -84, 1, -88)
+
+[node name="Polygon2D2" type="Polygon2D" parent="QuestionMark"]
+color = Color(0, 0.882353, 0.980392, 1)
+polygon = PackedVector2Array(2, -60, -6, -58, -5, -53, 2, -54)

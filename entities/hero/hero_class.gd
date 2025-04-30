@@ -18,8 +18,9 @@ var status_sight_radius_squared = status_sight_radius * status_sight_radius
 @onready var status_sight: Node2D = $StatusSight
 @onready var status_sight_circle: Sprite2D = $StatusSight/Circle
 @onready var status_sight_timer: Timer = $StatusSight/Timer
+@onready var question_mark: Node2D = $QuestionMark
 
-enum State { NONE, ATTACK, COLLECT, EATEN, EXIT_LEVEL }
+enum State { NONE, ATTACK, COLLECT, EATEN, EXIT_LEVEL, HUH }
 var state: State = State.NONE
 
 enum AIState { SEEK_ITEM, SEEK_ENEMY, SEEK_EXIT, WANDER }
@@ -47,6 +48,7 @@ func _ready() -> void:
 	attacked.connect(attack)
 	attack_node.hide()
 	exclamation_point.hide()
+	question_mark.hide()
 	shield_poly.hide()
 	set_state(State.NONE)
 
@@ -59,7 +61,11 @@ func stop_tweens_hide_stuff_disable_coll():
 	collision_mask = 0
 	attack_node.hide()
 	exclamation_point.hide()
+	question_mark.hide()
 	shield_poly.hide()
+
+func is_vulnerable():
+	return state == State.COLLECT or state == State.HUH
 
 func set_state(new_state: State) -> void:
 
@@ -71,6 +77,16 @@ func set_state(new_state: State) -> void:
 		State.NONE:
 			collect_target = null
 			ai_seek_target = null
+		State.HUH:
+			collect_target = null
+			ai_seek_target = null
+			question_mark.show()
+			state_tween = get_tree().create_tween()
+			state_tween.tween_interval(0.8)
+			state_tween.tween_callback(func ():
+				set_state(State.NONE)
+				question_mark.hide()
+			)
 		State.COLLECT:
 			if !collect_target:
 				print ("Switch to State.COLLECT but nothing to collect!")
@@ -83,7 +99,7 @@ func set_state(new_state: State) -> void:
 				collect_target.collect()
 				do_collect(collect_target)
 				if collect_target is Mimic:
-					set_state(State.NONE)
+					set_state(State.HUH)
 					ai_seek_target = collect_target
 				elif collect_target is Chest:
 					pass
@@ -160,7 +176,7 @@ func do_collect(entity: Entity) -> void:
 		super(entity)
 
 func hit(hitbox: Hitbox) -> void:
-	if state == State.COLLECT:
+	if is_vulnerable():
 		set_state(State.EATEN)
 	else:
 		shield_poly.show()
@@ -187,6 +203,9 @@ func _process(delta: float) -> void:
 				hero_sprite.play("move")
 			else:
 				hero_sprite.play("idle")
+		State.HUH:
+			hero_sprite.play("huh")
+			input_dir = Vector2.ZERO
 		State.COLLECT:
 			hero_sprite.play("kneel")
 			input_dir = Vector2.ZERO
@@ -302,6 +321,7 @@ func ai_decide() -> void:
 	# no chests? just wander around to keep the player on their toes
 	else:
 		exclamation_point.hide()
+
 		ai_state = AIState.WANDER
 
 	var overlapping_bodies: Array[Node2D] = interact_or_attack_area.get_overlapping_bodies()
