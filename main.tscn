@@ -1,12 +1,14 @@
-[gd_scene load_steps=8 format=3 uid="uid://cib81fcg33t4e"]
+[gd_scene load_steps=10 format=3 uid="uid://cib81fcg33t4e"]
 
 [ext_resource type="Script" uid="uid://bjnw0tr11q2h8" path="res://main.gd" id="1_0xm2m"]
 [ext_resource type="Script" uid="uid://dtgcr1m25t20a" path="res://world.gd" id="2_7mycd"]
 [ext_resource type="PackedScene" uid="uid://b326cb226l8ye" path="res://ui/pause_menu.tscn" id="4_1bvp3"]
-[ext_resource type="PackedScene" uid="uid://dggw30ngib67k" path="res://level_completed.tscn" id="4_lquwl"]
-[ext_resource type="PackedScene" path="res://win_game.tscn" id="5_lquwl"]
+[ext_resource type="PackedScene" uid="uid://dggw30ngib67k" path="res://ui/level_completed.tscn" id="4_lquwl"]
+[ext_resource type="PackedScene" uid="uid://b4o512ovxg81k" path="res://ui/win_game.tscn" id="5_lquwl"]
+[ext_resource type="PackedScene" uid="uid://31iqcntsjqui" path="res://ui/main_menu.tscn" id="6_5vw27"]
 [ext_resource type="AudioStream" uid="uid://cesl6h7w4k1r" path="res://audio/music/music_loop.ogg" id="6_7mycd"]
 [ext_resource type="AudioStream" uid="uid://cr0kh3eggh7wf" path="res://audio/sfx/dungeon_ambience_3.wav" id="7_272bh"]
+[ext_resource type="PackedScene" uid="uid://clmm463fdl0k7" path="res://ui/options.tscn" id="7_kek77"]
 
 [node name="Main" type="Node"]
 process_mode = 3
@@ -26,12 +28,21 @@ position = Vector2(640, 480)
 [node name="UI" type="CanvasLayer" parent="."]
 
 [node name="LevelCompletedMenu" parent="UI" instance=ExtResource("4_lquwl")]
+process_mode = 1
+visible = false
+
+[node name="WinGame" parent="UI" instance=ExtResource("5_lquwl")]
+process_mode = 1
+visible = false
+
+[node name="MainMenu" parent="UI" instance=ExtResource("6_5vw27")]
+process_mode = 3
 visible = false
 
 [node name="PauseMenu" parent="UI" instance=ExtResource("4_1bvp3")]
 visible = false
 
-[node name="WinGame" parent="UI" instance=ExtResource("5_lquwl")]
+[node name="Options" parent="UI" instance=ExtResource("7_kek77")]
 visible = false
 
 [node name="MusicPlayer" type="AudioStreamPlayer" parent="."]

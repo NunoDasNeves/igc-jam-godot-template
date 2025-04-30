@@ -1,0 +1,82 @@
+[gd_scene load_steps=4 format=3 uid="uid://clmm463fdl0k7"]
+
+[ext_resource type="PackedScene" uid="uid://cf3iev1x2w2ks" path="res://ui/volume_slider.tscn" id="1_usno6"]
+[ext_resource type="Script" uid="uid://c3ycm744sfbxm" path="res://ui/options.gd" id="1_vg7j1"]
+[ext_resource type="Script" uid="uid://cdu0i2yfapmgg" path="res://ui/volume_slider.gd" id="2_vg7j1"]
+
+[node name="Options" type="PanelContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+script = ExtResource("1_vg7j1")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Options"
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Volume"
+horizontal_alignment = 1
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/h_separation = 40
+theme_override_constants/v_separation = 10
+columns = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Master"
+
+[node name="HSlider" parent="MarginContainer/VBoxContainer/GridContainer" instance=ExtResource("1_usno6")]
+layout_mode = 2
+script = ExtResource("2_vg7j1")
+
+[node name="Label2" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "SFX"
+
+[node name="HSlider2" parent="MarginContainer/VBoxContainer/GridContainer" instance=ExtResource("1_usno6")]
+layout_mode = 2
+script = ExtResource("2_vg7j1")
+bus_name = &"sfx"
+
+[node name="Label4" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Ambience"
+
+[node name="HSlider4" parent="MarginContainer/VBoxContainer/GridContainer" instance=ExtResource("1_usno6")]
+layout_mode = 2
+script = ExtResource("2_vg7j1")
+bus_name = &"ambience"
+
+[node name="Label3" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Music"
+
+[node name="HSlider3" parent="MarginContainer/VBoxContainer/GridContainer" instance=ExtResource("1_usno6")]
+layout_mode = 2
+script = ExtResource("2_vg7j1")
+bus_name = &"music"
+
+[node name="BackButton" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Back"

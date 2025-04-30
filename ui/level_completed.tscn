@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://dggw30ngib67k"]
 
 [ext_resource type="Theme" uid="uid://bqkb7o7uit11j" path="res://default_theme.tres" id="1_kb4ov"]
-[ext_resource type="Script" uid="uid://d2wgcqfaiabyt" path="res://level_completed.gd" id="2_g43eu"]
+[ext_resource type="Script" uid="uid://d2wgcqfaiabyt" path="res://ui/level_completed.gd" id="2_g43eu"]
 
 [node name="LevelCompleted" type="PanelContainer"]
 anchors_preset = 15

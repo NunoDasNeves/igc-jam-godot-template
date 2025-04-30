@@ -75,7 +75,6 @@ func _ready() -> void:
 	Events.relative_level_selected.connect(change_level_rel)
 	Events.level_complete.connect(func(_idx, _deaths): unload_curr_level())
 	Events.hunger_bar_full.connect(end_level)
-	change_level(curr_level_idx)
 
 func _change_level_deferred(index: int):
 	curr_level_idx = index

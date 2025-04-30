@@ -6,18 +6,11 @@ extends PanelContainer
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	Events.level_complete.connect(trigger_on_level_complete)
+	Events.level_complete.connect(update)
 	next_level_button.connect("button_down", func():
-		Events.relative_level_selected.emit(1)
-		hide()
+		Events.next_level_clicked.emit()
 	)
-	hide()
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
-
-func trigger_on_level_complete(level_index: int, deaths: int) -> void:
+func update(level_index: int, deaths: int) -> void:
 	title_label.text = "You beat level %s" % (level_index + 1)
 	score_label.text = "Deaths: %s" % deaths
-	show()
