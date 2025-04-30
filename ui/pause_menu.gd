@@ -11,8 +11,12 @@ extends PanelContainer
 
 func _ready() -> void:
 	main_resume_button.connect("button_down", func (): Events.resume_clicked.emit())
-	level_prev_button.connect("button_down", func(): Events.relative_level_selected.emit(-1))
-	level_next_button.connect("button_down", func(): Events.relative_level_selected.emit(1))
+	level_prev_button.connect("button_down", func():
+		Events.level_changed_via_pause_menu.emit(-1)
+	)
+	level_next_button.connect("button_down", func():
+		Events.level_changed_via_pause_menu.emit(1)
+	)
 	main_options_button.connect("button_down", func():
 		Events.options_clicked.emit()
 	)

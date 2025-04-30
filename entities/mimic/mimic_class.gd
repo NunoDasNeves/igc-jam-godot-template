@@ -138,6 +138,8 @@ func attack_hit(other: Entity) -> void:
 			gold_pocket = 0
 			status_gold.clear()
 			Events.hero_eaten.emit()
+	elif other is Demon:
+		Events.demon_eaten.emit()
 
 func attack() -> void:
 	match state:

@@ -33,7 +33,42 @@ theme_override_font_sizes/font_size = 80
 text = "You beat the game!"
 horizontal_alignment = 1
 
-[node name="ScoreLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+[node name="Cheating" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("1_kf1ky")
+theme_override_font_sizes/font_size = 40
+text = "(But you kinda cheated, sooo...)"
+horizontal_alignment = 1
+
+[node name="Deaths" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("1_kf1ky")
+theme_override_font_sizes/font_size = 40
+text = "Total score: 0"
+horizontal_alignment = 1
+
+[node name="HeroesEscaped" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("1_kf1ky")
+theme_override_font_sizes/font_size = 40
+text = "Total score: 0"
+horizontal_alignment = 1
+
+[node name="Perfect" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("1_kf1ky")
+theme_override_font_sizes/font_size = 40
+text = "Perfect Score! Wow!!!!"
+horizontal_alignment = 1
+
+[node name="HeroesEaten" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("1_kf1ky")
+theme_override_font_sizes/font_size = 40
+text = "Total score: 0"
+horizontal_alignment = 1
+
+[node name="DemonsEaten" type="Label" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme = ExtResource("1_kf1ky")
 theme_override_font_sizes/font_size = 40

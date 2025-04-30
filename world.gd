@@ -16,8 +16,14 @@ var levels: Array[PackedScene] = [
 	preload(levels_path + "level_5.tscn"),
 ]
 var curr_level_idx: int = 0
-var curr_level_deaths: int = 0
-var total_deaths: int = 0
+var empty_stats: Dictionary[String, int] = {
+	"deaths" : 0,
+	"heroes_eaten" : 0,
+	"heroes_escaped" : 0,
+	"demons_eaten" : 0,
+}
+@onready var level_stats: Dictionary[String, int] = empty_stats.duplicate(true)
+@onready var total_stats: Dictionary[String, int] = empty_stats.duplicate(true)
 
 @onready var hunger_bar: HungerBar = $Camera2D/CanvasLayer/HungerBar
 @onready var entities_container: Node2D = $Entities
@@ -43,7 +49,7 @@ func unload_curr_level():
 
 func load_level(_level_scene: PackedScene):
 	unload_curr_level()
-	curr_level_deaths = 0
+	level_stats = empty_stats.duplicate(true)
 	# ok now create the level
 	level = _level_scene.instantiate()
 	add_child(level)
@@ -76,8 +82,21 @@ func _ready() -> void:
 	Events.char_killed.connect(trigger_char_respawn)
 	Events.char_killed.connect(count_deaths)
 	Events.relative_level_selected.connect(change_level_rel)
-	Events.level_complete.connect(func(_idx, _deaths): unload_curr_level())
+	Events.level_complete.connect(func(_idx, _stats): unload_curr_level())
 	Events.hunger_bar_full.connect(end_level)
+	Events.hero_eaten.connect(func():
+		level_stats["heroes_eaten"] += 1
+		total_stats["heroes_eaten"] += 1
+	)
+	Events.demon_eaten.connect(func():
+		level_stats["demons_eaten"] += 1
+		total_stats["demons_eaten"] += 1
+	)
+	Events.hero_escaped.connect(func():
+		level_stats["heroes_escaped"] += 1
+		total_stats["heroes_escaped"] += 1
+	)
+	Events.level_changed_via_pause_menu.connect(change_level_rel_pause_menu)
 
 func _change_level_deferred(index: int):
 	curr_level_idx = index
@@ -92,17 +111,26 @@ func change_level(index: int):
 
 func reset_game():
 	change_level(0)
-	total_deaths = 0
+	total_stats = empty_stats.duplicate(false)
+	Global.cheating = false
 
 func change_level_rel(rel_index: int):
 	var new_index = clampi(curr_level_idx + rel_index, 0, levels.size() - 1)
 	change_level(new_index)
 
+func change_level_rel_pause_menu(rel_index: int):
+	var new_index = clampi(curr_level_idx + rel_index, 0, levels.size() - 1)
+	if new_index != 0:
+		change_level(new_index)
+		Global.cheating = true
+	else:
+		reset_game()
+
 func _do_end_level():
 	if curr_level_idx == levels.size() - 1:
-		Events.win_game.emit(total_deaths)
+		Events.win_game.emit(total_stats)
 	else:
-		Events.level_complete.emit(curr_level_idx, curr_level_deaths)
+		Events.level_complete.emit(curr_level_idx, level_stats)
 	unload_curr_level()
 	Audio.play_sfx("player_meter_full.wav", 1)
 
@@ -233,8 +261,8 @@ func trigger_collectible_respawn(entity: Entity) -> void:
 
 func count_deaths(entity: Entity):
 	if entity is Mimic:
-		total_deaths += 1
-		curr_level_deaths += 1
+		level_stats["deaths"] += 1
+		total_stats["deaths"] += 1
 		hunger_bar.reset(level.num_heroes_to_eat)
 
 func trigger_char_respawn(entity: Entity):

@@ -149,6 +149,7 @@ func set_state(new_state: State) -> void:
 			anim_tween.tween_property(self, "modulate:a", 0, 1)
 			anim_tween.tween_callback(func ():
 				Events.char_killed.emit(self)
+				Events.hero_escaped.emit()
 				queue_free()
 			)
 			Audio.play_sfx("hero_finishes_level.wav", 1)
