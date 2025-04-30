@@ -76,7 +76,8 @@ func play_sfx(filename: String, volume_linear: float = 0.5, from_offset: float =
 	# This does cause a C++ error about playback being null, but it doesn't
 	# seem to break anything.
 	if Global.is_web and id != AudioStreamPlaybackPolyphonic.INVALID_ID:
-		var timer = get_tree().create_timer(stream.get_length() + 0.1)
+		# even stream.get_length() doesn't seem to always work in web...????
+		var timer = get_tree().create_timer(stream.get_length() + 1.5)
 		timer.timeout.connect(func():
 			stop_stream(sfx_player, id)
 		)
