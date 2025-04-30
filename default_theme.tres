@@ -50,12 +50,12 @@ corner_radius_bottom_left = 10
 bg_color = Color(0.0807833, 0.0807834, 0.0807833, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_50bnw"]
-bg_color = Color(0.803922, 0.913725, 0, 0.494118)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.051971, 0.051971, 0.0519709, 1)
+bg_color = Color(0.803922, 0.913725, 0, 0.215686)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.765309, 0.999806, 0.743463, 1)
 border_blend = true
 corner_radius_top_left = 6
 corner_radius_top_right = 6

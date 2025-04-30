@@ -1,17 +1,21 @@
-[gd_scene load_steps=3 format=3 uid="uid://vmwox7q07a0"]
+[gd_scene load_steps=2 format=3 uid="uid://vmwox7q07a0"]
 
-[ext_resource type="Theme" uid="uid://bqkb7o7uit11j" path="res://default_theme.tres" id="1_2mnbl"]
 [ext_resource type="Script" uid="uid://dnravhoidsljq" path="res://ui/player_hud/hunger_bar.gd" id="2_tsinx"]
 
-[node name="ProgressBar" type="ProgressBar"]
-modulate = Color(0.698039, 0.694118, 0, 0.894118)
-top_level = true
-z_index = 3
-z_as_relative = false
-anchors_preset = -1
-anchor_right = 0.203
-offset_bottom = 60.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme = ExtResource("1_2mnbl")
+[node name="Control" type="CenterContainer"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 109.0
+grow_horizontal = 2
 script = ExtResource("2_tsinx")
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+custom_minimum_size = Vector2(300, 70)
+layout_mode = 2
+step = 1.0
+rounded = true
+show_percentage = false
+
+[node name="Label2" type="Label" parent="."]
+layout_mode = 2
+text = "Hunger"

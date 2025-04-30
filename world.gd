@@ -66,7 +66,7 @@ func load_level(_level_scene: PackedScene):
 	for _i in range(level.max_heroes):
 		queue_spawn(hero_scene, "hero", 1)
 
-	hunger_bar.max_value = level.num_heroes_to_eat
+	hunger_bar.reset(level.num_heroes_to_eat)
 
 func _enter_tree() -> void:
 	Global.world = self
@@ -229,12 +229,12 @@ func count_deaths(entity: Entity):
 	if entity is Mimic:
 		total_deaths += 1
 		curr_level_deaths += 1
-		hunger_bar.value = 0
+		hunger_bar.reset(level.num_heroes_to_eat)
 
 func trigger_char_respawn(entity: Entity):
 	if entity is Mimic:
 		queue_spawn(mimic_scene, "player", 3)
-		hunger_bar.value = 0
+		hunger_bar.reset(level.num_heroes_to_eat)
 	elif entity is Demon:
 		queue_spawn(demon_scene, "monster", 3)
 	elif entity is Hero:
