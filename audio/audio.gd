@@ -56,7 +56,8 @@ func set_stream_volume(player: AudioStreamPlayer, stream_id: int, volume_linear:
 
 func stop_stream(player: AudioStreamPlayer, stream_id: int) -> void:
 	var playback: AudioStreamPlaybackPolyphonic = player.get_stream_playback()
-	return playback.stop_stream(stream_id)
+	if playback.is_stream_playing(stream_id):
+		playback.stop_stream(stream_id)
 
 func play_stream(player: AudioStreamPlayer, stream: AudioStream, volume_linear: float = 0.5, from_offset: float = 0, pitch_scale: float = 1) -> int:
 	var playback: AudioStreamPlaybackPolyphonic = player.get_stream_playback()
