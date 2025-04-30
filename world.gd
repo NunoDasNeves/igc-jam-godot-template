@@ -103,9 +103,7 @@ func end_level():
 			Events.win_game.emit(total_deaths)
 		else:
 			Events.level_complete.emit(curr_level_idx, curr_level_deaths)
-	)
-	var timer2 = get_tree().create_timer(1.25)
-	timer2.timeout.connect(func():
+		unload_curr_level()
 		Audio.play_sfx("player_meter_full.wav", 1)
 	)
 
@@ -245,3 +243,5 @@ func _physics_process(delta: float) -> void:
 	if OS.is_debug_build():
 		if Input.is_action_just_pressed("debug_reset_level"):
 			change_level(curr_level_idx)
+		if Input.is_action_just_pressed("debug_win_level"):
+			end_level()

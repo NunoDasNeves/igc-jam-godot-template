@@ -33,7 +33,6 @@ func _ready() -> void:
 	)
 	Events.back_to_main_menu_clicked.connect(func():
 		set_screen(Screen.MAIN_MENU)
-		world.unload_curr_level()
 	)
 	Events.level_complete.connect(func(_idx, _deaths):
 		set_screen(Screen.LEVEL_END)
