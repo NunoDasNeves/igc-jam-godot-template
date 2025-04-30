@@ -18,7 +18,7 @@ func _ready() -> void:
 	var sfx_bus_name: StringName = &"sfx"
 	if Global.is_web:
 		sfx_bus_name = &"Master"
-	setup_polyphonic_player(sfx_player, 128, sfx_bus_name)
+	setup_polyphonic_player(sfx_player, 32, sfx_bus_name)
 	music_player = AudioStreamPlayer.new()
 	setup_polyphonic_player(music_player, 8, &"music")
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -69,7 +69,18 @@ func play_sfx(filename: String, volume_linear: float = 0.5, from_offset: float =
 	var stream = get_sfx_stream(filename)
 	if !stream:
 		return AudioStreamPlaybackPolyphonic.INVALID_ID
-	return play_stream(sfx_player, stream, volume_linear, from_offset, pitch_scale)
+	var id = play_stream(sfx_player, stream, volume_linear, from_offset, pitch_scale)
+	# AudioStreamPlaybackPolyphonic does not work in web builds, because the
+	# streams never "stop" properly, or something...
+	# Stopping them manually with a timer works though.
+	# This does cause a C++ error about playback being null, but it doesn't
+	# seem to break anything.
+	if Global.is_web and id != AudioStreamPlaybackPolyphonic.INVALID_ID:
+		var timer = get_tree().create_timer(stream.get_length() + 0.1)
+		timer.timeout.connect(func():
+			stop_stream(sfx_player, id)
+		)
+	return id
 
 ##
 ## Music control
