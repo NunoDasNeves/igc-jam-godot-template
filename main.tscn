@@ -21,7 +21,7 @@ script = ExtResource("2_7mycd")
 y_sort_enabled = true
 
 [node name="Camera2D" type="Camera2D" parent="World"]
-position = Vector2(961, 547)
+position = Vector2(640, 480)
 
 [node name="UI" type="CanvasLayer" parent="."]
 
