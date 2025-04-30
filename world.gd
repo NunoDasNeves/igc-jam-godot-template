@@ -95,17 +95,18 @@ func change_level_rel(rel_index: int):
 	var new_index = clampi(curr_level_idx + rel_index, 0, levels.size() - 1)
 	change_level(new_index)
 
+func _do_end_level():
+	if curr_level_idx == levels.size() - 1:
+		Events.win_game.emit(total_deaths)
+	else:
+		Events.level_complete.emit(curr_level_idx, curr_level_deaths)
+	unload_curr_level()
+	Audio.play_sfx("player_meter_full.wav", 1)
+
 func end_level():
 	# TODO some kind of fade or something
 	var timer = get_tree().create_timer(1)
-	timer.timeout.connect(func():
-		if curr_level_idx == levels.size() - 1:
-			Events.win_game.emit(total_deaths)
-		else:
-			Events.level_complete.emit(curr_level_idx, curr_level_deaths)
-		unload_curr_level()
-		Audio.play_sfx("player_meter_full.wav", 1)
-	)
+	timer.timeout.connect(_do_end_level)
 
 func _process(_delta: float) -> void:
 	pass
@@ -241,7 +242,7 @@ func _physics_process(delta: float) -> void:
 	try_spawn_queued()
 
 	if OS.is_debug_build():
-		if Input.is_action_just_pressed("debug_reset_level"):
+		if Input.is_action_just_pressed("debug_reset_level") and Input.is_key_pressed(KEY_SHIFT):
 			change_level(curr_level_idx)
-		if Input.is_action_just_pressed("debug_win_level"):
-			end_level()
+		if Input.is_action_just_pressed("debug_win_level") and Input.is_key_pressed(KEY_SHIFT):
+			_do_end_level()
