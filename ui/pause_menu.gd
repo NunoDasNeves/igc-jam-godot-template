@@ -7,6 +7,7 @@ extends PanelContainer
 @onready var level_prev_button: Button = $Main/VBoxContainer/LevelSelectContainer/PrevButton
 @onready var level_label: Label = $Main/VBoxContainer/LevelSelectContainer/LevelLabel
 @onready var level_next_button: Button = $Main/VBoxContainer/LevelSelectContainer/NextButton
+@onready var reset_level_button: Button = $Main/VBoxContainer/ResetLevelButton
 
 func _ready() -> void:
 	main_resume_button.connect("button_down", func (): Events.resume_clicked.emit())
@@ -16,6 +17,7 @@ func _ready() -> void:
 		Events.options_clicked.emit()
 	)
 	Events.level_changed.connect(level_select_update)
+	reset_level_button.connect("button_down", func(): Events.relative_level_selected.emit(0))
 
 func level_select_update(index: int):
 	level_label.text = "Level %s" % index

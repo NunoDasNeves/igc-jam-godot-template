@@ -30,13 +30,44 @@ theme_override_constants/margin_bottom = 10
 layout_mode = 2
 theme_override_constants/separation = 15
 
+[node name="PanelContainer2" type="PanelContainer" parent="Main/VBoxContainer"]
+modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(0, 101.88)
+layout_mode = 2
+
 [node name="Label" type="Label" parent="Main/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 66
 text = "Paused"
 horizontal_alignment = 1
 
+[node name="ResetLevelButton" type="Button" parent="Main/VBoxContainer"]
+layout_mode = 2
+text = "Reset Level"
+
+[node name="OptionsButton" type="Button" parent="Main/VBoxContainer"]
+layout_mode = 2
+text = "Options"
+
+[node name="ResumeButton" type="Button" parent="Main/VBoxContainer"]
+layout_mode = 2
+text = "Resume"
+
+[node name="PanelContainer" type="PanelContainer" parent="Main/VBoxContainer"]
+modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(0, 101.88)
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="Main/VBoxContainer"]
+modulate = Color(1, 1, 1, 0.611765)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Level Select
+(this is cheating tbh)"
+horizontal_alignment = 1
+
 [node name="LevelSelectContainer" type="HBoxContainer" parent="Main/VBoxContainer"]
+modulate = Color(1, 1, 1, 0.611765)
 layout_mode = 2
 theme_override_constants/separation = 10
 alignment = 1
@@ -54,11 +85,3 @@ horizontal_alignment = 1
 [node name="NextButton" type="Button" parent="Main/VBoxContainer/LevelSelectContainer"]
 layout_mode = 2
 text = ">"
-
-[node name="OptionsButton" type="Button" parent="Main/VBoxContainer"]
-layout_mode = 2
-text = "Options"
-
-[node name="ResumeButton" type="Button" parent="Main/VBoxContainer"]
-layout_mode = 2
-text = "Resume"
