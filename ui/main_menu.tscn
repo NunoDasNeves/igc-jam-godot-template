@@ -17,11 +17,6 @@ size_flags_vertical = 8
 theme = ExtResource("1_7vrkn")
 script = ExtResource("2_7vrkn")
 
-[node name="Title-screen" type="Sprite2D" parent="."]
-position = Vector2(640, 480)
-scale = Vector2(4, 4)
-texture = ExtResource("3_8uxxo")
-
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
 size_flags_horizontal = 4
@@ -30,6 +25,31 @@ theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
+
+[node name="Title-screen" type="Sprite2D" parent="MarginContainer"]
+position = Vector2(195, 221)
+scale = Vector2(4, 4)
+texture = ExtResource("3_8uxxo")
+
+[node name="Title" type="Sprite2D" parent="MarginContainer"]
+position = Vector2(195, 69)
+scale = Vector2(4, 4)
+texture = ExtResource("3_wk0pr")
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/Title"]
+visible = false
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -745.0
+offset_top = -19.0
+offset_right = 535.0
+offset_bottom = 941.0
+grow_horizontal = 2
+scale = Vector2(4, 4)
+size_flags_vertical = 3
+texture = ExtResource("3_wk0pr")
+stretch_mode = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
@@ -72,8 +92,3 @@ layout_mode = 2
 size_flags_vertical = 4
 theme = ExtResource("1_7vrkn")
 text = "Options"
-
-[node name="Title" type="Sprite2D" parent="."]
-position = Vector2(640, 328)
-scale = Vector2(4, 4)
-texture = ExtResource("3_wk0pr")
