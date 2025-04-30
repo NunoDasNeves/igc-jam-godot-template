@@ -24,7 +24,22 @@ func _ready() -> void:
 	Events.level_changed.connect(level_select_update)
 	reset_level_button.connect("button_down", func(): Events.relative_level_selected.emit(0))
 
+	Events.level_complete.connect(func(_idx, _stats):
+		level_next_button.disabled = true
+		level_prev_button.disabled = true
+	)
+	Events.win_game.connect(func(_stats):
+		level_next_button.disabled = true
+		level_prev_button.disabled = true
+	)
+	Events.next_level_clicked.connect(func():
+		level_next_button.disabled = false
+		level_prev_button.disabled = false
+	)
+
 func level_select_update(index: int):
+	level_next_button.disabled = false
+	level_prev_button.disabled = false
 	level_label.text = "Level %s" % index
 	level_prev_button.disabled = index <= 0
 	level_next_button.disabled = index >= Global.world.levels.size() - 1
