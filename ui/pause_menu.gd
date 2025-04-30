@@ -18,6 +18,8 @@ var state: State = State.MAIN
 
 func _ready() -> void:
 	hide()
+	$Main.show()
+	$Options.hide()
 	main_resume_button.connect("button_down", func (): set_paused(false))
 	main_options_button.connect("button_down", func (): set_state(State.OPTIONS))
 	options_back_button.connect("button_down", func(): set_state(State.MAIN))

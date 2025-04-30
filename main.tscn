@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://cib81fcg33t4e"]
+[gd_scene load_steps=8 format=3 uid="uid://cib81fcg33t4e"]
 
 [ext_resource type="Script" uid="uid://bjnw0tr11q2h8" path="res://main.gd" id="1_0xm2m"]
 [ext_resource type="Script" uid="uid://dtgcr1m25t20a" path="res://world.gd" id="2_7mycd"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://dggw30ngib67k" path="res://level_completed.tscn" id="4_lquwl"]
 [ext_resource type="PackedScene" path="res://win_game.tscn" id="5_lquwl"]
 [ext_resource type="AudioStream" uid="uid://cesl6h7w4k1r" path="res://audio/music/music_loop.ogg" id="6_7mycd"]
+[ext_resource type="AudioStream" uid="uid://cr0kh3eggh7wf" path="res://audio/sfx/dungeon_ambience_3.wav" id="7_272bh"]
 
 [node name="Main" type="Node"]
 process_mode = 3
@@ -39,4 +40,11 @@ stream = ExtResource("6_7mycd")
 volume_db = -6.0
 autoplay = true
 bus = &"music"
+playback_type = 1
+
+[node name="AmbiencePlayer" type="AudioStreamPlayer" parent="."]
+process_mode = 3
+stream = ExtResource("7_272bh")
+autoplay = true
+bus = &"ambience"
 playback_type = 1

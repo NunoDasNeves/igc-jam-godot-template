@@ -19,6 +19,7 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_fob5h")
 script = ExtResource("1_fob5h")
 
 [node name="Main" type="MarginContainer" parent="."]
+visible = false
 custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -40,6 +41,7 @@ horizontal_alignment = 1
 
 [node name="LevelSelectContainer" type="HBoxContainer" parent="Main/VBoxContainer"]
 layout_mode = 2
+theme_override_constants/separation = 10
 alignment = 1
 
 [node name="PrevButton" type="Button" parent="Main/VBoxContainer/LevelSelectContainer"]
@@ -65,7 +67,6 @@ layout_mode = 2
 text = "Resume"
 
 [node name="Options" type="MarginContainer" parent="."]
-visible = false
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -76,7 +77,7 @@ theme_override_constants/margin_bottom = 10
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Options"]
 layout_mode = 2
-theme_override_constants/separation = 5
+theme_override_constants/separation = 15
 
 [node name="Label" type="Label" parent="Options/VBoxContainer"]
 layout_mode = 2
@@ -92,6 +93,7 @@ horizontal_alignment = 1
 [node name="GridContainer" type="GridContainer" parent="Options/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/h_separation = 40
+theme_override_constants/v_separation = 10
 columns = 2
 
 [node name="Label" type="Label" parent="Options/VBoxContainer/GridContainer"]
@@ -110,6 +112,15 @@ text = "SFX"
 layout_mode = 2
 script = ExtResource("3_npydk")
 bus_name = &"sfx"
+
+[node name="Label4" type="Label" parent="Options/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Ambience"
+
+[node name="HSlider4" parent="Options/VBoxContainer/GridContainer" instance=ExtResource("2_avurv")]
+layout_mode = 2
+script = ExtResource("3_npydk")
+bus_name = &"ambience"
 
 [node name="Label3" type="Label" parent="Options/VBoxContainer/GridContainer"]
 layout_mode = 2
