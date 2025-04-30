@@ -14,6 +14,7 @@ class_name Mimic extends Entity
 @onready var status_speed: Node2D = $FlipVisuals/StatusSpeed
 @onready var status_speed_timer: Timer = $FlipVisuals/StatusSpeed/Timer
 @onready var status_speed_particles_2d: GPUParticles2D = $FlipVisuals/StatusSpeed/GPUParticles2D
+@onready var direction_poly: Polygon2D = $DirectionPoly
 
 enum State { NONE, HIDDEN, ATTACK, DIE }
 var state: State = State.NONE
@@ -158,6 +159,10 @@ func update_visual_dir() -> void:
 	elif face_dir.x > 0:
 		flip_node.scale.x = 1
 
+func update_face_dir():
+	direction_poly.rotation = face_dir.angle()
+	super()
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
 	if player_controlled:
@@ -180,6 +185,7 @@ func _process(_delta: float) -> void:
 		else:
 			prmat.direction = Vector3(dir.x, dir.y, 0)
 
+	direction_poly.hide()
 	match state:
 		State.NONE:
 			update_face_dir()
@@ -191,6 +197,7 @@ func _process(_delta: float) -> void:
 					mimic_sprite.play("idle")
 		State.HIDDEN:
 			update_face_dir()
+			direction_poly.show()
 			input_dir = Vector2.ZERO
 		State.ATTACK:
 			mimic_sprite.play("attack")

@@ -393,3 +393,9 @@ scale = Vector2(0.8, 0.8)
 [node name="Inventory" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("3_mb4gf")
+
+[node name="DirectionPoly" type="Polygon2D" parent="."]
+z_index = 3
+z_as_relative = false
+color = Color(9.62615e-06, 0.761488, 0.765674, 0.517647)
+polygon = PackedVector2Array(41, -15, 56, 0, 41, 14, 44, 0)
