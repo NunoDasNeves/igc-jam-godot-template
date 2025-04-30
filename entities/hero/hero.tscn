@@ -246,6 +246,13 @@ z_index = 2
 z_as_relative = false
 texture = SubResource("GradientTexture2D_mmvsa")
 
+[node name="Polygon2D2" type="Polygon2D" parent="StatusSight"]
+y_sort_enabled = true
+position = Vector2(-0.00320518, -100.549)
+scale = Vector2(1.1249, 1.15488)
+color = Color(0.247231, 0.151791, 0.215591, 1)
+polygon = PackedVector2Array(-32, 0, -14, -12, -3, -15, 10, -15, 23, -9, 32, 0, 16, 8, 4, 10, -4, 10, -21, 6)
+
 [node name="Polygon2D" type="Polygon2D" parent="StatusSight"]
 y_sort_enabled = true
 position = Vector2(0, -101)
@@ -253,7 +260,7 @@ color = Color(0.753742, 0.478955, 0.946067, 1)
 polygon = PackedVector2Array(-32, 0, -14, -12, -3, -15, 10, -15, 23, -9, 32, 0, 16, 8, 4, 10, -4, 10, -21, 6)
 
 [node name="Polygon2D" type="Polygon2D" parent="StatusSight/Polygon2D"]
-color = Color(0, 0, 0, 1)
+color = Color(0.247059, 0.152941, 0.215686, 1)
 polygon = PackedVector2Array(-10, -7, -10, -2, -7, 5, 2, 6, 9, 3, 11, -4, 10, -8, 6, -12, -4, -12)
 
 [node name="Polygon2D2" type="Polygon2D" parent="StatusSight/Polygon2D"]
