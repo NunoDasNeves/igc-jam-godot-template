@@ -3,6 +3,11 @@ extends Node
 var sfx_player: AudioStreamPlayer
 var music_player: AudioStreamPlayer
 
+# HACK for web shit
+var num_sfx_playing: int = 0
+var num_sfx_playing_last_frame: int = 0
+var same_secs: float = 0
+
 # This is how AudioStreamPolyphonic is meant to be used, apparently
 func setup_polyphonic_player(player: AudioStreamPlayer, max_polyphony: int, bus: StringName) -> void:
 	player.bus = bus
@@ -77,9 +82,13 @@ func play_sfx(filename: String, volume_linear: float = 0.5, from_offset: float =
 	# This does cause a C++ error about playback being null, but it doesn't
 	# seem to break anything.
 	if Global.is_web and id != AudioStreamPlaybackPolyphonic.INVALID_ID:
-		# even stream.get_length() doesn't seem to always work in web...????
+		num_sfx_playing += 1
+		print("play id: %s, playing: %s:" % [id, num_sfx_playing])
+		# HACK even stream.get_length() doesn't seem to always work in web...????
 		var timer = get_tree().create_timer(stream.get_length() + 1.5)
 		timer.timeout.connect(func():
+			num_sfx_playing -= 1
+			print("stop id: %s, playing: %s:" % [id, num_sfx_playing])
 			stop_stream(sfx_player, id)
 		)
 	return id
@@ -123,7 +132,33 @@ func set_music(filename: String, volume_linear: float = 0.5) -> int:
 
 	return curr_music.id
 
+var can_reset: bool = true
+func reset_sfx():
+	if !can_reset:
+		return
+	sfx_player.stop()
+	var timer = get_tree().create_timer(0.1)
+	timer.timeout.connect(func():
+		sfx_player.play()
+	)
+	var timer2 = get_tree().create_timer(10)
+	timer.timeout.connect(func():
+		can_reset = true
+	)
+	can_reset = false
+
 func _physics_process(delta: float) -> void:
+	# HACK for web - stop the entire thing if num sfx hasn't changed in a while
+	if Global.is_web:
+		if num_sfx_playing == num_sfx_playing_last_frame:
+			same_secs += delta
+		else:
+			same_secs = 0
+		if same_secs >= 3:
+			reset_sfx()
+			num_sfx_playing = 0
+		num_sfx_playing_last_frame = num_sfx_playing
+
 	var crossfade_inc = crossfade_time_secs * delta
 	# fade in current music
 	if curr_music:

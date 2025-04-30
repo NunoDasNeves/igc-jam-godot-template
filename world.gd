@@ -110,6 +110,12 @@ func end_level():
 	# TODO some kind of fade or something
 	var timer = get_tree().create_timer(1)
 	timer.timeout.connect(_do_end_level)
+	# HACK just reset it every level to make sure
+	if Global.is_web:
+		var timer2 = get_tree().create_timer(3)
+		timer2.timeout.connect(func():
+			Audio.reset_sfx()
+		)
 
 func _process(_delta: float) -> void:
 	pass
