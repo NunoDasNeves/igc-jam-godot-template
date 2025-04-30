@@ -62,11 +62,11 @@ modulate = Color(1, 1, 1, 0)
 custom_minimum_size = Vector2(0, 63.71)
 layout_mode = 2
 
-[node name="Label2" type="Label" parent="Main/VBoxContainer"]
+[node name="LevelSelectLabel" type="Label" parent="Main/VBoxContainer"]
 modulate = Color(1, 1, 1, 0.611765)
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
-text = "Level Select"
+text = "Select Level"
 horizontal_alignment = 1
 
 [node name="LevelSelectContainer" type="HBoxContainer" parent="Main/VBoxContainer"]
@@ -88,3 +88,11 @@ horizontal_alignment = 1
 [node name="NextButton" type="Button" parent="Main/VBoxContainer/LevelSelectContainer"]
 layout_mode = 2
 text = ">"
+
+[node name="Cheating" type="Label" parent="Main/VBoxContainer"]
+modulate = Color(1, 1, 1, 0.611765)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.912448, 0.156038, 1.92523e-07, 1)
+theme_override_font_sizes/font_size = 20
+text = "(Cheating!)"
+horizontal_alignment = 1

@@ -8,6 +8,7 @@ extends PanelContainer
 @onready var level_label: Label = $Main/VBoxContainer/LevelSelectContainer/LevelLabel
 @onready var level_next_button: Button = $Main/VBoxContainer/LevelSelectContainer/NextButton
 @onready var reset_level_button: Button = $Main/VBoxContainer/ResetLevelButton
+@onready var cheating: Label = $Main/VBoxContainer/Cheating
 
 func _ready() -> void:
 	main_resume_button.connect("button_down", func (): Events.resume_clicked.emit())
@@ -27,3 +28,7 @@ func level_select_update(index: int):
 	level_label.text = "Level %s" % index
 	level_prev_button.disabled = index <= 0
 	level_next_button.disabled = index >= Global.world.levels.size() - 1
+	if Global.cheating:
+		cheating.modulate.a = 1
+	else:
+		cheating.modulate.a = 0
