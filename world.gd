@@ -11,6 +11,8 @@ var levels: Array[PackedScene] = [
 	preload(levels_path + "level_0.tscn"),
 	preload(levels_path + "level_1.tscn"),
 	preload(levels_path + "level_2.tscn"),
+	preload(levels_path + "level_3.tscn"),
+	preload(levels_path + "level_4.tscn"),
 ]
 var curr_level_idx: int = 0
 var curr_level_deaths: int = 0
